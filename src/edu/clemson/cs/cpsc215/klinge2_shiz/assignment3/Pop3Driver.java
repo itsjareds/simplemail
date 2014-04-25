@@ -32,8 +32,8 @@ public class Pop3Driver {
         
         handler.readMail();
         
-        //storage.storeConfig();
-        //storage.storeContacts();
+        storage.storeConfig();
+        storage.storeContacts();
     }
 
 }
