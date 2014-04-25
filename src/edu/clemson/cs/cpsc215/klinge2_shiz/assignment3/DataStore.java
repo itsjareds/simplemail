@@ -135,24 +135,13 @@ public class DataStore {
 	}
 	
 	public void storeContacts() {
-	    File workingDir = new File("data/contacts/");
-	    if (!workingDir.exists() && !workingDir.mkdirs()) {
-	        System.out.println("Could not create serialization directory.");
-	    } else {
-    		ObjectOutputStream out = null;
-    		try {
-    			for (Contact c : contacts) {
-    				out = new ObjectOutputStream(new FileOutputStream(new File(
-    						workingDir, c.getEmail() + ".ser")));
-    				out.writeObject(c);
-    				out.close();
-    			}
-    		} catch (FileNotFoundException e) {
-    			e.printStackTrace();
-    		} catch (IOException e) {
-    			e.printStackTrace();
-    		}
-	    }
+		for (Contact c : contacts) {
+			try {
+				writeObjectToFile("data/contacts/" + c.getEmail() + ".ser", c);
+			} catch (Exception e) {
+				System.out.println("Could not serialize contact.");
+			}
+		}
 	}
 
 	public ArrayList<Contact> getContacts() {
