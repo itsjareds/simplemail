@@ -1,16 +1,24 @@
 package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3;
 
+import java.io.IOException;
 import java.util.Properties;
 
+import javax.mail.Address;
 import javax.mail.Authenticator;
+import javax.mail.FetchProfile;
+import javax.mail.Flags;
+import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.NoSuchProviderException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.SendFailedException;
 import javax.mail.Session;
+import javax.mail.Store;
 import javax.mail.Transport;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
+import javax.mail.search.FlagTerm;
 
 /**
  * Class which handles the details in regards to sending and receiving mail.
@@ -99,5 +107,97 @@ public class EmailHandler {
 		}
 		
 		return success;
+	}
+	
+	public void readMail() {
+		if (auth == null) {
+			System.out.println("Error: no authentication provided for POP3.");
+		}
+		else {
+		    Folder inbox = null;
+		    Message[] messages = {};
+		    Store store = null;
+		    
+		    Properties props = new Properties();
+		    
+		    props.put("mail.pop3.socketFactory.class",
+		            "javax.net.ssl.SSLSocketFactory");
+		    props.put("mail.pop3.socketFactory.fallback", "false");
+		    props.put("mail.pop3.socketFactory.port",
+		            auth.getAuthport().toString());
+		    props.put("mail.store.protocol", "pop3");
+		    props.put("mail.pop3.host", "pop.gmail.com");
+		    props.put("mail.pop3.auth", "true");
+		    props.put("mail.pop3.port", auth.getAuthport().toString());
+		    
+		    Session session = Session.getDefaultInstance(props, null);
+		    try {
+	            store = session.getStore();
+	            System.out.println("Connecting...");
+	            store.connect(auth.getUsername(), auth.getPassword());
+	            System.out.println("Connected.");
+	            inbox = store.getFolder("INBOX");
+	            inbox.open(Folder.READ_ONLY);
+	            
+	            messages = inbox.search(new FlagTerm(
+	            		new Flags(Flags.Flag.SEEN), false));
+	            
+	            FetchProfile fp = new FetchProfile();
+	            fp.add(FetchProfile.Item.ENVELOPE);
+	            fp.add(FetchProfile.Item.CONTENT_INFO);
+	            
+	            System.out.println("Fetching messages...");
+	            inbox.fetch(messages, fp);
+	            System.out.println("Messages fetched.");
+	            
+	            for (int i = 0; i < messages.length; i++) {
+	                System.out.println("=== Message " + i + " ===");
+	                Address[] addresses;
+	                
+	                try {
+	                    addresses = messages[i].getFrom();
+	                    if (addresses != null) {
+	                        System.out.println("FROM: ");
+	                        for (Address address : addresses) {
+	                            System.out.println(address);
+	                        }
+	                    }
+	                    
+	                    addresses = messages[i].getRecipients(
+	                            Message.RecipientType.TO);
+	                    if (addresses != null) {
+	                        System.out.println("TO:   ");
+	                        for (Address address : addresses) {
+	                            System.out.println(address);
+	                        }
+	                    }
+	                    
+	                    String subject = messages[i].getSubject();
+	                    String content = messages[i].getContent().toString();
+	                    
+	                    System.out.println("Subject: " + subject);
+	                    System.out.println("Body: " + content);
+	                } catch (IOException e) {
+	                    // TODO Auto-generated catch block
+	                    e.printStackTrace();
+	                } catch (MessagingException e) {
+	                    // TODO Auto-generated catch block
+	                    e.printStackTrace();
+	                }
+	                
+	            }            
+	            
+	            System.out.println("Closing connections...");
+	            inbox.close(true);
+	            store.close();
+	            System.out.println("Done.");
+	        } catch (NoSuchProviderException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        } catch (MessagingException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        }
+		}
 	}
 }
