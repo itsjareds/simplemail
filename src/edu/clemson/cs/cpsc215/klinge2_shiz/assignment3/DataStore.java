@@ -58,11 +58,11 @@ public class DataStore {
 		return o;
 	}
 	
-	private SecretKey getKey() throws Exception {
+	private SecretKey getKey(String keyName) throws Exception {
 		if (key == null) {
 			Object okey = null;
 			try {
-				okey = readObjectFromFile("data/privatekey.dat");
+				okey = readObjectFromFile(keyName);
 				
 				if (okey != null && okey instanceof SecretKey)
 					key = (SecretKey) okey;
@@ -76,14 +76,14 @@ public class DataStore {
 	private Object decryptObject(String keyName, String fileName)
 			throws Exception {
 		Object obj = null, decryptedObject = null;
-		SecretKey key = getKey();
+		SecretKey key = getKey(keyName);
 		try {
 			obj = readObjectFromFile(fileName);
 		} catch (Exception e) {
 			System.out.println("Error while reading encrypted files.");
 		}
 		
-		if (obj != null && obj instanceof SealedObject) {
+		if (obj != null && key != null && obj instanceof SealedObject) {
 			SealedObject sealedObject = (SealedObject) obj;
 			
 			try {
@@ -112,33 +112,15 @@ public class DataStore {
 	
 	// decrypt using a private key
 	public Configuration loadConfig() {
-		
-		
-		Object okey = null, obj = null;
 		try {
-			okey = readObjectFromFile("data/privatekey.dat");
-			obj = readObjectFromFile("data/systemcfg.dat");
-		} catch (Exception e) {
-			System.out.println("Error while reading encrypted files.");
-		}
-		
-		if (okey != null && obj != null &&
-				okey instanceof SecretKey && obj instanceof SealedObject) {
-			SecretKey key = (SecretKey) okey;
-			SealedObject sealedObject = (SealedObject) obj;
-			
-			try {
-				Cipher cipher = Cipher.getInstance(key.getAlgorithm());
-				cipher.init(Cipher.DECRYPT_MODE, key);
-				
-				Object decryptedObject = decryptObject("data/systemcfg.dat")
-				if (decryptedObject instanceof Configuration) {
-					conf = (Configuration) decryptedObject;
-					System.out.println("Restored configuration: " + conf);
-				}
-			} catch (Exception e) {
-				System.out.println("Error while decrypting config file.");
+			Object obj = decryptObject("data/privatekey.dat",
+					"data/systemcfg.dat");
+			if (obj instanceof Configuration) {
+				conf = (Configuration) obj;
+				System.out.println("Restored configuration: " + conf);
 			}
+		} catch (Exception e) {
+			System.out.println("Error decrypting config file.");
 		}
 		
 		return conf;
