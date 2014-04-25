@@ -25,7 +25,7 @@ public class Pop3Driver {
         
         EmailHandler handler = new EmailHandler(conf);
         
-        handler.readMail();
+        //handler.readMail();
         
         storage.storeConfig();
         storage.storeContacts();

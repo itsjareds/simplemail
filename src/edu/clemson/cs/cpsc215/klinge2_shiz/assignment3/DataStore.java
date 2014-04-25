@@ -24,6 +24,7 @@ public class DataStore {
 	private static DataStore instance = new DataStore();
 	private ArrayList<Contact> contacts = new ArrayList<Contact>();
 	private Configuration conf = new Configuration();
+	private SecretKey key = null;
 	
 	private DataStore() {
 		// disable the default public constructor
@@ -57,11 +58,52 @@ public class DataStore {
 		return o;
 	}
 	
-	private SealedObject getSealedObject(Serializable obj) throws Exception {
-		SecretKey key = KeyGenerator.getInstance("DES").generateKey();
-
-		writeObjectToFile("data/privatekey.dat", key);
-
+	private SecretKey getKey() throws Exception {
+		if (key == null) {
+			Object okey = null;
+			try {
+				okey = readObjectFromFile("data/privatekey.dat");
+				
+				if (okey != null && okey instanceof SecretKey)
+					key = (SecretKey) okey;
+			} catch (Exception e) {
+				System.out.println("Error while reading encrypted files.");
+			}
+		}
+		return key;
+	}
+	
+	private Object decryptObject(String keyName, String fileName)
+			throws Exception {
+		Object obj = null, decryptedObject = null;
+		SecretKey key = getKey();
+		try {
+			obj = readObjectFromFile(fileName);
+		} catch (Exception e) {
+			System.out.println("Error while reading encrypted files.");
+		}
+		
+		if (obj != null && obj instanceof SealedObject) {
+			SealedObject sealedObject = (SealedObject) obj;
+			
+			try {
+				Cipher cipher = Cipher.getInstance(key.getAlgorithm());
+				cipher.init(Cipher.DECRYPT_MODE, key);
+				
+				decryptedObject = sealedObject.getObject(cipher);
+			} catch (Exception e) {
+				System.out.println("Error while decrypting config file.");
+			}
+		}
+		return decryptedObject;
+	}
+	
+	private SealedObject encryptObject(Serializable obj) throws Exception {
+		if (key == null) {
+			key = KeyGenerator.getInstance("DES").generateKey();
+			writeObjectToFile("data/privatekey.dat", key);
+		}
+	
 		Cipher cipher = Cipher.getInstance("DES");
 		cipher.init(Cipher.ENCRYPT_MODE, key);
 		
@@ -70,6 +112,8 @@ public class DataStore {
 	
 	// decrypt using a private key
 	public Configuration loadConfig() {
+		
+		
 		Object okey = null, obj = null;
 		try {
 			okey = readObjectFromFile("data/privatekey.dat");
@@ -87,7 +131,7 @@ public class DataStore {
 				Cipher cipher = Cipher.getInstance(key.getAlgorithm());
 				cipher.init(Cipher.DECRYPT_MODE, key);
 				
-				Object decryptedObject = sealedObject.getObject(cipher);
+				Object decryptedObject = decryptObject("data/systemcfg.dat")
 				if (decryptedObject instanceof Configuration) {
 					conf = (Configuration) decryptedObject;
 					System.out.println("Restored configuration: " + conf);
@@ -124,7 +168,7 @@ public class DataStore {
 	// encrypted because config contains sensitive data (passwords)
 	public void storeConfig() {
 		try {
-			SealedObject sealedObject = getSealedObject(conf);
+			SealedObject sealedObject = encryptObject(conf);
 			writeObjectToFile("data/systemcfg.dat", sealedObject);
 		} catch (Exception e) {
 			System.out.println("Could not write new config file.");
