@@ -2,8 +2,10 @@ package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3;
 
 import java.util.Properties;
 
+import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.MimeMessage;
@@ -17,9 +19,11 @@ import javax.mail.internet.MimeMessage.RecipientType;
  */
 public class EmailHandler {
 	private Configuration conf;
+	private final AuthenticationInfo auth;
 	
-	public EmailHandler(Configuration conf) {
+	public EmailHandler(Configuration conf, AuthenticationInfo auth) {
 		this.conf = conf;
+		this.auth = auth;
 	}
 	
 	/**
@@ -31,6 +35,8 @@ public class EmailHandler {
 	 */
 	public boolean sendMail(Email email) {
 		boolean success = false;
+		
+		Authenticator authenticator = null;
 		
 		System.out.println("Attempting to send email:");
 		
@@ -48,9 +54,24 @@ public class EmailHandler {
 		System.out.print("\n");
 		
 		Properties props = new Properties();
+		props.put("mail.transport.protocol", "smtp");
 		props.put("mail.smtp.host", conf.getSmtpServer().getHostAddress());
 		
-		Session session = Session.getDefaultInstance(props, null);
+		if (auth != null) {
+		    props.put("mail.smtp.socketFactory.port", auth.getAuthport());
+    		props.put("mail.smtp.socketFactory.class",
+    		        "javax.net.ssl.SSLSocketFactory");
+    		props.put("mail.smtp.auth", "true");
+    	
+    		authenticator = new Authenticator() {
+                  protected PasswordAuthentication getPasswordAuthentication() {
+                      return new PasswordAuthentication(auth.getUsername(),
+                              auth.getPassword());
+                  }
+            };
+		}
+		
+		Session session = Session.getDefaultInstance(props, authenticator);
 		
 		Message msg = new MimeMessage(session);
 		try {
@@ -61,7 +82,8 @@ public class EmailHandler {
 			msg.setFrom(conf.getEmail());
 			msg.setText(email.getMessage());
 			
-			if (msg.getAllRecipients().length > 0) {
+			if (msg.getAllRecipients() == null || 
+			        msg.getAllRecipients().length > 0) {
 				Transport.send(msg);
 				System.out.println("Message sent.");
 				success = true;

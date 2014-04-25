@@ -5,9 +5,14 @@ import java.util.ArrayList;
 public class SimpleMail {
 
 	/**
-	 * @param args
+	 * @param args Optional args for auth are [username] [password] [authport]
 	 */
 	public static void main(String[] args) {
+	    AuthenticationInfo auth = null;
+	    
+	    if (args.length >= 3)
+	        auth = new AuthenticationInfo(args[0], args[1], args[2]);
+	    
 		DataStore storage = DataStore.getInstance();
 		
 		Configuration conf = storage.loadConfig();
@@ -18,13 +23,15 @@ public class SimpleMail {
 		if (conf.getSmtpServer() == null)
 			conf.setSmtpServer("smtp.clemson.edu");
 		
-		contacts.add(new Contact("Jared Klingenberger", "address here",
-				"555-555-5555", "klinge2@clemson.edu"));
+		if (contacts.size() == 0) {
+		    contacts.add(new Contact("Jared K.", "White House",
+				"123-456-7890", "jared.klingenberger@gmail.com"));
+		}
 		
-		EmailHandler handler = new EmailHandler(conf);
+		EmailHandler handler = new EmailHandler(conf, auth);
 		
-		Email email = new Email(null, contacts, null,
-				 "cc'd", "Tried making a mailing list");
+		Email email = new Email(contacts, null, null,
+				 "simplemail message", "you have received a simplemail!");
 		
 		handler.sendMail(email);
 		

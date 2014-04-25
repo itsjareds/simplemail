@@ -84,33 +84,43 @@ public class DataStore {
 	}
 	
 	public void storeConfig() {
-		ObjectOutputStream out = null;
-		try {
-				out = new ObjectOutputStream(new FileOutputStream(new File(
-						"data/systemcfg.ser")));
-				out.writeObject(conf);
-				out.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	    File workingDir = new File("data/");
+	    if (!workingDir.exists() && !workingDir.mkdirs()) {
+	        System.out.println("Could not create serialization directory.");
+	    } else {
+    		ObjectOutputStream out = null;
+    		try {
+    				out = new ObjectOutputStream(new FileOutputStream(new File(
+    						workingDir, "systemcfg.ser")));
+    				out.writeObject(conf);
+    				out.close();
+    		} catch (FileNotFoundException e) {
+    			e.printStackTrace();
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		}
+	    }
 	}
 	
 	public void storeContacts() {
-		ObjectOutputStream out = null;
-		try {
-			for (Contact c : contacts) {
-				out = new ObjectOutputStream(new FileOutputStream(new File(
-						"data/contacts/" + c.getName() + ".ser")));
-				out.writeObject(c);
-				out.close();
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	    File workingDir = new File("data/contacts/");
+	    if (!workingDir.exists() && !workingDir.mkdirs()) {
+	        System.out.println("Could not create serialization directory.");
+	    } else {
+    		ObjectOutputStream out = null;
+    		try {
+    			for (Contact c : contacts) {
+    				out = new ObjectOutputStream(new FileOutputStream(new File(
+    						workingDir, c.getEmail() + ".ser")));
+    				out.writeObject(c);
+    				out.close();
+    			}
+    		} catch (FileNotFoundException e) {
+    			e.printStackTrace();
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		}
+	    }
 	}
 
 	public ArrayList<Contact> getContacts() {
