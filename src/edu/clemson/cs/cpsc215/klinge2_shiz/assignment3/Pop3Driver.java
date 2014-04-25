@@ -5,14 +5,9 @@ import java.util.ArrayList;
 public class Pop3Driver {
 
     /**
-     * @param args Optional args for auth are [username] [password] [authport]
+     * @param args
      */
     public static void main(String[] args) {
-        AuthenticationInfo auth = null;
-        
-        if (args.length >= 3)
-            auth = new AuthenticationInfo(args[0], args[1], args[2]);
-        
         DataStore storage = DataStore.getInstance();
         
         Configuration conf = storage.loadConfig();
@@ -28,7 +23,7 @@ public class Pop3Driver {
                 "123-456-7890", "jared.klingenberger@gmail.com"));
         }
         
-        EmailHandler handler = new EmailHandler(conf, auth);
+        EmailHandler handler = new EmailHandler(conf);
         
         handler.readMail();
         

@@ -1,7 +1,13 @@
 package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3;
 
-public class AuthenticationInfo {
-    private String username, password, authport;
+import java.io.Serializable;
+
+public class AuthenticationInfo implements Serializable {
+    /**
+	 * Automatically generated serialVersionUID
+	 */
+	private static final long serialVersionUID = -6588397296000495803L;
+	private String username, password, authport;
     
     public AuthenticationInfo(String user, String pass, String port) {
         this.username = user;

@@ -2,9 +2,7 @@ package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -130,7 +128,6 @@ public class DataStore {
 			writeObjectToFile("data/systemcfg.dat", sealedObject);
 		} catch (Exception e) {
 			System.out.println("Could not write new config file.");
-			e.printStackTrace();
 		}
 	}
 	

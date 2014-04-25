@@ -28,11 +28,9 @@ import javax.mail.search.FlagTerm;
  */
 public class EmailHandler {
 	private Configuration conf;
-	private final AuthenticationInfo auth;
 	
-	public EmailHandler(Configuration conf, AuthenticationInfo auth) {
+	public EmailHandler(Configuration conf) {
 		this.conf = conf;
-		this.auth = auth;
 	}
 	
 	/**
@@ -66,6 +64,7 @@ public class EmailHandler {
 		props.put("mail.transport.protocol", "smtp");
 		props.put("mail.smtp.host", conf.getSmtpServer().getHostAddress());
 		
+		final AuthenticationInfo auth = conf.getAuthSmtp();
 		if (auth != null) {
 		    props.put("mail.smtp.socketFactory.port", auth.getAuthport());
     		props.put("mail.smtp.socketFactory.class",
@@ -110,6 +109,7 @@ public class EmailHandler {
 	}
 	
 	public void readMail() {
+		final AuthenticationInfo auth = conf.getAuthPop3();
 		if (auth == null) {
 			System.out.println("Error: no authentication provided for POP3.");
 		}
