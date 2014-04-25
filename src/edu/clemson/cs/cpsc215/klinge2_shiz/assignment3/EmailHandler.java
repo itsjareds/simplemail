@@ -6,6 +6,7 @@ import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
+import javax.mail.SendFailedException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.MimeMessage;
@@ -90,7 +91,9 @@ public class EmailHandler {
 			} else {
 				System.out.println("Error: zero recipients.");
 			}
-		} catch (MessagingException e) {
+		} catch (SendFailedException e) {
+			System.out.println("Send failed. Do you need to authenticate?");
+	    } catch (MessagingException e) {
 			System.out.println("Caught exception:");
 			e.printStackTrace();
 		}
