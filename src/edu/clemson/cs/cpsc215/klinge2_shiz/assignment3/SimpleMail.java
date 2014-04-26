@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class SimpleMail {
 
 	/**
-	 * @param args Optional args for auth are [username] [password] [authport]
+	 * @param args
 	 */
 	public static void main(String[] args) {
 		DataStore storage = DataStore.getInstance();

@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -28,14 +29,14 @@ public class MainFrameNew extends JFrame {
 
 	public static void main(String [] args) {
 		try {
-			UIManager.setLookAndFeel(
-					UIManager.getSystemLookAndFeelClassName());
-/*			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+//			UIManager.setLookAndFeel(
+//					UIManager.getSystemLookAndFeelClassName());
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) {
 					UIManager.setLookAndFeel(info.getClassName());
 					break;
 				}
-			}*/
+			}
 		} catch (Exception e) {
 			System.out.println("Unable to modify look and feel.");
 		}
@@ -85,6 +86,12 @@ public class MainFrameNew extends JFrame {
 		menuBar.add(helpMenu);
 		
 		DataStore.getInstance().loadConfig();
+		DataStore.getInstance().loadContacts();
+		List<Contact> contacts = DataStore.getInstance().getContacts();
+//		contacts.add(new Contact("Alice", "125 Pine St.",
+//			"435-385-2348", "allycakes@g.clemson.edu"));
+//		contacts.add(new Contact("Bob", "123 Pine St.",
+//			"911-455-3483", "bobert@g.clemson.edu"));
 		
 		JTable table = new JTable(new TableModel()) {
 			private static final long serialVersionUID = -3897893453518570667L;
@@ -103,6 +110,5 @@ public class MainFrameNew extends JFrame {
 		frame.setJMenuBar(menuBar);
 		frame.pack();
 		frame.setVisible(true);
-		
 	}
 }

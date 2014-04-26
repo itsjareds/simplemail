@@ -180,7 +180,8 @@ public class DataStore {
 		int count = 0;
 		for (Contact c : contacts) {
 			try {
-				writeObjectToFile("data/contacts/" + c.getEmail() + ".ser", c);
+				String email = c.getEmail().replace("@", ".at.");
+				writeObjectToFile("data/contacts/" + email + ".ser", c);
 				count++;
 			} catch (Exception e) {
 				System.out.println("Could not serialize contact.");

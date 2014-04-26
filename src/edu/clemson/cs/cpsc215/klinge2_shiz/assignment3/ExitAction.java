@@ -6,8 +6,9 @@ import java.awt.event.ActionListener;
 public class ExitAction implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
+		DataStore.getInstance().storeConfig();
+		DataStore.getInstance().storeContacts();
 		System.exit(0);
-		
 	}
 
 }
