@@ -82,7 +82,7 @@ public class DataStore {
 		try {
 			obj = readObjectFromFile(fileName);
 		} catch (Exception e) {
-			System.out.println("Error while reading encrypted files.");
+			System.out.println("Error reading encrypted file " + fileName);
 		}
 		
 		if (obj != null && key != null && obj instanceof SealedObject) {
@@ -94,7 +94,7 @@ public class DataStore {
 				
 				decryptedObject = sealedObject.getObject(cipher);
 			} catch (Exception e) {
-				System.out.println("Error while decrypting config file.");
+				System.out.println("Error while decrypting file " + fileName);
 			}
 		}
 		return decryptedObject;
@@ -103,7 +103,7 @@ public class DataStore {
 	private SealedObject encryptObject(Serializable obj) throws Exception {
 		SecretKey key = KeyGenerator.getInstance("DES").generateKey();
 		writeObjectToFile("data/privatekey.dat", key);
-	
+		
 		Cipher cipher = Cipher.getInstance("DES");
 		cipher.init(Cipher.ENCRYPT_MODE, key);
 		
@@ -113,7 +113,7 @@ public class DataStore {
 	// decrypt using a private key
 	public Configuration loadConfig() {
 		try {
-			Object obj = decryptObject("data/privatekey.dat",
+			Object obj = decryptObject("privatekey",
 					"data/systemcfg.dat");
 			if (obj instanceof Configuration) {
 				conf = (Configuration) obj;
