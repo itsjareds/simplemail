@@ -50,73 +50,127 @@ public class ConfigurationDlg extends JDialog {
 		JButton button;
 		AuthenticationInfo auth;
 		
-		// POP3 labels
+		int row = 0, col = 0;
+		final int maxColWidth = 2;
 		
-/*		label = new JLabel("Auth POP3:");
+		// User info labels
+		
+		label = new JLabel("Name:");
 		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 0;
+		c.gridx = col;
+		c.gridy = row++;
 		c.gridwidth = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		innerPanel.add(label, c);*/
+		innerPanel.add(label, c);
+		
+		label = new JLabel("Email:");
+		c = new GridBagConstraints();
+		c.gridx = col;
+		c.gridy = row++;
+		c.gridwidth = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		innerPanel.add(label, c);
+		
+		label = new JLabel("SMTP server:");
+		c = new GridBagConstraints();
+		c.gridx = col;
+		c.gridy = row++;
+		c.gridwidth = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		innerPanel.add(label, c);
+		
+		row += 1;
+		
+		// POP3 labels
 		
 		label = new JLabel("Username:");
 		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 1;
+		c.gridx = col;
+		c.gridy = row++;
 		c.gridwidth = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		innerPanel.add(label, c);
 		
 		label = new JLabel("Password:");
 		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 2;
+		c.gridx = col;
+		c.gridy = row++;
 		c.gridwidth = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		innerPanel.add(label, c);
 		
 		label = new JLabel("Port:");
 		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 3;
+		c.gridx = col;
+		c.gridy = row++;
 		c.gridwidth = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		innerPanel.add(label, c);
+		
+		row++;
 		
 		// SMTP labels
 		
-/*		label = new JLabel("Auth SMTP:");
-		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 4;
-		c.gridwidth = 1;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		innerPanel.add(label, c);*/
-		
 		label = new JLabel("Username:");
 		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 5;
+		c.gridx = col;
+		c.gridy = row++;
 		c.gridwidth = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		innerPanel.add(label, c);
 		
 		label = new JLabel("Password:");
 		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 6;
+		c.gridx = col;
+		c.gridy = row++;
 		c.gridwidth = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		innerPanel.add(label, c);
 		
 		label = new JLabel("Port:");
 		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 7;
+		c.gridx = col;
+		c.gridy = row++;
 		c.gridwidth = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		innerPanel.add(label, c);
+		
+		col++;
+		row = 0;
+		
+		txt = new JTextField();
+		if (conf.getName() != null)
+			txt.setText(conf.getName());
+		c = new GridBagConstraints();
+		c.gridx = col;
+		c.gridy = row++;
+		c.gridwidth = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		med.registerNameLabel(txt);
+		innerPanel.add(txt, c);
+		
+		// User info textfields
+		txt = new JTextField();
+		if (conf.getEmail() != null)
+			txt.setText(conf.getEmail().getAddress());
+		c = new GridBagConstraints();
+		c.gridx = col;
+		c.gridy = row++;
+		c.gridwidth = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		med.registerEmailLabel(txt);
+		innerPanel.add(txt, c);
+		
+		txt = new JTextField();
+		if (conf.getSmtpServer() != null)
+			txt.setText(conf.getSmtpServer().getHostName());
+		c = new GridBagConstraints();
+		c.gridx = col;
+		c.gridy = row++;
+		c.gridwidth = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		med.registerSmtpServerLabel(txt);
+		innerPanel.add(txt, c);
 		
 		// POP3 textfields
 		
@@ -125,12 +179,14 @@ public class ConfigurationDlg extends JDialog {
 		checkBox = new CheckBoxAuthPop3(new CheckableItemListener(), med);
 		checkBox.setSelected(conf.isSslUsedPop3());
 		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 0;
-		c.gridwidth = 3;
+		c.gridx = col;
+		c.gridy = row++;
+		c.gridwidth = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		med.registerAuthPop3Checkbox((CheckBoxAuthPop3)checkBox);
 		innerPanel.add(checkBox, c);
+		
+		row += 0;
 		
 		txt = new JTextField();
 		if (auth != null)
@@ -138,9 +194,9 @@ public class ConfigurationDlg extends JDialog {
 		if (!conf.isSslUsedPop3())
 			txt.setEnabled(false);
 		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 1;
-		c.gridwidth = 3;
+		c.gridx = col;
+		c.gridy = row++;
+		c.gridwidth = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		med.registerPop3UserLabel(txt);
 		innerPanel.add(txt, c);
@@ -151,9 +207,9 @@ public class ConfigurationDlg extends JDialog {
 		if (!conf.isSslUsedPop3())
 			pass.setEnabled(false);
 		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 2;
-		c.gridwidth = 3;
+		c.gridx = col;
+		c.gridy = row++;
+		c.gridwidth = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		med.registerPop3PassLabel(pass);
 		innerPanel.add(pass, c);
@@ -164,9 +220,9 @@ public class ConfigurationDlg extends JDialog {
 		if (!conf.isSslUsedPop3())
 			txt.setEnabled(false);
 		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 3;
-		c.gridwidth = 3;
+		c.gridx = col;
+		c.gridy = row++;
+		c.gridwidth = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		med.registerPop3PortLabel(txt);
 		innerPanel.add(txt, c);
@@ -178,9 +234,9 @@ public class ConfigurationDlg extends JDialog {
 		checkBox = new CheckBoxAuthSmtp(new CheckableItemListener(), med);
 		checkBox.setSelected(conf.isSslUsedSmtp());
 		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 4;
-		c.gridwidth = 3;
+		c.gridx = col;
+		c.gridy = row++;
+		c.gridwidth = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		med.registerAuthSmtpCheckbox((CheckBoxAuthSmtp)checkBox);
 		innerPanel.add(checkBox, c);
@@ -191,9 +247,9 @@ public class ConfigurationDlg extends JDialog {
 		if (!conf.isSslUsedSmtp())
 			txt.setEnabled(false);
 		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 5;
-		c.gridwidth = 3;
+		c.gridx = col;
+		c.gridy = row++;
+		c.gridwidth = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		med.registerSmtpUserLabel(txt);
 		innerPanel.add(txt, c);
@@ -204,9 +260,9 @@ public class ConfigurationDlg extends JDialog {
 		if (!conf.isSslUsedSmtp())
 			pass.setEnabled(false);
 		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 6;
-		c.gridwidth = 3;
+		c.gridx = col;
+		c.gridy = row++;
+		c.gridwidth = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		med.registerSmtpPassLabel(pass);
 		innerPanel.add(pass, c);
@@ -217,9 +273,9 @@ public class ConfigurationDlg extends JDialog {
 		if (!conf.isSslUsedSmtp())
 			txt.setEnabled(false);
 		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 7;
-		c.gridwidth = 3;
+		c.gridx = col;
+		c.gridy = row++;
+		c.gridwidth = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		med.registerSmtpPortLabel(txt);
 		innerPanel.add(txt, c);
@@ -228,8 +284,8 @@ public class ConfigurationDlg extends JDialog {
 		
 		button = new ButtonSave(new ClickableActionListener(), med);
 		c = new GridBagConstraints();
-		c.gridx = 3;
-		c.gridy = 8;
+		c.gridx = maxColWidth - 1;
+		c.gridy = row;
 		c.gridwidth = 1;
 		c.anchor = GridBagConstraints.SOUTHEAST;
 		med.registerSaveButton((ButtonSave)button);
@@ -238,7 +294,7 @@ public class ConfigurationDlg extends JDialog {
 		button = new ButtonCancel(new ClickableActionListener(), med);
 		c = new GridBagConstraints();
 		c.gridx = 0;
-		c.gridy = 8;
+		c.gridy = row;
 		c.gridwidth = 1;
 		c.anchor = GridBagConstraints.SOUTHWEST;
 		med.registerCancelButton((ButtonCancel)button);

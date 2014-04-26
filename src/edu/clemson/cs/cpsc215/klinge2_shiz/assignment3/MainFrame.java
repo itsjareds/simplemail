@@ -14,7 +14,7 @@ import javax.swing.JMenuBar;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.configdlg.ConfigurationDlg;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.config.ConfigurationDlg;
 
 public class MainFrame extends JFrame{
 

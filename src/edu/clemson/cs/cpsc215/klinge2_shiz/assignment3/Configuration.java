@@ -21,6 +21,7 @@ public class Configuration implements Serializable {
 	private static final long serialVersionUID = 8567872862487853526L;
 	private InternetAddress email = null;
 	private InetAddress smtpServer = null;
+	private String name = null;
 	
 	// sensitive variables (encrypted when serialized)
 	private boolean sslUsedSmtp = false;
@@ -94,5 +95,11 @@ public class Configuration implements Serializable {
 				"{sslUsedSmtp:" + sslUsedSmtp + "},{sslUsedPop3:" + 
 				sslUsedPop3 + "}]";
 		return s;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 }

@@ -18,7 +18,8 @@ public class ConfigMediator implements ConfigMediatorInterface {
 	private CheckBoxAuthPop3 checkBoxAuthPop3 = null;
 	private CheckBoxAuthSmtp checkBoxAuthSmtp = null;
 	private JTextField txtPop3User, txtPop3Pass, txtPop3Port,
-					txtSmtpUser, txtSmtpPass, txtSmtpPort;
+					txtSmtpUser, txtSmtpPass, txtSmtpPort, txtEmail,
+					txtSmtpServer, txtName;
 	
 	public ConfigMediator(ConfigurationDlg confDlg) {
 		this.confDlg = confDlg;
@@ -71,6 +72,15 @@ public class ConfigMediator implements ConfigMediatorInterface {
 	public void save() {
 		DataStore storage = DataStore.getInstance();
 		Configuration conf = storage.getConf();
+		
+		if (txtEmail != null)
+			conf.setEmail(txtEmail.getText());
+		
+		if (txtSmtpServer != null)
+			conf.setSmtpServer(txtSmtpServer.getText());
+		
+		if (txtName != null)
+			conf.setName(txtName.getText());
 		
 		conf.setSslUsedPop3(checkBoxAuthPop3.isSelected());
 		if (txtPop3User.getText() != null &&
@@ -140,6 +150,21 @@ public class ConfigMediator implements ConfigMediatorInterface {
 	@Override
 	public void registerPop3PortLabel(JTextField port) {
 		this.txtPop3Port = port;
+	}
+
+	@Override
+	public void registerEmailLabel(JTextField email) {
+		this.txtEmail = email;
+	}
+
+	@Override
+	public void registerSmtpServerLabel(JTextField smtp) {
+		this.txtSmtpServer = smtp;
+	}
+
+	@Override
+	public void registerNameLabel(JTextField name) {
+		this.txtName = name;
 	}
 
 }
