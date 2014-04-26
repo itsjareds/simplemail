@@ -2,7 +2,9 @@ package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -36,15 +38,23 @@ public class DataStore {
 		return instance;
 	}
 	
-	private void writeObjectToFile(String file, Object o) throws Exception {
+	private void writeObjectToFile(String file, Object o) {
 		File f = new File(file);
-		if (!f.exists() && !f.createNewFile() || !f.isFile()) {
-			System.out.println("Could not access file " + file);
-		} else {
-			ObjectOutputStream out = new ObjectOutputStream(
-					new FileOutputStream(f));
-			out.writeObject(o);
-			out.close();
+		try {
+			if ((!f.exists() && !f.getParentFile().mkdirs()
+					&& !f.createNewFile()) || !f.isFile()) {
+				System.out.println("Could not access file " + file);
+			} else {
+				ObjectOutputStream out;
+				out = new ObjectOutputStream(
+						new FileOutputStream(f));
+				out.writeObject(o);
+				out.close();
+			}
+		} catch (SecurityException e) {
+			System.out.println("Permission denied.");
+		} catch (IOException e) {
+			System.out.println("Could not write object file " + file);
 		}
 	}
 	
@@ -100,20 +110,30 @@ public class DataStore {
 		return decryptedObject;
 	}
 	
-	private SealedObject encryptObject(Serializable obj) throws Exception {
+	private SealedObject encryptObject(Serializable obj, String keyName)
+			throws Exception {
 		SecretKey key = KeyGenerator.getInstance("DES").generateKey();
-		writeObjectToFile("data/keyring/privatekey.dat", key);
+		SealedObject sealedObject = null;
 		
-		Cipher cipher = Cipher.getInstance("DES");
-		cipher.init(Cipher.ENCRYPT_MODE, key);
-		
-		return new SealedObject(obj, cipher);
+		try {
+			writeObjectToFile("data/keyring/" + keyName + ".dat", key);
+			
+			Cipher cipher = Cipher.getInstance("DES");
+			cipher.init(Cipher.ENCRYPT_MODE, key);
+			
+			sealedObject = new SealedObject(obj, cipher);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return sealedObject;
 	}
 	
 	// decrypt using a private key
 	public Configuration loadConfig() {
 		try {
-			Object obj = decryptObject("privatekey", "data/systemcfg.dat");
+			Object obj = decryptObject("confkey", "data/systemcfg.dat");
 			if (obj instanceof Configuration) {
 				conf = (Configuration) obj;
 				System.out.println("Restored configuration: " + conf);
@@ -149,20 +169,27 @@ public class DataStore {
 	// encrypted because config contains sensitive data (passwords)
 	public void storeConfig() {
 		try {
-			SealedObject sealedObject = encryptObject(conf);
+			SealedObject sealedObject = encryptObject(conf, "confkey");
 			writeObjectToFile("data/systemcfg.dat", sealedObject);
+			System.out.println("New config file writen.");
 		} catch (Exception e) {
 			System.out.println("Could not write new config file.");
 		}
 	}
 	
 	public void storeContacts() {
+		int count = 0;
 		for (Contact c : contacts) {
 			try {
 				writeObjectToFile("data/contacts/" + c.getEmail() + ".ser", c);
+				count++;
 			} catch (Exception e) {
 				System.out.println("Could not serialize contact.");
 			}
+		}
+		if (contacts.size() > 0) {
+			System.out.println("Successfully serialized " + count + "/"
+					+ contacts.size() + " contacts");
 		}
 	}
 

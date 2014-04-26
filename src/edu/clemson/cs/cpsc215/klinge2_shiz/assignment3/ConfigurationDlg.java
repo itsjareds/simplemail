@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -13,9 +14,12 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.ButtonCancel;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.ButtonSave;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.CheckBoxAuthPop3;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.CheckBoxAuthSmtp;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.CheckableItemListener;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.ClickableActionListener;
 
 public class ConfigurationDlg extends JDialog {
 	/**
@@ -44,6 +48,7 @@ public class ConfigurationDlg extends JDialog {
 		JCheckBox checkBox;
 		JTextField txt;
 		JPasswordField pass;
+		JButton button;
 		AuthenticationInfo auth;
 		
 		// POP3 labels
@@ -219,6 +224,26 @@ public class ConfigurationDlg extends JDialog {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		med.registerSmtpPortLabel(txt);
 		innerPanel.add(txt, c);
+		
+		// Save and Cancel buttons
+		
+		button = new ButtonSave(new ClickableActionListener(), med);
+		c = new GridBagConstraints();
+		c.gridx = 4;
+		c.gridy = 8;
+		c.anchor = GridBagConstraints.SOUTHEAST;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		med.registerSaveButton((ButtonSave)button);
+		innerPanel.add(button, c);
+		
+		button = new ButtonCancel(new ClickableActionListener(), med);
+		c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = 8;
+		c.anchor = GridBagConstraints.SOUTHEAST;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		med.registerCancelButton((ButtonCancel)button);
+		innerPanel.add(button, c);
 		
 		containerPanel.add(innerPanel, BorderLayout.CENTER);
 		this.getContentPane().add(containerPanel, BorderLayout.CENTER);

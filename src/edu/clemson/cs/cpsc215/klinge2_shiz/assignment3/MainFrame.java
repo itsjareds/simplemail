@@ -75,14 +75,11 @@ public class MainFrame extends JFrame{
 		menuBar.add(configMenu);
 		menuBar.add(helpMenu);
 
-		Configuration conf = DataStore.getInstance().getConf();
-		conf.setSslUsedPop3(true);
-		conf.setAuthPop3(new AuthenticationInfo("username", "password", "80"));
+		Configuration conf = DataStore.getInstance().loadConfig();
 		
 		ConfigurationDlg confDlg = new ConfigurationDlg(frame);
 		confDlg.pack();
 		confDlg.setVisible(true);
-		
 		
 		frame.setJMenuBar(menuBar);
 		frame.pack();

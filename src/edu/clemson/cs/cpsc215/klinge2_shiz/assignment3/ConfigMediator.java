@@ -73,14 +73,16 @@ public class ConfigMediator implements ConfigMediatorInterface {
 		DataStore storage = DataStore.getInstance();
 		Configuration conf = storage.getConf();
 		
-		if (checkBoxAuthPop3.isSelected() && txtPop3User.getText() != null &&
-					txtPop3Pass.getText() != null &&
-					txtPop3Port.getText() != null) {
-				conf.setAuthPop3(new AuthenticationInfo(txtPop3User.getText(),
-						txtPop3Pass.getText(), txtPop3Port.getText()));
+		conf.setSslUsedPop3(checkBoxAuthPop3.isSelected());
+		if (txtPop3User.getText() != null &&
+				txtPop3Pass.getText() != null &&
+				txtPop3Port.getText() != null) {
+			conf.setAuthPop3(new AuthenticationInfo(txtPop3User.getText(),
+					txtPop3Pass.getText(), txtPop3Port.getText()));
 		}
 		
-		if (checkBoxAuthSmtp.isSelected() && txtSmtpUser.getText() != null &&
+		conf.setSslUsedSmtp(checkBoxAuthSmtp.isSelected());
+		if (txtSmtpUser.getText() != null &&
 				txtSmtpPass.getText() != null &&
 				txtSmtpPort.getText() != null) {
 			conf.setAuthSmtp(new AuthenticationInfo(txtSmtpUser.getText(),
