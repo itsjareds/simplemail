@@ -178,6 +178,16 @@ public class DataStore {
 	}
 	
 	public void storeContacts() {
+	    // clear directory
+	    File dir = new File("data/contacts");
+	    if (dir.exists() && dir.isDirectory()) {
+	        File[] files = dir.listFiles();
+	        for (File f : files) {
+	            if (f.isFile())
+	                f.delete();
+	        }
+	    }
+	    
 		int count = 0;
 		for (Contact c : contacts) {
 			try {
