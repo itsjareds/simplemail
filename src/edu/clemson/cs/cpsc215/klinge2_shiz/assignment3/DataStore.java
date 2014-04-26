@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -24,7 +25,8 @@ public class DataStore {
 	private static DataStore instance = new DataStore();
 	private ArrayList<Contact> contacts = new ArrayList<Contact>();
 	private Configuration conf = new Configuration();
-	private SecretKey key = null;
+	private HashMap<String, SecretKey> keyring = 
+			new HashMap<String, SecretKey>();
 	
 	private DataStore() {
 		// disable the default public constructor
@@ -59,17 +61,22 @@ public class DataStore {
 	}
 	
 	private SecretKey getKey(String keyName) throws Exception {
+		SecretKey key = keyring.get(keyName);
+		Object okey = null;
+		
 		if (key == null) {
-			Object okey = null;
 			try {
-				okey = readObjectFromFile(keyName);
+				okey = readObjectFromFile("data/keyring/" + keyName + ".dat");
 				
-				if (okey != null && okey instanceof SecretKey)
+				if (okey != null && okey instanceof SecretKey) {
 					key = (SecretKey) okey;
+					keyring.put(keyName, key);
+				}
 			} catch (Exception e) {
-				System.out.println("Error while reading encrypted files.");
+				System.out.println("Error while trying to obtain key.");
 			}
 		}
+		
 		return key;
 	}
 	
@@ -80,7 +87,7 @@ public class DataStore {
 		try {
 			obj = readObjectFromFile(fileName);
 		} catch (Exception e) {
-			System.out.println("Error while reading encrypted files.");
+			System.out.println("Error reading encrypted file " + fileName);
 		}
 		
 		if (obj != null && key != null && obj instanceof SealedObject) {
@@ -92,17 +99,15 @@ public class DataStore {
 				
 				decryptedObject = sealedObject.getObject(cipher);
 			} catch (Exception e) {
-				System.out.println("Error while decrypting config file.");
+				System.out.println("Error while decrypting file " + fileName);
 			}
 		}
 		return decryptedObject;
 	}
 	
 	private SealedObject encryptObject(Serializable obj) throws Exception {
-		if (key == null) {
-			key = KeyGenerator.getInstance("DES").generateKey();
-			writeObjectToFile("data/privatekey.dat", key);
-		}
+		SecretKey key = KeyGenerator.getInstance("DES").generateKey();
+		writeObjectToFile("data/keyring/privatekey.dat", key);
 	
 		Cipher cipher = Cipher.getInstance("DES");
 		cipher.init(Cipher.ENCRYPT_MODE, key);
