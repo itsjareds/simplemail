@@ -1,4 +1,4 @@
-package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3;
+package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.configdlg;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
@@ -14,12 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.ButtonCancel;
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.ButtonSave;
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.CheckBoxAuthPop3;
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.CheckBoxAuthSmtp;
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.CheckableItemListener;
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.ClickableActionListener;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.AuthenticationInfo;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Configuration;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStore;
 
 public class ConfigurationDlg extends JDialog {
 	/**

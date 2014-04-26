@@ -1,8 +1,6 @@
-package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls;
+package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.configdlg;
 
 import javax.swing.JCheckBox;
-
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.ConfigMediatorInterface;
 
 public class CheckBoxAuthPop3 extends JCheckBox implements Checkable {
 	/**

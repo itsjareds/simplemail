@@ -16,6 +16,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.configdlg.ConfigAction;
 /**
  * Main window of the simple mail program. User Interface
  * 

@@ -1,12 +1,7 @@
-package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3;
+package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.configdlg;
 
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.ButtonCancel;
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.ButtonSave;
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.CheckBoxAuthPop3;
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.CheckBoxAuthSmtp;
 
 public interface ConfigMediatorInterface {
 	public void authSmtp(int selected);

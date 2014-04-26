@@ -1,4 +1,4 @@
-package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3;
+package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.configdlg;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
