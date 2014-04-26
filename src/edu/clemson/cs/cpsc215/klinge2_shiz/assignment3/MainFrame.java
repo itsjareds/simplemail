@@ -3,28 +3,36 @@ package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
+import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.config.ConfigurationDlg;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.config.ConfigAction;
+/**
+ * Main window of the simple mail program. User Interface
+ * 
+ * @author shiz
+ * @author klinge2
+ * @since 4/25/14
+ */
+public class MainFrame extends JFrame {
 
-public class MainFrame extends JFrame{
+	private static final long serialVersionUID = -6203227608826654258L;
 
-	/**
-	 * Automatically generated serialVersionUID
-	 */
-	private static final long serialVersionUID = 1L;
-
-	public static void main(String args[]){
+	public static void main(String [] args) {
 		try {
+//			UIManager.setLookAndFeel(
+//					UIManager.getSystemLookAndFeelClassName());
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) {
 					UIManager.setLookAndFeel(info.getClassName());
@@ -32,27 +40,22 @@ public class MainFrame extends JFrame{
 				}
 			}
 		} catch (Exception e) {
-			// If Nimbus is not available, you can set the GUI to another look and feel.
+			System.out.println("Unable to modify look and feel.");
 		}
 		
 		Color color = Color.gray;
 		
-		URL imageUrl = null;
+		//grab icon image from file
+		File sourceimage = new File("res/email.png");
+		Image image = null;
 		try {
-			imageUrl = new URL("http://tourbusradiosupply.com/images/email.png");
-		} catch (MalformedURLException e) {
-			System.out.println("Invalid URL");
+			image = ImageIO.read(sourceimage);
+		} catch (IOException e) {
+			System.out.println("Invalid image");
 			e.printStackTrace();
 		}
 		
-		Image image = null;
-		try {
-			image = ImageIO.read(imageUrl);
-		} catch (IOException e) {
-			System.out.println("Invalid Image");
-			e.printStackTrace();
-		}
-
+		//set up frame
 		JFrame frame = new JFrame("Email");
 		frame.setIconImage(image);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -66,25 +69,48 @@ public class MainFrame extends JFrame{
 		menuBar.setBackground(color);
 		
 		JMenu fileMenu = new JMenu("File");
-		fileMenu.add("Exit");
+		JMenuItem exit = new JMenuItem("Exit");
+		exit.addActionListener(new ExitAction());
+		fileMenu.add(exit);
+		
 		JMenu configMenu = new JMenu("Configuration");
-		configMenu.add("Configure");
+		JMenuItem config = new JMenuItem("Configure");
+		config.addActionListener(new ConfigAction(frame));
+		configMenu.add(config);
+		
 		JMenu helpMenu = new JMenu("Help");
-		helpMenu.add("About");
+		JMenuItem about = new JMenuItem("About");
+		about.addActionListener(new AboutAction());
+		helpMenu.add(about);
 
 		menuBar.add(fileMenu);
 		menuBar.add(configMenu);
 		menuBar.add(helpMenu);
-
-		DataStore.getInstance().loadConfig();
 		
-		ConfigurationDlg confDlg = new ConfigurationDlg(frame);
-		confDlg.pack();
-		confDlg.setVisible(true);
+		DataStore.getInstance().loadConfig();
+		DataStore.getInstance().loadContacts();
+		List<Contact> contacts = DataStore.getInstance().getContacts();
+//		contacts.add(new Contact("Alice", "125 Pine St.",
+//			"435-385-2348", "allycakes@g.clemson.edu"));
+//		contacts.add(new Contact("Bob", "123 Pine St.",
+//			"911-455-3483", "bobert@g.clemson.edu"));
+		
+		JTable table = new JTable(new TableModel()) {
+			private static final long serialVersionUID = -3897893453518570667L;
+
+			public boolean getScrollableTracksViewportWidth(){
+				return getPreferredSize().width < getParent().getWidth();
+			}
+		};
+		frame.getContentPane().add(new JScrollPane(table, 
+													JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+													JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		
+		table.addMouseListener(new DoubleClick());
 		
 		frame.setJMenuBar(menuBar);
 		frame.pack();
 		frame.setVisible(true);
 	}
-	
 }

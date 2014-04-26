@@ -23,5 +23,6 @@ public interface ConfigMediatorInterface {
 	public void registerSaveButton(ButtonSave save);
 	public void registerEmailLabel(JTextField email);
 	public void registerSmtpServerLabel(JTextField smtp);
+	public void registerPopServerLabel(JTextField pop);
 	public void registerNameLabel(JTextField name);
 }

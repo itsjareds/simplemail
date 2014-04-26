@@ -19,7 +19,7 @@ public class ConfigMediator implements ConfigMediatorInterface {
 	private CheckBoxAuthSmtp checkBoxAuthSmtp = null;
 	private JTextField txtPop3User, txtPop3Pass, txtPop3Port,
 					txtSmtpUser, txtSmtpPass, txtSmtpPort, txtEmail,
-					txtSmtpServer, txtName;
+					txtSmtpServer, txtPopServer, txtName;
 	
 	public ConfigMediator(ConfigurationDlg confDlg) {
 		this.confDlg = confDlg;
@@ -78,6 +78,9 @@ public class ConfigMediator implements ConfigMediatorInterface {
 		
 		if (txtSmtpServer != null)
 			conf.setSmtpServer(txtSmtpServer.getText());
+		
+		if (txtPopServer != null)
+			conf.setPopServer(txtPopServer.getText());
 		
 		if (txtName != null)
 			conf.setName(txtName.getText());
@@ -165,6 +168,11 @@ public class ConfigMediator implements ConfigMediatorInterface {
 	@Override
 	public void registerNameLabel(JTextField name) {
 		this.txtName = name;
+	}
+
+	@Override
+	public void registerPopServerLabel(JTextField pop) {
+		this.txtPopServer = pop;
 	}
 
 }

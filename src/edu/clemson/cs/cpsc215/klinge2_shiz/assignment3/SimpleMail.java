@@ -23,7 +23,7 @@ public class SimpleMail {
 				"123-456-7890", "jared.klingenberger@gmail.com"));
 		}
 		
-		EmailHandler handler = new EmailHandler(conf);
+		EmailHandler handler = new EmailHandler();
 		
 		Email email = new Email(contacts, null, null,
 				 "simplemail message", "you have received a simplemail!");

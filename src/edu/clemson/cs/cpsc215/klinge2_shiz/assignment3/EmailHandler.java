@@ -27,12 +27,6 @@ import javax.mail.search.FlagTerm;
  * @since 04-24-2014
  */
 public class EmailHandler {
-	private Configuration conf;
-	
-	public EmailHandler(Configuration conf) {
-		this.conf = conf;
-	}
-	
 	/**
 	 * sendMail(Email email) handles the nuts and bolts of sending an email
 	 * using a configuration.
@@ -43,6 +37,7 @@ public class EmailHandler {
 	public boolean sendMail(Email email) {
 		boolean success = false;
 		
+		Configuration conf = DataStore.getInstance().getConf();
 		Authenticator authenticator = null;
 		
 		System.out.println("Attempting to send email:");
@@ -109,11 +104,13 @@ public class EmailHandler {
 	}
 	
 	public void readMail() {
+		Configuration conf = DataStore.getInstance().getConf();
 		final AuthenticationInfo auth = conf.getAuthPop3();
 		if (auth == null) {
 			System.out.println("Error: no authentication provided for POP3.");
-		}
-		else {
+		} else if (conf.getPopServer() == null) {
+			System.out.println("Error: no POP host provided.");
+		} else {
 		    Folder inbox = null;
 		    Message[] messages = {};
 		    Store store = null;
@@ -126,7 +123,7 @@ public class EmailHandler {
 		    props.put("mail.pop3.socketFactory.port",
 		            auth.getAuthport().toString());
 		    props.put("mail.store.protocol", "pop3");
-		    props.put("mail.pop3.host", "pop.gmail.com");
+		    props.put("mail.pop3.host", conf.getPopServer().getHostName());
 		    props.put("mail.pop3.auth", "true");
 		    props.put("mail.pop3.port", auth.getAuthport().toString());
 		    

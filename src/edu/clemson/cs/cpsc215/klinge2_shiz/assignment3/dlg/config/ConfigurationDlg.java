@@ -71,6 +71,14 @@ public class ConfigurationDlg extends JDialog {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		innerPanel.add(label, c);
 		
+		label = new JLabel("POP server:");
+		c = new GridBagConstraints();
+		c.gridx = col;
+		c.gridy = row++;
+		c.gridwidth = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		innerPanel.add(label, c);
+		
 		label = new JLabel("SMTP server:");
 		c = new GridBagConstraints();
 		c.gridx = col;
@@ -79,7 +87,7 @@ public class ConfigurationDlg extends JDialog {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		innerPanel.add(label, c);
 		
-		row += 1;
+		row++;
 		
 		// POP3 labels
 		
@@ -159,6 +167,17 @@ public class ConfigurationDlg extends JDialog {
 		c.gridwidth = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		med.registerEmailLabel(txt);
+		innerPanel.add(txt, c);
+		
+		txt = new JTextField();
+		if (conf.getPopServer() != null)
+			txt.setText(conf.getPopServer().getHostName());
+		c = new GridBagConstraints();
+		c.gridx = col;
+		c.gridy = row++;
+		c.gridwidth = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		med.registerPopServerLabel(txt);
 		innerPanel.add(txt, c);
 		
 		txt = new JTextField();

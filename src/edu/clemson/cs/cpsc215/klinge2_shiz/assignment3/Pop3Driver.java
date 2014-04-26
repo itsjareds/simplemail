@@ -23,7 +23,7 @@ public class Pop3Driver {
                 "123-456-7890", "jared.klingenberger@gmail.com"));
         }
         
-        EmailHandler handler = new EmailHandler(conf);
+        EmailHandler handler = new EmailHandler();
         
         handler.readMail();
         

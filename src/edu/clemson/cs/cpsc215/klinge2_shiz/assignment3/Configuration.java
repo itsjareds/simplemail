@@ -18,10 +18,11 @@ public class Configuration implements Serializable {
 	/**
 	 * Automatically generated serialVersionUID
 	 */
-	private static final long serialVersionUID = 8567872862487853526L;
+	private static final long serialVersionUID = -1512998686589319997L;
 	private InternetAddress email = null;
 	private InetAddress smtpServer = null;
-	private String name = null;
+	private InetAddress popServer = null;
+	private String name = "";
 	
 	// sensitive variables (encrypted when serialized)
 	private boolean sslUsedSmtp = false;
@@ -91,9 +92,14 @@ public class Configuration implements Serializable {
 	
 	public String toString() {
 		String s = "";
-		s += "[{email:" + email + "},{smtpServer:" + smtpServer + "}," +
-				"{sslUsedSmtp:" + sslUsedSmtp + "},{sslUsedPop3:" + 
-				sslUsedPop3 + "}]";
+		s += "[";
+		s += "{name:" + name + "},";
+		s += "{email:" + email + "},";
+		s += "{popServer:" + popServer + "},";
+		s += "{smtpServer:" + smtpServer + "},";
+		s += "{sslUsedSmtp:" + sslUsedSmtp + "},";
+		s += "{sslUsedPop3:" + sslUsedPop3 + "}";
+		s += "]";
 		return s;
 	}
 	public String getName() {
@@ -101,5 +107,22 @@ public class Configuration implements Serializable {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public InetAddress getPopServer() {
+		return popServer;
+	}
+	/**
+	 * @param host String hostname which is resolved to an IP address.
+	 */
+	public void setPopServer(String host) {
+		try {
+			this.popServer = InetAddress.getByName(host);
+		} catch (UnknownHostException e) {
+			// host not resolved
+			e.printStackTrace();
+		}
+	}
+	public void setPopServer(InetAddress popServer) {
+		this.popServer = popServer;
 	}
 }
