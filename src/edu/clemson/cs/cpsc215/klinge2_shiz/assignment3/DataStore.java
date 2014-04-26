@@ -25,7 +25,7 @@ public class DataStore {
 	private static DataStore instance = new DataStore();
 	private ArrayList<Contact> contacts = new ArrayList<Contact>();
 	private Configuration conf = new Configuration();
-	private HashMap<String, SecretKey> keyring = 
+	private HashMap<String, SecretKey> keyring =
 			new HashMap<String, SecretKey>();
 	
 	private DataStore() {
@@ -60,22 +60,23 @@ public class DataStore {
 		return o;
 	}
 	
-	private SecretKey getKey(String keyName) throws Exception {
+	private SecretKey getKey(String keyName) {
 		SecretKey key = null;
 		Object okey = null;
 		try {
-			okey = readObjectFromFile(keyName);
+			okey = readObjectFromFile("data/keyring/" + keyName + ".dat");
 
-			if (okey != null && okey instanceof SecretKey)
+			if (okey != null && okey instanceof SecretKey) {
 				key = (SecretKey) okey;
+				keyring.put(keyName, key);
+			}
 		} catch (Exception e) {
-			System.out.println("Error while reading encrypted files.");
+			System.out.println("Error obtaining key.");
 		}
 		return key;
 	}
 	
-	private Object decryptObject(String keyName, String fileName)
-			throws Exception {
+	private Object decryptObject(String keyName, String fileName) {
 		Object obj = null, decryptedObject = null;
 		SecretKey key = getKey(keyName);
 		try {

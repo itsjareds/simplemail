@@ -11,6 +11,9 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 public class MainFrame extends JFrame{
 
@@ -20,6 +23,17 @@ public class MainFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
 
 	public static void main(String args[]){
+		try {
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (Exception e) {
+			// If Nimbus is not available, you can set the GUI to another look and feel.
+		}
+		
 		Color color = Color.gray;
 		
 		URL imageUrl = null;
@@ -60,10 +74,19 @@ public class MainFrame extends JFrame{
 		menuBar.add(fileMenu);
 		menuBar.add(configMenu);
 		menuBar.add(helpMenu);
+
+		Configuration conf = DataStore.getInstance().getConf();
+		conf.setSslUsedPop3(true);
+		conf.setAuthPop3(new AuthenticationInfo("username", "password", "80"));
+		
+		ConfigurationDlg confDlg = new ConfigurationDlg(frame);
+		confDlg.pack();
+		confDlg.setVisible(true);
+		
+		
 		frame.setJMenuBar(menuBar);
 		frame.pack();
 		frame.setVisible(true);
-		
 	}
 	
 }
