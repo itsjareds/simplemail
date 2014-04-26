@@ -1,14 +1,13 @@
 package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.config;
 
 import java.awt.BorderLayout;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -17,21 +16,21 @@ import javax.swing.JTextField;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.AuthenticationInfo;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Configuration;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStore;
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.CheckableItemListener;
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.ClickableActionListener;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.AbstractDlg;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.CheckableItemListener;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.ClickableActionListener;
 
-public class ConfigurationDlg extends JDialog {
-	/**
+public class ConfigurationDlg extends AbstractDlg {
+	public ConfigurationDlg(Frame owner) {
+        super(owner, "Preferences");
+    }
+
+    /**
 	 * Automatically generated serialVersionUID
 	 */
 	private static final long serialVersionUID = -1760183194108670101L;
 	
-	public ConfigurationDlg(JFrame owner) {
-		super(owner, "Preferences");
-		addComponents();
-	}
-	
-	private void addComponents() {
+	protected void addComponents() {
 		JPanel containerPanel = new JPanel();
 		containerPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		containerPanel.setLayout(new BorderLayout());
@@ -307,7 +306,6 @@ public class ConfigurationDlg extends JDialog {
 		c.gridy = row;
 		c.gridwidth = 1;
 		c.anchor = GridBagConstraints.SOUTHEAST;
-		med.registerSaveButton((ButtonSave)button);
 		innerPanel.add(button, c);
 		
 		button = new ButtonCancel(new ClickableActionListener(), med);
@@ -316,7 +314,6 @@ public class ConfigurationDlg extends JDialog {
 		c.gridy = row;
 		c.gridwidth = 1;
 		c.anchor = GridBagConstraints.SOUTHWEST;
-		med.registerCancelButton((ButtonCancel)button);
 		innerPanel.add(button, c);
 		
 		containerPanel.add(innerPanel, BorderLayout.CENTER);

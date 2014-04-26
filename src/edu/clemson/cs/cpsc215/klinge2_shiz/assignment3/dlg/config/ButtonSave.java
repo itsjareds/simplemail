@@ -2,20 +2,18 @@ package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.config;
 
 import javax.swing.JButton;
 
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.Clickable;
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.ClickableActionListener;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.Clickable;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.ClickableActionListener;
 
+@SuppressWarnings("serial")
 public class ButtonSave extends JButton implements Clickable {
-	/**
-	 * Automatically generated serialVersionUID
-	 */
-	private static final long serialVersionUID = 8237427795279327399L;
 	private ConfigMediatorInterface med = null;
 	
-	public ButtonSave(ClickableActionListener cal, ConfigMediatorInterface cmi) {
+	public ButtonSave(ClickableActionListener listener,
+	        ConfigMediatorInterface med) {
 		super("Save");
-		this.med = cmi;
-		this.addActionListener(cal);
+		this.med = med;
+		this.addActionListener(listener);
 		this.med.registerSaveButton(this);
 	}
 

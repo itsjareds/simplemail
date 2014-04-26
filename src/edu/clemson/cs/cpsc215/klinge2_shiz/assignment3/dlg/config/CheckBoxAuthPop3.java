@@ -1,21 +1,16 @@
 package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.config;
 
-import javax.swing.JCheckBox;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.AbstractCheckBox;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.CheckableItemListener;
 
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.Checkable;
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.CheckableItemListener;
-
-public class CheckBoxAuthPop3 extends JCheckBox implements Checkable {
-	/**
-	 * Automatically generated serialVersionUID
-	 */
-	private static final long serialVersionUID = 1455547957956596118L;
-	private ConfigMediatorInterface med = null;
+@SuppressWarnings("serial")
+public class CheckBoxAuthPop3 extends AbstractCheckBox {
+	private ConfigMediatorInterface med;
 	
-	public CheckBoxAuthPop3(CheckableItemListener cil, ConfigMediatorInterface cmi) {
-		super("Authenticate for POP3");
-		this.med = cmi;
-		this.addItemListener(cil);
+	public CheckBoxAuthPop3(CheckableItemListener listener,
+	        ConfigMediatorInterface med) {
+		super("Authenticate for POP3", listener);
+		this.med = med;
 		this.med.registerAuthPop3Checkbox(this);
 	}
 

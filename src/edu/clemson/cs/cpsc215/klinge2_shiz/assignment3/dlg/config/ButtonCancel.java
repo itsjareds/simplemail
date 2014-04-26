@@ -2,20 +2,18 @@ package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.config;
 
 import javax.swing.JButton;
 
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.Clickable;
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.ClickableActionListener;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.Clickable;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.ClickableActionListener;
 
+@SuppressWarnings("serial")
 public class ButtonCancel extends JButton implements Clickable {
-	/**
-	 * Automatically generated serialVersionUID
-	 */
-	private static final long serialVersionUID = -2535112987711806565L;
 	private ConfigMediatorInterface med = null;
 
-	public ButtonCancel(ClickableActionListener cal, ConfigMediatorInterface cmi) {
+	public ButtonCancel(ClickableActionListener listener,
+	        ConfigMediatorInterface med) {
 		super("Cancel");
-		this.med = cmi;
-		this.addActionListener(cal);
+		this.med = med;
+		this.addActionListener(listener);
 		this.med.registerCancelButton(this);
 	}
 	

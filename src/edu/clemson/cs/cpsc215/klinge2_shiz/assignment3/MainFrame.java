@@ -17,7 +17,7 @@ import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.config.ConfigAction;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.ClickableActionListener;
 /**
  * Main window of the simple mail program. User Interface
  * 
@@ -62,25 +62,27 @@ public class MainFrame extends JFrame {
 		frame.setSize(400, 500);
 		frame.setLayout(new BorderLayout());
 		frame.getContentPane().setSize(350, 500);
-		
+
+		MainFrameMediator med = new MainFrameMediator();
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setOpaque(true);
 		menuBar.setBackground(color);
 		
 		JMenu fileMenu = new JMenu("File");
-		JMenuItem exit = new JMenuItem("Exit");
-		exit.addActionListener(new ExitAction());
+		JMenuItem exit = new MenuItemExit(new ClickableActionListener(),
+		        med);
+		med.registerExit((MenuItemExit)exit);
 		fileMenu.add(exit);
 		
 		JMenu configMenu = new JMenu("Configuration");
-		JMenuItem config = new JMenuItem("Configure");
-		config.addActionListener(new ConfigAction(frame));
+		JMenuItem config = new MenuItemConfig(new ClickableActionListener(),
+		        med);
 		configMenu.add(config);
 		
 		JMenu helpMenu = new JMenu("Help");
-		JMenuItem about = new JMenuItem("About");
-		about.addActionListener(new AboutAction());
+		JMenuItem about = new MenuItemAbout(new ClickableActionListener(),
+		        med);
 		helpMenu.add(about);
 
 		menuBar.add(fileMenu);

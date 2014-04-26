@@ -1,4 +1,4 @@
-package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls;
+package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
