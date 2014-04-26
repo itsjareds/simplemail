@@ -17,6 +17,8 @@ import javax.swing.JTextField;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.AuthenticationInfo;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Configuration;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStore;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.CheckableItemListener;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.ClickableActionListener;
 
 public class ConfigurationDlg extends JDialog {
 	/**

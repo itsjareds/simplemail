@@ -2,6 +2,9 @@ package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.configdlg;
 
 import javax.swing.JCheckBox;
 
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.Checkable;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.controls.CheckableItemListener;
+
 public class CheckBoxAuthSmtp extends JCheckBox implements Checkable {
 	/**
 	 * Automatically generated serialVersionUID
