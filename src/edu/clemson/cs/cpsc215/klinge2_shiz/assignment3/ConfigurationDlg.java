@@ -229,10 +229,10 @@ public class ConfigurationDlg extends JDialog {
 		
 		button = new ButtonSave(new ClickableActionListener(), med);
 		c = new GridBagConstraints();
-		c.gridx = 4;
+		c.gridx = 3;
 		c.gridy = 8;
+		c.gridwidth = 1;
 		c.anchor = GridBagConstraints.SOUTHEAST;
-		c.fill = GridBagConstraints.HORIZONTAL;
 		med.registerSaveButton((ButtonSave)button);
 		innerPanel.add(button, c);
 		
@@ -240,8 +240,8 @@ public class ConfigurationDlg extends JDialog {
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 8;
-		c.anchor = GridBagConstraints.SOUTHEAST;
-		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 1;
+		c.anchor = GridBagConstraints.SOUTHWEST;
 		med.registerCancelButton((ButtonCancel)button);
 		innerPanel.add(button, c);
 		

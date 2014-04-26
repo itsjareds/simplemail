@@ -1,0 +1,8 @@
+Simple Mail
+
+Version: 1.0
+
+This program is developed by:
+
+Jared Klingenberger
+Shi Zheng
