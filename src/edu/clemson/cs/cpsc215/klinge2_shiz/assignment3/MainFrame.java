@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
@@ -75,7 +74,7 @@ public class MainFrame extends JFrame{
 		menuBar.add(configMenu);
 		menuBar.add(helpMenu);
 
-		Configuration conf = DataStore.getInstance().loadConfig();
+		DataStore.getInstance().loadConfig();
 		
 		ConfigurationDlg confDlg = new ConfigurationDlg(frame);
 		confDlg.pack();
