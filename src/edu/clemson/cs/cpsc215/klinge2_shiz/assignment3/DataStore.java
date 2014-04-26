@@ -61,22 +61,16 @@ public class DataStore {
 	}
 	
 	private SecretKey getKey(String keyName) throws Exception {
-		SecretKey key = keyring.get(keyName);
+		SecretKey key = null;
 		Object okey = null;
-		
-		if (key == null) {
-			try {
-				okey = readObjectFromFile("data/keyring/" + keyName + ".dat");
-				
-				if (okey != null && okey instanceof SecretKey) {
-					key = (SecretKey) okey;
-					keyring.put(keyName, key);
-				}
-			} catch (Exception e) {
-				System.out.println("Error while trying to obtain key.");
-			}
+		try {
+			okey = readObjectFromFile(keyName);
+
+			if (okey != null && okey instanceof SecretKey)
+				key = (SecretKey) okey;
+		} catch (Exception e) {
+			System.out.println("Error while reading encrypted files.");
 		}
-		
 		return key;
 	}
 	
