@@ -102,7 +102,7 @@ public class DataStore {
 	
 	private SealedObject encryptObject(Serializable obj) throws Exception {
 		SecretKey key = KeyGenerator.getInstance("DES").generateKey();
-		writeObjectToFile("data/privatekey.dat", key);
+		writeObjectToFile("data/keyring/privatekey.dat", key);
 		
 		Cipher cipher = Cipher.getInstance("DES");
 		cipher.init(Cipher.ENCRYPT_MODE, key);
@@ -113,8 +113,7 @@ public class DataStore {
 	// decrypt using a private key
 	public Configuration loadConfig() {
 		try {
-			Object obj = decryptObject("privatekey",
-					"data/systemcfg.dat");
+			Object obj = decryptObject("privatekey", "data/systemcfg.dat");
 			if (obj instanceof Configuration) {
 				conf = (Configuration) obj;
 				System.out.println("Restored configuration: " + conf);
