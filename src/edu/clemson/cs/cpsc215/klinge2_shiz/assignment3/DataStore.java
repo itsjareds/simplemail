@@ -40,9 +40,10 @@ public class DataStore {
 	private void writeObjectToFile(String file, Object o) {
 		File f = new File(file);
 		try {
-			if ((!f.exists() && !f.getParentFile().mkdirs()
-					&& !f.createNewFile()) || !f.isFile()) {
-				System.out.println("Could not access file " + file);
+		    f.getParentFile().mkdirs();
+		    f.createNewFile();
+			if (!f.exists()) {
+				System.out.println("Could not create file " + file);
 			} else {
 				ObjectOutputStream out;
 				out = new ObjectOutputStream(

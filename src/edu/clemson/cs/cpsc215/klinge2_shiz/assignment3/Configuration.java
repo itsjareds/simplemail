@@ -41,7 +41,6 @@ public class Configuration implements Serializable {
 			this.email = new InternetAddress(s);
 		} catch (AddressException e) {
 			// invalid Internet address
-			e.printStackTrace();
 		}
 	}
 	public void setEmail(InternetAddress email) {
@@ -56,10 +55,10 @@ public class Configuration implements Serializable {
 	 */
 	public void setSmtpServer(String host) {
 		try {
-			this.smtpServer = InetAddress.getByName(host);
+		    if (host != null && host.length() > 0)
+		        this.smtpServer = InetAddress.getByName(host);
 		} catch (UnknownHostException e) {
 			// host not resolved
-			e.printStackTrace();
 		}
 	}
 	public void setSmtpServer(InetAddress smtpServer) {
@@ -116,10 +115,10 @@ public class Configuration implements Serializable {
 	 */
 	public void setPopServer(String host) {
 		try {
-			this.popServer = InetAddress.getByName(host);
+		    if (host != null && host.length() > 0)
+		        this.popServer = InetAddress.getByName(host);
 		} catch (UnknownHostException e) {
 			// host not resolved
-			e.printStackTrace();
 		}
 	}
 	public void setPopServer(InetAddress popServer) {
