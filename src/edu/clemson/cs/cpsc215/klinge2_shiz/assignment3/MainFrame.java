@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -43,76 +42,80 @@ public class MainFrame extends JFrame {
 			System.out.println("Unable to modify look and feel.");
 		}
 		
-		Color color = Color.gray;
-		
-		//grab icon image from file
-		File sourceimage = new File("res/email.png");
-		Image image = null;
-		try {
-			image = ImageIO.read(sourceimage);
-		} catch (IOException e) {
-			System.out.println("Invalid image");
-			e.printStackTrace();
-		}
+		DataStore.getInstance().loadConf();
+		DataStore.getInstance().loadContacts();
+//		List<Contact> contacts = DataStore.getInstance().getContacts();
+//		contacts.add(new Contact("Alice", "125 Pine St.",
+//		        "435-385-2348", "allycakes@g.clemson.edu"));
+//		contacts.add(new Contact("Bob", "123 Pine St.",
+//		        "911-455-3483", "bobert@g.clemson.edu"));
 		
 		//set up frame
-		JFrame frame = new JFrame("Email");
-		frame.setIconImage(image);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(400, 500);
-		frame.setLayout(new BorderLayout());
-		frame.getContentPane().setSize(350, 500);
-
-		MainFrameMediator med = new MainFrameMediator();
-		med.registerFrame(frame);
-		
-		JMenuBar menuBar = new JMenuBar();
-		menuBar.setOpaque(true);
-		menuBar.setBackground(color);
-		
-		JMenu fileMenu = new JMenu("File");
-		JMenuItem exit = new MenuItemExit(new ClickableActionListener(),
-		        med);
-		fileMenu.add(exit);
-		
-		JMenu configMenu = new JMenu("Configuration");
-		JMenuItem config = new MenuItemConfig(new ClickableActionListener(),
-		        med);
-		configMenu.add(config);
-		
-		JMenu helpMenu = new JMenu("Help");
-		JMenuItem about = new MenuItemAbout(new ClickableActionListener(),
-		        med);
-		helpMenu.add(about);
-
-		menuBar.add(fileMenu);
-		menuBar.add(configMenu);
-		menuBar.add(helpMenu);
-		
-		DataStore.getInstance().loadConfig();
-		DataStore.getInstance().loadContacts();
-		List<Contact> contacts = DataStore.getInstance().getContacts();
-//		contacts.add(new Contact("Alice", "125 Pine St.",
-//			"435-385-2348", "allycakes@g.clemson.edu"));
-//		contacts.add(new Contact("Bob", "123 Pine St.",
-//			"911-455-3483", "bobert@g.clemson.edu"));
-		
-		JTable table = new JTable(new TableModel()) {
-			private static final long serialVersionUID = -3897893453518570667L;
-
-			public boolean getScrollableTracksViewportWidth(){
-				return getPreferredSize().width < getParent().getWidth();
-			}
-		};
-		frame.getContentPane().add(new JScrollPane(table, 
-													JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-													JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		
-		table.addMouseListener(new DoubleClick());
-		
-		frame.setJMenuBar(menuBar);
-		frame.pack();
+		MainFrame frame = new MainFrame();
+		frame.addComponents();
 		frame.setVisible(true);
+	}
+	
+	public void addComponents() {
+	    Color color = Color.gray;
+
+	    //grab icon image from file
+	    File sourceimage = new File("res/email.png");
+	    Image image = null;
+	    try {
+	        image = ImageIO.read(sourceimage);
+	    } catch (IOException e) {
+	        System.out.println("Invalid image");
+	        e.printStackTrace();
+	    }
+	    
+	    this.setIconImage(image);
+	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    this.setSize(400, 500);
+	    this.setLayout(new BorderLayout());
+	    this.getContentPane().setSize(350, 500);
+
+	    MainFrameMediator med = new MainFrameMediator();
+	    med.registerFrame(this);
+
+	    JMenuBar menuBar = new JMenuBar();
+	    menuBar.setOpaque(true);
+	    menuBar.setBackground(color);
+
+	    JMenu fileMenu = new JMenu("File");
+	    JMenuItem exit = new MenuItemExit(new ClickableActionListener(),
+	            med);
+	    fileMenu.add(exit);
+
+	    JMenu configMenu = new JMenu("Configuration");
+	    JMenuItem config = new MenuItemConfig(new ClickableActionListener(),
+	            med);
+	    configMenu.add(config);
+
+	    JMenu helpMenu = new JMenu("Help");
+	    JMenuItem about = new MenuItemAbout(new ClickableActionListener(),
+	            med);
+	    helpMenu.add(about);
+
+	    menuBar.add(fileMenu);
+	    menuBar.add(configMenu);
+	    menuBar.add(helpMenu);
+
+	    JTable table = new JTable(new TableModel()) {
+	        private static final long serialVersionUID = -3897893453518570667L;
+
+	        public boolean getScrollableTracksViewportWidth(){
+	            return getPreferredSize().width < getParent().getWidth();
+	        }
+	    };
+	    this.getContentPane().add(new JScrollPane(table, 
+	            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+	            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
+	    table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+	    table.addMouseListener(new DoubleClick());
+
+	    this.setJMenuBar(menuBar);
+	    this.pack();
 	}
 }

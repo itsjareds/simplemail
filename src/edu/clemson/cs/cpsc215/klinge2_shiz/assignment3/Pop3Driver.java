@@ -1,6 +1,6 @@
 package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Pop3Driver {
 
@@ -10,8 +10,8 @@ public class Pop3Driver {
     public static void main(String[] args) {
         DataStore storage = DataStore.getInstance();
         
-        Configuration conf = storage.loadConfig();
-        ArrayList<Contact> contacts = storage.loadContacts();
+        Configuration conf = storage.getConf();
+        List<Contact> contacts = storage.getContacts();
         
         if (conf.getEmail() == null)
             conf.setEmail("klinge2@clemson.edu");
@@ -27,7 +27,7 @@ public class Pop3Driver {
         
         handler.readMail();
         
-        storage.storeConfig();
+        storage.storeConf();
         storage.storeContacts();
     }
 

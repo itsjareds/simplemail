@@ -22,12 +22,18 @@ import javax.crypto.SecretKey;
  * @author Jared Klingenberger
  * @since 04-24-2014
  */
-public class DataStore {
-	private static DataStore instance = new DataStore();
+public class DataStore implements DataStoreInterface {
+	private static DataStore instance;
 	private ArrayList<Contact> contacts = new ArrayList<Contact>();
 	private Configuration conf = new Configuration();
 	private HashMap<String, SecretKey> keyring =
 			new HashMap<String, SecretKey>();
+	
+	static {
+	    instance = new DataStore();
+	    instance.loadConf();
+	    instance.loadContacts();
+	}
 	
 	private DataStore() {
 		// disable the default public constructor
@@ -131,7 +137,8 @@ public class DataStore {
 	}
 	
 	// decrypt using a private key
-	public Configuration loadConfig() {
+	@Override
+    public void loadConf() {
 		try {
 			Object obj = decryptObject("confkey", "data/systemcfg.dat");
 			if (obj instanceof Configuration) {
@@ -141,11 +148,10 @@ public class DataStore {
 		} catch (Exception e) {
 			System.out.println("Error decrypting config file.");
 		}
-		
-		return conf;
 	}
 	
-	public ArrayList<Contact> loadContacts() {
+	@Override
+    public void loadContacts() {
 		File[] fileList = new File("data/contacts/").listFiles();
 		
 		if (fileList != null) {
@@ -162,12 +168,11 @@ public class DataStore {
 				}
 			}
 		}
-		
-		return contacts;
 	}
 	
 	// encrypted because config contains sensitive data (passwords)
-	public void storeConfig() {
+	@Override
+    public void storeConf() {
 		try {
 			SealedObject sealedObject = encryptObject(conf, "confkey");
 			writeObjectToFile("data/systemcfg.dat", sealedObject);
@@ -177,7 +182,11 @@ public class DataStore {
 		}
 	}
 	
-	public void storeContacts() {
+	/* (non-Javadoc)
+     * @see edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStoreInterface#storeContacts()
+     */
+	@Override
+    public void storeContacts() {
 	    // clear directory
 	    File dir = new File("data/contacts");
 	    if (dir.exists() && dir.isDirectory()) {

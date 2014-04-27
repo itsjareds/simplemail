@@ -10,7 +10,7 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     
     @Override
     public void exit() {
-        DataStore.getInstance().storeConfig();
+        DataStore.getInstance().storeConf();
         DataStore.getInstance().storeContacts();
         System.exit(0);
     }

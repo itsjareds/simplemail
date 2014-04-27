@@ -101,7 +101,7 @@ public class ConfigMediator implements ConfigMediatorInterface {
 					txtSmtpPass.getText(), txtSmtpPort.getText()));
 		}
 		
-		storage.storeConfig();
+		storage.storeConf();
 		confDlg.setVisible(false);
 	}
 

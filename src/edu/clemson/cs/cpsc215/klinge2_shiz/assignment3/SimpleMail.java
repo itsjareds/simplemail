@@ -10,8 +10,8 @@ public class SimpleMail {
 	public static void main(String[] args) {
 		DataStore storage = DataStore.getInstance();
 		
-		Configuration conf = storage.loadConfig();
-		ArrayList<Contact> contacts = storage.loadContacts();
+		Configuration conf = storage.getConf();
+		ArrayList<Contact> contacts = storage.getContacts();
 		
 		if (conf.getEmail() == null)
 			conf.setEmail("klinge2@clemson.edu");
@@ -30,9 +30,9 @@ public class SimpleMail {
 		Email email = new Email(null, null, contacts,
 				 "simplemail message", "you have received a simplemail!");
 		
-		//handler.sendMail(email);
+		handler.sendMail(email);
 		
-		storage.storeConfig();
+		storage.storeConf();
 		storage.storeContacts();
 	}
 
