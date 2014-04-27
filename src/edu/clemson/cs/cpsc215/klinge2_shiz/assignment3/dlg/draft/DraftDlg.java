@@ -10,6 +10,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -47,6 +48,7 @@ public class DraftDlg extends AbstractDlg {
         JLabel label;
         JTextField txt;
         JTextArea txtArea;
+        JScrollPane scrollPane;
         JButton button;
         
         int row = 0, col = 0;
@@ -165,17 +167,18 @@ public class DraftDlg extends AbstractDlg {
         med.registerSubjectField(txt);
         innerPanel.add(txt, c);
         
-        txtArea = new JTextArea();
+        txtArea = new JTextArea(8, 40);
         txtArea.setText(draft.getMessage());
-        txtArea.setColumns(40);
-        txtArea.setRows(8);
+        txtArea.setLineWrap(true);
+        txtArea.setWrapStyleWord(true);
         c = new GridBagConstraints();
         c.gridx = 0;
         c.gridy = row++;
         c.gridwidth = 3;
         c.fill = GridBagConstraints.BOTH;
         med.registerBodyField(txtArea);
-        innerPanel.add(txtArea, c);
+        scrollPane = new JScrollPane(txtArea);
+        innerPanel.add(scrollPane, c);
         
         // Buttons
         
