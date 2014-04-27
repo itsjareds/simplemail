@@ -70,9 +70,8 @@ public class MainFrame extends JFrame {
 		menuBar.setBackground(color);
 		
 		JMenu fileMenu = new JMenu("File");
-		JMenuItem exit = new MenuItemExit(new ClickableActionListener(),
+		JMenuItem exit = new MenuItemConfig(new ClickableActionListener(),
 		        med);
-		med.registerExit((MenuItemExit)exit);
 		fileMenu.add(exit);
 		
 		JMenu configMenu = new JMenu("Configuration");
