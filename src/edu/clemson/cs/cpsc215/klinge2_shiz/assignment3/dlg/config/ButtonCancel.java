@@ -1,19 +1,16 @@
 package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.config;
 
-import javax.swing.JButton;
-
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.Clickable;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.AbstractButton;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.ClickableActionListener;
 
 @SuppressWarnings("serial")
-public class ButtonCancel extends JButton implements Clickable {
+public class ButtonCancel extends AbstractButton {
 	private ConfigMediatorInterface med = null;
 
 	public ButtonCancel(ClickableActionListener listener,
 	        ConfigMediatorInterface med) {
-		super("Cancel");
+		super("Cancel", listener);
 		this.med = med;
-		this.addActionListener(listener);
 		this.med.registerCancelButton(this);
 	}
 	

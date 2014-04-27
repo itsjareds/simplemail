@@ -64,13 +64,14 @@ public class MainFrame extends JFrame {
 		frame.getContentPane().setSize(350, 500);
 
 		MainFrameMediator med = new MainFrameMediator();
+		med.registerFrame(frame);
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setOpaque(true);
 		menuBar.setBackground(color);
 		
 		JMenu fileMenu = new JMenu("File");
-		JMenuItem exit = new MenuItemConfig(new ClickableActionListener(),
+		JMenuItem exit = new MenuItemExit(new ClickableActionListener(),
 		        med);
 		fileMenu.add(exit);
 		

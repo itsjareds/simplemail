@@ -300,7 +300,7 @@ public class ConfigurationDlg extends AbstractDlg {
 		
 		// Save and Cancel buttons
 		
-		button = new ButtonSave(new ClickableActionListener(), med);
+		button = new ButtonCancel(new ClickableActionListener(), med);
 		c = new GridBagConstraints();
 		c.gridx = maxColWidth - 1;
 		c.gridy = row;
