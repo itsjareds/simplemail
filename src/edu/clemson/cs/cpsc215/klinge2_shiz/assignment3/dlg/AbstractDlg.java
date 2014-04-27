@@ -12,12 +12,10 @@ public abstract class AbstractDlg extends JDialog {
 
     public AbstractDlg(Frame owner) {
         super(owner, "Untitled Dialog", true);
-        addComponents();
     }
     
     public AbstractDlg(Frame owner, String title) {
         super(owner, title, true);
-        addComponents();
     }
     
     protected abstract void addComponents();

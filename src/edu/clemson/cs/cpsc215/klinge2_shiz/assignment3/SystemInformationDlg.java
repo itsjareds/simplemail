@@ -23,12 +23,12 @@ import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.AbstractDlg;
  * @author shiz
  * @since 4/24/14
  */
+@SuppressWarnings("serial")
 public class SystemInformationDlg extends AbstractDlg implements ActionListener {
-	
-	private static final long serialVersionUID = -2344693703681850081L;
 
 	public SystemInformationDlg(Frame owner) {
 	    super(owner, "About");
+	    addComponents();
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class SystemInformationDlg extends AbstractDlg implements ActionListener 
             line += "<BR>";
         }
         line.endsWith("<HTML>");
-        
+
         //grab icon image
         File sourceImage = new File("res/about_icon.png");
         Image image = null;
@@ -70,16 +70,20 @@ public class SystemInformationDlg extends AbstractDlg implements ActionListener 
         setIconImage(image);
         setSize(200,300);
         setAlwaysOnTop(true);
+        
         JPanel messagePane = new JPanel();
         messagePane.add(new JLabel(line));
+        
         JPanel buttonPane = new JPanel();
         JButton button = new JButton("OK");
-        buttonPane.add(button);
         button.addActionListener(this);
-        getContentPane().add(messagePane);
-        getContentPane().add(buttonPane, BorderLayout.SOUTH);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        pack();
+        buttonPane.add(button);
+        
+        this.getContentPane().add(messagePane);
+        this.getContentPane().add(buttonPane, BorderLayout.SOUTH);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.pack();
+        this.setLocationByPlatform(true);
     }
 
 }

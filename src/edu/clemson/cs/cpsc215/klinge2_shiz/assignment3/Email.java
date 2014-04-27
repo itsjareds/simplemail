@@ -19,6 +19,8 @@ public class Email {
 	private String subject = "";
 	private String message = "";
 	
+	public Email() { }
+	
 	/**
 	 * Email(String to, String cc, String bcc, String subj, String msg) is a
 	 * constructor for Email which takes all String parameters.

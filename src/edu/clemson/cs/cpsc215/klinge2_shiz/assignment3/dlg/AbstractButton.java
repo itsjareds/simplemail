@@ -5,9 +5,9 @@ import javax.swing.JButton;
 @SuppressWarnings("serial")
 public abstract class AbstractButton extends JButton implements Clickable {
 
-    public AbstractButton(String label, ClickableActionListener listener) {
+    public AbstractButton(String label) {
         super(label);
-        this.addActionListener(listener);
+        this.addActionListener(new ClickableActionListener());
     }
 
 }

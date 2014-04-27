@@ -12,11 +12,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.ClickableActionListener;
 /**
  * Main window of the simple mail program. User Interface
  * 
@@ -24,9 +22,8 @@ import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.ClickableActionListen
  * @author klinge2
  * @since 4/25/14
  */
+@SuppressWarnings("serial")
 public class MainFrame extends JFrame {
-
-	private static final long serialVersionUID = -6203227608826654258L;
 
 	public static void main(String [] args) {
 		try {
@@ -67,6 +64,7 @@ public class MainFrame extends JFrame {
 	        e.printStackTrace();
 	    }
 	    
+	    this.setTitle("SimpleMail");
 	    this.setIconImage(image);
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    this.setSize(400, 500);
@@ -81,39 +79,28 @@ public class MainFrame extends JFrame {
 	    menuBar.setBackground(color);
 
 	    JMenu fileMenu = new JMenu("File");
-	    JMenuItem exit = new MenuItemExit(new ClickableActionListener(),
-	            med);
+	    JMenuItem exit = new MenuItemExit(med);
 	    fileMenu.add(exit);
 
 	    JMenu configMenu = new JMenu("Configuration");
-	    JMenuItem config = new MenuItemConfig(new ClickableActionListener(),
-	            med);
+	    JMenuItem config = new MenuItemConfig(med);
 	    configMenu.add(config);
 
 	    JMenu helpMenu = new JMenu("Help");
-	    JMenuItem about = new MenuItemAbout(new ClickableActionListener(),
-	            med);
+	    JMenuItem about = new MenuItemAbout(med);
 	    helpMenu.add(about);
 
 	    menuBar.add(fileMenu);
 	    menuBar.add(configMenu);
 	    menuBar.add(helpMenu);
 
-	    JTable table = new JTable(new TableModel()) {
-	        private static final long serialVersionUID = -3897893453518570667L;
-
-	        public boolean getScrollableTracksViewportWidth(){
-	            return getPreferredSize().width < getParent().getWidth();
-	        }
-	    };
+        ContactTable table = new ContactTable(new TableModel(), med);
 	    this.getContentPane().add(new JScrollPane(table, 
 	            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 	            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
-	    table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
-	    table.addMouseListener(new DoubleClick());
 
 	    this.setJMenuBar(menuBar);
 	    this.pack();
+	    this.setLocationByPlatform(true);
 	}
 }

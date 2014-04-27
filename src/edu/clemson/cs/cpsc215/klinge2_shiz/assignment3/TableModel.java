@@ -4,10 +4,9 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
+@SuppressWarnings("serial")
 public class TableModel extends AbstractTableModel {
 	
-	private static final long serialVersionUID = 4069322705542354160L;
-
 	private String[] columnNames = {"Name",
 							"Email",
 							"Phone",
@@ -28,24 +27,37 @@ public class TableModel extends AbstractTableModel {
 	public int getRowCount() {
 		return data.size();
 	}
+	
+	public Contact getRow(int index) {
+	    Contact c = null;
+	    if (index >= 0 && index < data.size())
+	        c = data.get(index);
+	    return c;
+	}
 
 	@Override
 	public Object getValueAt(int row, int column) {
-		switch (column) {
-		
-		 case 0:
-			 return data.get(row).getName();
-		 case 1:
-			 return data.get(row).getEmail();
-		 case 2:
-			 return data.get(row).getPhone();
-		 case 3:
-			 return data.get(row).getAddress();
-			 
-		 default:
-			 return null;
-		
-		}
+	    Object value = null;
+	    Contact contact = getRow(row);
+	    
+	    if (contact != null) {
+	        switch (column) {
+	        case 0:
+	            value = contact.getName();
+	            break;
+	        case 1:
+	            value = contact.getEmail();
+	            break;
+	        case 2:
+	            value = contact.getPhone();
+	            break;
+	        case 3:
+	            value = contact.getAddress();
+	            break;
+	        }
+	    }
+	    
+	    return value;
 	}
 
 }

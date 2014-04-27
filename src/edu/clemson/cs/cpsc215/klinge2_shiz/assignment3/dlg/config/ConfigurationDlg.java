@@ -17,13 +17,12 @@ import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.AuthenticationInfo;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Configuration;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStore;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.AbstractDlg;
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.CheckableItemListener;
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.ClickableActionListener;
 
 @SuppressWarnings("serial")
 public class ConfigurationDlg extends AbstractDlg {
 	public ConfigurationDlg(Frame owner) {
         super(owner, "Preferences");
+        addComponents();
     }
 
 	protected void addComponents() {
@@ -36,7 +35,7 @@ public class ConfigurationDlg extends AbstractDlg {
 		
 		GridBagConstraints c;
 		
-		ConfigMediatorInterface med = new ConfigMediator(this);
+		ConfigMediator med = new ConfigMediator(this);
 		Configuration conf = DataStore.getInstance().getConf();
 		JLabel label;
 		JCheckBox checkBox;
@@ -141,9 +140,10 @@ public class ConfigurationDlg extends AbstractDlg {
 		col++;
 		row = 0;
 		
+		// User info textfields
+		
 		txt = new JTextField();
-		if (conf.getName() != null)
-			txt.setText(conf.getName());
+		txt.setText(conf.getName());
 		c = new GridBagConstraints();
 		c.gridx = col;
 		c.gridy = row++;
@@ -152,7 +152,6 @@ public class ConfigurationDlg extends AbstractDlg {
 		med.registerNameLabel(txt);
 		innerPanel.add(txt, c);
 		
-		// User info textfields
 		txt = new JTextField();
 		if (conf.getEmail() != null)
 			txt.setText(conf.getEmail().getAddress());
@@ -190,7 +189,7 @@ public class ConfigurationDlg extends AbstractDlg {
 		
 		auth = conf.getAuthPop3();
 		
-		checkBox = new CheckBoxAuthPop3(new CheckableItemListener(), med);
+		checkBox = new CheckBoxAuthPop3(med);
 		checkBox.setSelected(conf.isSslUsedPop3());
 		c = new GridBagConstraints();
 		c.gridx = col;
@@ -245,7 +244,7 @@ public class ConfigurationDlg extends AbstractDlg {
 		
 		auth = conf.getAuthSmtp();
 		
-		checkBox = new CheckBoxAuthSmtp(new CheckableItemListener(), med);
+		checkBox = new CheckBoxAuthSmtp(med);
 		checkBox.setSelected(conf.isSslUsedSmtp());
 		c = new GridBagConstraints();
 		c.gridx = col;
@@ -296,7 +295,7 @@ public class ConfigurationDlg extends AbstractDlg {
 		
 		// Save and Cancel buttons
 		
-		button = new ButtonSave(new ClickableActionListener(), med);
+		button = new ButtonSave(med);
 		c = new GridBagConstraints();
 		c.gridx = maxColWidth - 1;
 		c.gridy = row;
@@ -304,7 +303,7 @@ public class ConfigurationDlg extends AbstractDlg {
 		c.anchor = GridBagConstraints.SOUTHEAST;
 		innerPanel.add(button, c);
 		
-		button = new ButtonCancel(new ClickableActionListener(), med);
+		button = new ButtonCancel(med);
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = row;
@@ -315,5 +314,6 @@ public class ConfigurationDlg extends AbstractDlg {
 		containerPanel.add(innerPanel, BorderLayout.CENTER);
 		this.getContentPane().add(containerPanel, BorderLayout.CENTER);
 		this.pack();
+		this.setLocationByPlatform(true);
 	}
 }

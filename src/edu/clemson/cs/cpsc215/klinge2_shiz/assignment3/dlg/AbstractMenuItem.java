@@ -5,9 +5,9 @@ import javax.swing.JMenuItem;
 @SuppressWarnings("serial")
 public abstract class AbstractMenuItem extends JMenuItem implements Clickable {
 
-    public AbstractMenuItem(String label, ClickableActionListener listener) {
+    public AbstractMenuItem(String label) {
         super(label);
-        this.addActionListener(listener);
+        this.addActionListener(new ClickableActionListener());
     }
 
 }
