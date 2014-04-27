@@ -42,8 +42,6 @@ public class MainFrame extends JFrame {
 			System.out.println("Unable to modify look and feel.");
 		}
 		
-		DataStore.getInstance().loadConf();
-		DataStore.getInstance().loadContacts();
 //		List<Contact> contacts = DataStore.getInstance().getContacts();
 //		contacts.add(new Contact("Alice", "125 Pine St.",
 //		        "435-385-2348", "allycakes@g.clemson.edu"));

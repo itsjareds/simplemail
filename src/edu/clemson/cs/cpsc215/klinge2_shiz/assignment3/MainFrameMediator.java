@@ -10,8 +10,18 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     
     @Override
     public void exit() {
-        DataStore.getInstance().storeConf();
-        DataStore.getInstance().storeContacts();
+        try {
+            DataStore.getInstance().storeConf();
+        } catch (Exception e) {
+            System.out.println("Error while saving config file.");
+            e.printStackTrace();
+        }
+        try {
+            DataStore.getInstance().storeContacts();
+        } catch (Exception e) {
+            System.out.println("Error while saving contacts.");
+            e.printStackTrace();
+        }
         System.exit(0);
     }
 

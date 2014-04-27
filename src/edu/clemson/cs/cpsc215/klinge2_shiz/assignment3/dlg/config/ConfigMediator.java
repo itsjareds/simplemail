@@ -101,7 +101,12 @@ public class ConfigMediator implements ConfigMediatorInterface {
 					txtSmtpPass.getText(), txtSmtpPort.getText()));
 		}
 		
-		storage.storeConf();
+		try {
+		    storage.storeConf();
+		} catch (Exception e) {
+		    System.out.println("Error while saving config file.");
+		    e.printStackTrace();
+		}
 		confDlg.setVisible(false);
 	}
 

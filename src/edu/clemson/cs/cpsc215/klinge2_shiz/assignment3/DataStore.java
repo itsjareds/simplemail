@@ -7,11 +7,16 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SealedObject;
 import javax.crypto.SecretKey;
 
@@ -31,8 +36,16 @@ public class DataStore implements DataStoreInterface {
 	
 	static {
 	    instance = new DataStore();
-	    instance.loadConf();
-	    instance.loadContacts();
+	    try {
+            instance.loadConf();
+        } catch (Exception e) {
+            System.out.println("Could not load config file.");
+        }
+	    try {
+            instance.loadContacts();
+        } catch (Exception e) {
+            System.out.println("Could not load contacts.");
+        }
 	}
 	
 	private DataStore() {
@@ -43,28 +56,23 @@ public class DataStore implements DataStoreInterface {
 		return instance;
 	}
 	
-	private void writeObjectToFile(String file, Object o) {
+	private void writeObjectToFile(String file, Object o) throws IOException {
 		File f = new File(file);
-		try {
-		    f.getParentFile().mkdirs();
-		    f.createNewFile();
-			if (!f.exists()) {
-				System.out.println("Could not create file " + file);
-			} else {
-				ObjectOutputStream out;
-				out = new ObjectOutputStream(
-						new FileOutputStream(f));
-				out.writeObject(o);
-				out.close();
-			}
-		} catch (SecurityException e) {
-			System.out.println("Permission denied.");
-		} catch (IOException e) {
-			System.out.println("Could not write object file " + file);
+		f.getParentFile().mkdirs();
+		f.createNewFile();
+		if (!f.exists()) {
+		    System.out.println("Could not create file " + file);
+		} else {
+		    ObjectOutputStream out;
+		    out = new ObjectOutputStream(
+		            new FileOutputStream(f));
+		    out.writeObject(o);
+		    out.close();
 		}
 	}
 	
-	private Object readObjectFromFile(String file) throws Exception {
+	private Object readObjectFromFile(String file) throws IOException,
+	        ClassNotFoundException {
 		Object o = null;
 		File f = new File(file);
 		if (f.exists()) {
@@ -76,95 +84,100 @@ public class DataStore implements DataStoreInterface {
 		return o;
 	}
 	
-	private SecretKey getKey(String keyName) {
+	private SecretKey getKey(String keyName) throws IOException, 
+	        ClassNotFoundException {
 		SecretKey key = null;
 		Object okey = null;
-		try {
-			okey = readObjectFromFile("data/keyring/" + keyName + ".dat");
+		okey = readObjectFromFile("data/keyring/" + keyName + ".dat");
 
-			if (okey != null && okey instanceof SecretKey) {
-				key = (SecretKey) okey;
-				keyring.put(keyName, key);
-			}
-		} catch (Exception e) {
-			System.out.println("Error obtaining key.");
+		if (okey != null && okey instanceof SecretKey) {
+			key = (SecretKey) okey;
+			keyring.put(keyName, key);
 		}
 		return key;
 	}
 	
-	private Object decryptObject(String keyName, String fileName) {
-		Object obj = null, decryptedObject = null;
-		SecretKey key = getKey(keyName);
-		try {
-			obj = readObjectFromFile(fileName);
-		} catch (Exception e) {
-			System.out.println("Error reading encrypted file " + fileName);
-		}
-		
-		if (obj != null && key != null && obj instanceof SealedObject) {
-			SealedObject sealedObject = (SealedObject) obj;
-			
-			try {
-				Cipher cipher = Cipher.getInstance(key.getAlgorithm());
-				cipher.init(Cipher.DECRYPT_MODE, key);
-				
-				decryptedObject = sealedObject.getObject(cipher);
-			} catch (Exception e) {
-				System.out.println("Error while decrypting file " + fileName);
-			}
-		}
+	private Object decryptObject(String keyName, String fileName)
+	        throws IOException, ClassNotFoundException, CryptographyException {
+	    
+	    Object obj = null, decryptedObject = null;
+	    
+	    try {
+    		SecretKey key = getKey(keyName);
+    		obj = readObjectFromFile(fileName);
+    		
+    		if (obj != null && key != null && obj instanceof SealedObject) {
+    			SealedObject sealedObject = (SealedObject) obj;
+    			
+    			Cipher cipher = Cipher.getInstance(key.getAlgorithm());
+    			cipher.init(Cipher.DECRYPT_MODE, key);
+    			
+    			decryptedObject = sealedObject.getObject(cipher);
+    		}
+	    } catch (NoSuchPaddingException e) {
+	        throw new CryptographyException(e);
+	    } catch (BadPaddingException e) {
+	        throw new CryptographyException(e);
+	    } catch (NoSuchAlgorithmException e) {
+	        throw new CryptographyException(e);
+	    } catch (InvalidKeyException e) {
+	        throw new CryptographyException(e);
+	    } catch (IllegalBlockSizeException e) {
+	        throw new CryptographyException(e);
+	    }
+	    
 		return decryptedObject;
 	}
 	
 	private SealedObject encryptObject(Serializable obj, String keyName)
-			throws Exception {
-		SecretKey key = KeyGenerator.getInstance("DES").generateKey();
-		SealedObject sealedObject = null;
-		
-		try {
-			writeObjectToFile("data/keyring/" + keyName + ".dat", key);
-			
-			Cipher cipher = Cipher.getInstance("DES");
-			cipher.init(Cipher.ENCRYPT_MODE, key);
-			
-			sealedObject = new SealedObject(obj, cipher);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+	        throws IOException, CryptographyException {
+	    SealedObject sealedObject = null;
+	    
+	    try {
+    		SecretKey key = KeyGenerator.getInstance("DES").generateKey();
+    		sealedObject = null;
+    		
+    		writeObjectToFile("data/keyring/" + keyName + ".dat", key);
+    		
+    		Cipher cipher = Cipher.getInstance("DES");
+    		cipher.init(Cipher.ENCRYPT_MODE, key);
+    		
+    		sealedObject = new SealedObject(obj, cipher);
+	    } catch (NoSuchPaddingException e) {
+	        throw new CryptographyException(e);
+	    } catch (NoSuchAlgorithmException e) {
+	        throw new CryptographyException(e);
+	    } catch (InvalidKeyException e) {
+	        throw new CryptographyException(e);
+	    } catch (IllegalBlockSizeException e) {
+	        throw new CryptographyException(e);
+	    }
 
 		return sealedObject;
 	}
 	
 	// decrypt using a private key
 	@Override
-    public void loadConf() {
-		try {
-			Object obj = decryptObject("confkey", "data/systemcfg.dat");
-			if (obj instanceof Configuration) {
-				conf = (Configuration) obj;
-				System.out.println("Restored configuration: " + conf);
-			}
-		} catch (Exception e) {
-			System.out.println("Error decrypting config file.");
+    public void loadConf() throws ClassNotFoundException, IOException,
+            CryptographyException {
+		Object obj = decryptObject("confkey", "data/systemcfg.dat");
+		if (obj instanceof Configuration) {
+			conf = (Configuration) obj;
+			System.out.println("Restored configuration: " + conf);
 		}
 	}
 	
 	@Override
-    public void loadContacts() {
+    public void loadContacts() throws ClassNotFoundException, IOException {
 		File[] fileList = new File("data/contacts/").listFiles();
 		
 		if (fileList != null) {
 			for (File f : fileList) {
-				try {
-					Object o = readObjectFromFile(f.getPath());
-					if (o instanceof Contact) {
-						Contact c = (Contact) o;
-						contacts.add(c);
-						System.out.println("Restored contact: " + c.getName());
-					}
-				} catch (Exception e) {
-					System.out.println("Error reading contact from disk.");
+				Object o = readObjectFromFile(f.getPath());
+				if (o instanceof Contact) {
+					Contact c = (Contact) o;
+					contacts.add(c);
+					System.out.println("Restored contact: " + c.getName());
 				}
 			}
 		}
@@ -172,21 +185,15 @@ public class DataStore implements DataStoreInterface {
 	
 	// encrypted because config contains sensitive data (passwords)
 	@Override
-    public void storeConf() {
-		try {
-			SealedObject sealedObject = encryptObject(conf, "confkey");
-			writeObjectToFile("data/systemcfg.dat", sealedObject);
-			System.out.println("New config file writen.");
-		} catch (Exception e) {
-			System.out.println("Could not write new config file.");
-		}
+    public void storeConf() throws IOException, CryptographyException {
+	    SealedObject sealedObject = encryptObject(conf, "confkey");
+	    writeObjectToFile("data/systemcfg.dat", sealedObject);
+	    System.out.println("New config file writen.");
+	    System.out.println("Could not write new config file.");
 	}
 	
-	/* (non-Javadoc)
-     * @see edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStoreInterface#storeContacts()
-     */
 	@Override
-    public void storeContacts() {
+    public void storeContacts() throws IOException {
 	    // clear directory
 	    File dir = new File("data/contacts");
 	    if (dir.exists() && dir.isDirectory()) {
@@ -199,13 +206,9 @@ public class DataStore implements DataStoreInterface {
 	    
 		int count = 0;
 		for (Contact c : contacts) {
-			try {
-				String email = c.getEmail().replace("@", ".at.");
-				writeObjectToFile("data/contacts/" + email + ".ser", c);
-				count++;
-			} catch (Exception e) {
-				System.out.println("Could not serialize contact.");
-			}
+		    String email = c.getEmail().replace("@", ".at.");
+		    writeObjectToFile("data/contacts/" + email + ".ser", c);
+		    count++;
 		}
 		if (contacts.size() > 0) {
 			System.out.println("Successfully serialized " + count + "/"

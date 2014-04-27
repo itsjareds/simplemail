@@ -32,8 +32,18 @@ public class SimpleMail {
 		
 		handler.sendMail(email);
 		
-		storage.storeConf();
-		storage.storeContacts();
+		try {
+    		storage.storeConf();
+		} catch (Exception e) {
+		    System.out.println("Error while saving config file.");
+		    e.printStackTrace();
+		}
+		try {
+    		storage.storeContacts();
+		} catch (Exception e) {
+		    System.out.println("Error while saving contacts.");
+		    e.printStackTrace();
+		}
 	}
 
 }
