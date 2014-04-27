@@ -20,16 +20,12 @@ import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.AbstractDlg;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.CheckableItemListener;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.ClickableActionListener;
 
+@SuppressWarnings("serial")
 public class ConfigurationDlg extends AbstractDlg {
 	public ConfigurationDlg(Frame owner) {
         super(owner, "Preferences");
     }
 
-    /**
-	 * Automatically generated serialVersionUID
-	 */
-	private static final long serialVersionUID = -1760183194108670101L;
-	
 	protected void addComponents() {
 		JPanel containerPanel = new JPanel();
 		containerPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -300,7 +296,7 @@ public class ConfigurationDlg extends AbstractDlg {
 		
 		// Save and Cancel buttons
 		
-		button = new ButtonCancel(new ClickableActionListener(), med);
+		button = new ButtonSave(new ClickableActionListener(), med);
 		c = new GridBagConstraints();
 		c.gridx = maxColWidth - 1;
 		c.gridy = row;

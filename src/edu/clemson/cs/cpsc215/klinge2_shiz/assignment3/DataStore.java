@@ -40,11 +40,13 @@ public class DataStore implements DataStoreInterface {
             instance.loadConf();
         } catch (Exception e) {
             System.out.println("Could not load config file.");
+            e.printStackTrace();
         }
 	    try {
             instance.loadContacts();
         } catch (Exception e) {
             System.out.println("Could not load contacts.");
+            e.printStackTrace();
         }
 	}
 	
@@ -188,8 +190,7 @@ public class DataStore implements DataStoreInterface {
     public void storeConf() throws IOException, CryptographyException {
 	    SealedObject sealedObject = encryptObject(conf, "confkey");
 	    writeObjectToFile("data/systemcfg.dat", sealedObject);
-	    System.out.println("New config file writen.");
-	    System.out.println("Could not write new config file.");
+	    System.out.println("New config file written.");
 	}
 	
 	@Override
