@@ -88,7 +88,6 @@ public class Email {
 				inetList.add(i);
 			} catch (AddressException e) {
 				// invalid syntax for the address
-				e.printStackTrace();
 			}
 		}
 		
@@ -107,14 +106,16 @@ public class Email {
 	public static InternetAddress[] parseAddressList(List<Contact> contacts) {
 		ArrayList<InternetAddress> inetList = new ArrayList<InternetAddress>();
 		
-		for (Contact c : contacts) {
-			try {
-				InternetAddress i = new InternetAddress(c.getEmail());
-				inetList.add(i);
-			} catch (AddressException e) {
-				// invalid syntax for the address
-				e.printStackTrace();
-			}
+		if (contacts != null) {
+    		for (Contact c : contacts) {
+    			try {
+    				InternetAddress i = new InternetAddress(c.getEmail());
+    				inetList.add(i);
+    			} catch (AddressException e) {
+    				// invalid syntax for the address
+    				e.printStackTrace();
+    			}
+    		}
 		}
 		
 		return inetList.toArray(new InternetAddress[inetList.size()]);
