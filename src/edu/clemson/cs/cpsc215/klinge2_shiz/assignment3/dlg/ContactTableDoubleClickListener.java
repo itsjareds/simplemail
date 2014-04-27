@@ -3,7 +3,7 @@ package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.ContactTable;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.mainframe.ContactTable;
 
 public class ContactTableDoubleClickListener extends MouseAdapter {
 

@@ -1,19 +1,19 @@
-package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3;
+package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.mainframe;
 
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.AbstractMenuItem;
 
 @SuppressWarnings("serial")
-public class MenuItemExit extends AbstractMenuItem {
+public class MenuItemConfig extends AbstractMenuItem {
     MainFrameMediator med = null;
     
-    public MenuItemExit(MainFrameMediator med) {
-        super("Exit");
+    public MenuItemConfig(MainFrameMediator med) {
+        super("Configure");
         this.med = med;
     }
     
     @Override
     public void triggerEvent() {
-        med.exit();
+        med.config();
     }
 
 }

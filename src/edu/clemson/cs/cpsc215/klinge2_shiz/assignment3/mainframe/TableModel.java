@@ -1,8 +1,11 @@
-package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3;
+package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.mainframe;
 
 import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
+
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Contact;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStore;
 
 @SuppressWarnings("serial")
 public class TableModel extends AbstractTableModel {

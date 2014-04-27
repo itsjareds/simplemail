@@ -1,10 +1,11 @@
-package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3;
+package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.mainframe;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -14,6 +15,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Contact;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStore;
 
 /**
  * Main window of the simple mail program. User Interface
@@ -39,11 +43,13 @@ public class MainFrame extends JFrame {
 			System.out.println("Unable to modify look and feel.");
 		}
 		
-//		List<Contact> contacts = DataStore.getInstance().getContacts();
-//		contacts.add(new Contact("Alice", "125 Pine St.",
-//		        "435-385-2348", "allycakes@g.clemson.edu"));
-//		contacts.add(new Contact("Bob", "123 Pine St.",
-//		        "911-455-3483", "bobert@g.clemson.edu"));
+		List<Contact> contacts = DataStore.getInstance().getContacts();
+		if (contacts.size() == 0) {
+		    contacts.add(new Contact("Alice", "125 Pine St.",
+		            "435-385-2348", "allycakes@g.clemson.edu"));
+		    contacts.add(new Contact("Bob", "123 Pine St.",
+		            "911-455-3483", "bobert@g.clemson.edu"));
+		}
 		
 		//set up frame
 		MainFrame frame = new MainFrame();

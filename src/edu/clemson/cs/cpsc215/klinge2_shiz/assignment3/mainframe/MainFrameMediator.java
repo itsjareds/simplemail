@@ -1,7 +1,11 @@
-package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3;
+package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.mainframe;
 
 import java.awt.Frame;
 
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Contact;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStore;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Email;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.SystemInformationDlg;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.AbstractDlg;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.config.ConfigurationDlg;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.draft.DraftDlg;
