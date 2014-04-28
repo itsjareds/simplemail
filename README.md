@@ -44,6 +44,10 @@ Development on SimpleMail is leading towards a POP inbox which can read email fr
 
 The current drafting functionality is very basic. Possible future work in this area would include automatic draft saving when an `EmailTransmissionDlg` closes, and draft deletion upon successful send.
 
+### Table sorting
+
+If more time were allowed, we would have made it possible to sort the Contacts table and Drafts table by clicking on the column headers. Currently, the tables are sorted chronologically, and are in a randomly sorted state when the tables are reloaded on program startup. The random state is due to how the tables are saved in the filesystem when serialized: the filename for each `Contact` or `Draft` is equal to its `Object.hashCode()`.
+
 ## Who did what?
 
 ### Shi Zheng
