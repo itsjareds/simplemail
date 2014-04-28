@@ -31,24 +31,24 @@ public class MainFrame extends JFrame {
 
 	public static void main(String [] args) {
 		try {
-//			UIManager.setLookAndFeel(
-//					UIManager.getSystemLookAndFeelClassName());
-			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-				if ("Nimbus".equals(info.getName())) {
-					UIManager.setLookAndFeel(info.getClassName());
-					break;
-				}
-			}
+			UIManager.setLookAndFeel(
+					UIManager.getSystemLookAndFeelClassName());
+//			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+//				if ("Nimbus".equals(info.getName())) {
+//					UIManager.setLookAndFeel(info.getClassName());
+//					break;
+//				}
+//			}
 		} catch (Exception e) {
 			System.out.println("Unable to modify look and feel.");
 		}
 		
 		List<Contact> contacts = DataStore.getInstance().getContacts();
 		if (contacts.size() == 0) {
-		    contacts.add(new Contact("Alice", "125 Pine St.",
-		            "435-385-2348", "allycakes@g.clemson.edu"));
-		    contacts.add(new Contact("Bob", "123 Pine St.",
-		            "911-455-3483", "bobert@g.clemson.edu"));
+		    contacts.add(new Contact("Adam Klingenberger", "106 Saddlehorn Ct.",
+		            "919-414-3589", "klinge3@g.clemson.edu"));
+		    contacts.add(new Contact("Donald Medlin", "123 Pine St.",
+		            "911-455-3483", "dmedlin@g.clemson.edu"));
 		}
 		
 		//set up frame
@@ -81,8 +81,8 @@ public class MainFrame extends JFrame {
 	    med.registerFrame(this);
 
 	    JMenuBar menuBar = new JMenuBar();
-	    menuBar.setOpaque(true);
-	    menuBar.setBackground(color);
+	    //menuBar.setOpaque(true);
+	    //menuBar.setBackground(color);
 
 	    JMenu fileMenu = new JMenu("File");
 	    JMenuItem exit = new MenuItemExit(med);
@@ -106,6 +106,7 @@ public class MainFrame extends JFrame {
 	            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
 
 	    this.setJMenuBar(menuBar);
+	    menuBar.validate();
 	    this.pack();
 	    this.setLocationByPlatform(true);
 	}

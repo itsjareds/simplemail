@@ -55,50 +55,60 @@ public class EmailHandler {
 			System.out.print(email.getBccField()[i] + ", ");
 		System.out.print("\n");
 		
-		Properties props = new Properties();
-		props.put("mail.transport.protocol", "smtp");
-		props.put("mail.smtp.host", conf.getSmtpServer().getHostAddress());
-		
-		final AuthenticationInfo auth = conf.getAuthSmtp();
-		if (auth != null) {
-		    props.put("mail.smtp.socketFactory.port", auth.getAuthport());
-    		props.put("mail.smtp.socketFactory.class",
-    		        "javax.net.ssl.SSLSocketFactory");
-    		props.put("mail.smtp.auth", "true");
-    	
-    		authenticator = new Authenticator() {
-                  protected PasswordAuthentication getPasswordAuthentication() {
-                      return new PasswordAuthentication(auth.getUsername(),
-                              auth.getPassword());
-                  }
-            };
-		}
-		
-		Session session = Session.getDefaultInstance(props, authenticator);
-		
-		Message msg = new MimeMessage(session);
-		try {
-			msg.setRecipients(RecipientType.TO, email.getToField());
-			msg.setRecipients(RecipientType.CC, email.getCcField());
-			msg.setRecipients(RecipientType.BCC, email.getBccField());
-			msg.setSubject(email.getSubject());
-			msg.setFrom(conf.getEmail());
-			msg.setText(email.getMessage());
+		if (conf.getSmtpServer() != null) {
+			Properties props = new Properties();
+			props.put("mail.transport.protocol", "smtp");
+			props.put("mail.smtp.sendpartial", true);
+			props.put("mail.smtp.host", conf.getSmtpServer().getHostAddress());
 			
-			if (msg.getAllRecipients() == null || 
-			        msg.getAllRecipients().length > 0) {
-				Transport.send(msg);
-				System.out.println("Message sent.");
-				success = true;
-			} else {
-				System.out.println("Error: zero recipients.");
+			if (conf.getEmail() != null)
+				props.put("mail.from", conf.getEmail());
+
+			final AuthenticationInfo auth = conf.getAuthSmtp();
+			if (conf.isSslUsedSmtp() && auth != null) {
+				props.put("mail.smtp.socketFactory.port", auth.getAuthport());
+				props.put("mail.smtp.socketFactory.class",
+						"javax.net.ssl.SSLSocketFactory");
+				props.put("mail.smtp.auth", "true");
+
+				authenticator = new Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(auth.getUsername(),
+								auth.getPassword());
+					}
+				};
 			}
-		} catch (SendFailedException e) {
-			System.out.println("Send failed. Do you need to authenticate?");
-	    } catch (MessagingException e) {
-			System.out.println("Caught exception:");
-			e.printStackTrace();
-		}
+
+			Session session = Session.getDefaultInstance(props, authenticator);
+
+			Message msg = new MimeMessage(session);
+			try {
+				msg.setFrom(conf.getEmail());
+				msg.setRecipients(RecipientType.TO, email.getToField());
+				msg.setRecipients(RecipientType.CC, email.getCcField());
+				msg.setRecipients(RecipientType.BCC, email.getBccField());
+				msg.setSubject(email.getSubject());
+				msg.setFrom(conf.getEmail());
+				msg.setText(email.getMessage());
+
+				if (msg.getAllRecipients() == null || 
+						msg.getAllRecipients().length > 0) {
+					Transport.send(msg);
+					System.out.println("Message sent.");
+					success = true;
+				} else {
+					System.out.println("Error: zero recipients.");
+				}
+			} catch (SendFailedException e) {
+				for (Address address : e.getInvalidAddresses())
+					System.out.println("Send failed to " + address);
+				System.out.println("Failure message: " + e.getMessage());
+			} catch (MessagingException e) {
+				System.out.println("Caught exception:");
+				e.printStackTrace();
+			}
+		} else
+			System.out.println("No SMTP server configured.");
 		
 		return success;
 	}
