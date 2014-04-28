@@ -140,7 +140,7 @@ public class MainFrame extends JFrame  {
 	    menuBar.add(helpMenu);
 
 	    JTabbedPane tabPane = new JTabbedPane();
-	    
+
         ContactTable contactTable = new ContactTable(new ContactTableModel(), med);
 	    tabPane.add("Contacts", new JScrollPane(contactTable, 
 	            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
