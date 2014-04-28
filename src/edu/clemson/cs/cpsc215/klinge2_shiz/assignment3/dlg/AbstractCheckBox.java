@@ -13,6 +13,9 @@ import javax.swing.JCheckBox;
 @SuppressWarnings("serial")
 public abstract class AbstractCheckBox extends JCheckBox implements Checkable {
 
+    /**
+     * @param label Text to sit next to the checkbox
+     */
     public AbstractCheckBox(String label) {
         super(label);
         this.addItemListener(new CheckableItemListener());

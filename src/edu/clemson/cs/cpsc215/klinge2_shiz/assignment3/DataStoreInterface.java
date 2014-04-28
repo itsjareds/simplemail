@@ -11,13 +11,36 @@ import java.io.IOException;
 
 public interface DataStoreInterface {
 
+    /**
+     * @throws ClassNotFoundException
+     * @throws IOException
+     * @throws CryptographyException
+     */
     public void loadConf() throws ClassNotFoundException, IOException,
         CryptographyException;
+    /**
+     * @throws ClassNotFoundException
+     * @throws IOException
+     */
     public void loadContacts() throws ClassNotFoundException, IOException;
+    /**
+     * @throws ClassNotFoundException
+     * @throws IOException
+     */
     public void loadDrafts() throws ClassNotFoundException, IOException;
     
+    /**
+     * @throws IOException
+     * @throws CryptographyException
+     */
     public void storeConf() throws IOException, CryptographyException;
+    /**
+     * @throws IOException
+     */
     public void storeContacts() throws IOException;
+    /**
+     * @throws IOException
+     */
     public void storeDrafts() throws IOException;
 
 }

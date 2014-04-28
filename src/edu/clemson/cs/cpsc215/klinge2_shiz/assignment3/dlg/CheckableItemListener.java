@@ -12,6 +12,9 @@ import java.awt.event.ItemListener;
 
 public class CheckableItemListener implements ItemListener {
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+	 */
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		Checkable c = (Checkable)e.getSource();

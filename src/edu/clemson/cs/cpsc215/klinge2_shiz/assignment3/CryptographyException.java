@@ -17,8 +17,11 @@ public class CryptographyException extends Exception {
         message += "  nested exception:\n";
     }
     
-    public CryptographyException(Exception e) {
-        super(message + e.getMessage());
+    /**
+     * @param nestedException the exception that threw a CryptographyException
+     */
+    public CryptographyException(Exception nestedException) {
+        super(message + nestedException.getMessage());
     }
     
 }

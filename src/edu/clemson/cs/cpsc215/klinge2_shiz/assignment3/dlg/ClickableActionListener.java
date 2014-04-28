@@ -12,6 +12,9 @@ import java.awt.event.ActionListener;
 
 public class ClickableActionListener implements ActionListener {
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Clickable c = (Clickable)e.getSource();

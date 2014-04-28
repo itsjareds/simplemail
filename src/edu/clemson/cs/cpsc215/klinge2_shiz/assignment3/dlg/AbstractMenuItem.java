@@ -12,6 +12,9 @@ import javax.swing.JMenuItem;
 @SuppressWarnings("serial")
 public abstract class AbstractMenuItem extends JMenuItem implements Clickable {
 
+    /**
+     * @param label Text to place on the MenuItem
+     */
     public AbstractMenuItem(String label) {
         super(label);
         this.addActionListener(new ClickableActionListener());

@@ -13,6 +13,9 @@ import javax.swing.JButton;
 @SuppressWarnings("serial")
 public abstract class AbstractButton extends JButton implements Clickable {
 
+    /**
+     * @param label Text to put on the button
+     */
     public AbstractButton(String label) {
         super(label);
         this.addActionListener(new ClickableActionListener());

@@ -9,5 +9,8 @@ package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg;
  */
 
 public interface MultiClickable {
+    /**
+     * @param num Number of times the mouse clicked the component
+     */
     public void triggerEvent(int num);
 }

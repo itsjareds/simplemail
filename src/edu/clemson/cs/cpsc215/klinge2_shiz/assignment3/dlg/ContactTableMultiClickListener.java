@@ -13,6 +13,9 @@ import java.awt.event.MouseEvent;
 
 public class ContactTableMultiClickListener extends MouseAdapter {
 
+    /* (non-Javadoc)
+     * @see java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent)
+     */
     public void mousePressed(MouseEvent e) {
     	if (e.getSource() instanceof MultiClickable) {
     		MultiClickable table = (MultiClickable)e.getSource();

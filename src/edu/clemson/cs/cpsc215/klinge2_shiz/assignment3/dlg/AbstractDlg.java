@@ -19,13 +19,23 @@ public abstract class AbstractDlg extends JDialog {
      */
     private static final long serialVersionUID = 3042741743527126565L;
 
+    /**
+     * @param owner Owner of the modal dialog
+     */
     public AbstractDlg(Frame owner) {
         super(owner, "Untitled Dialog", true);
     }
     
+    /**
+     * @param owner Owner of the modal dialog
+     * @param title Dialog title
+     */
     public AbstractDlg(Frame owner, String title) {
         super(owner, title, true);
     }
     
+    /**
+     * Method which places all components on the dialog
+     */
     protected abstract void addComponents();
 }

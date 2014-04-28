@@ -115,6 +115,9 @@ public class EmailHandler {
 		return success;
 	}
 	
+	/**
+	 * Basic proof-of-concept POP mail reading function.
+	 */
 	public void readMail() {
 		Configuration conf = DataStore.getInstance().getConf();
 		final AuthenticationInfo auth = conf.getAuthPop3();

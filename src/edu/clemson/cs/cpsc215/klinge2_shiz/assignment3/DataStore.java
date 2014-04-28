@@ -62,10 +62,18 @@ public class DataStore implements DataStoreInterface {
 		// disable the default public constructor
 	}
 	
+	/**
+	 * @return A reference to the single DataStore instance
+	 */
 	public static DataStore getInstance() {
 		return instance;
 	}
 	
+	/**
+	 * @param file Name of the file to write
+	 * @param o Object to write to file
+	 * @throws IOException
+	 */
 	private void writeObjectToFile(String file, Object o) throws IOException {
 		File f = new File(file);
 		f.getParentFile().mkdirs();
@@ -81,6 +89,12 @@ public class DataStore implements DataStoreInterface {
 		}
 	}
 	
+	/**
+	 * @param file Name of the file to read
+	 * @return The object read from file
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	private Object readObjectFromFile(String file) throws IOException,
 	        ClassNotFoundException {
 		Object o = null;
@@ -94,6 +108,12 @@ public class DataStore implements DataStoreInterface {
 		return o;
 	}
 	
+	/**
+	 * @param keyName The name of the key
+	 * @return The SecretKey object referred to by KeyName
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	private SecretKey getKey(String keyName) throws IOException, 
 	        ClassNotFoundException {
 		SecretKey key = null;
@@ -107,6 +127,14 @@ public class DataStore implements DataStoreInterface {
 		return key;
 	}
 	
+	/**
+	 * @param keyName Name of the key which locks fileName
+	 * @param fileName Name of the file to decrypt
+	 * @return A decrypted object
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws CryptographyException
+	 */
 	private Object decryptObject(String keyName, String fileName)
 	        throws IOException, ClassNotFoundException, CryptographyException {
 	    
@@ -139,6 +167,13 @@ public class DataStore implements DataStoreInterface {
 		return decryptedObject;
 	}
 	
+	/**
+	 * @param obj Object to encrypt
+	 * @param keyName Name of the key to use
+	 * @return An encrypted object
+	 * @throws IOException
+	 * @throws CryptographyException
+	 */
 	private SealedObject encryptObject(Serializable obj, String keyName)
 	        throws IOException, CryptographyException {
 	    SealedObject sealedObject = null;
@@ -166,7 +201,9 @@ public class DataStore implements DataStoreInterface {
 		return sealedObject;
 	}
 	
-	// decrypt using a private key
+	/* (non-Javadoc)
+	 * @see edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStoreInterface#loadConf()
+	 */
 	@Override
     public void loadConf() throws ClassNotFoundException, IOException,
             CryptographyException {
@@ -177,6 +214,9 @@ public class DataStore implements DataStoreInterface {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStoreInterface#loadContacts()
+	 */
 	@Override
     public void loadContacts() throws ClassNotFoundException, IOException {
 		File[] fileList = new File("data/contacts/").listFiles();
@@ -193,6 +233,9 @@ public class DataStore implements DataStoreInterface {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStoreInterface#loadDrafts()
+	 */
 	@Override
 	public void loadDrafts() throws ClassNotFoundException, IOException {
 		File[] fileList = new File("data/drafts/").listFiles();
@@ -209,7 +252,9 @@ public class DataStore implements DataStoreInterface {
 		}
 	}
 	
-	// encrypted because config contains sensitive data (passwords)
+	/* (non-Javadoc)
+	 * @see edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStoreInterface#storeConf()
+	 */
 	@Override
     public void storeConf() throws IOException, CryptographyException {
 	    SealedObject sealedObject = encryptObject(conf, "confkey");
@@ -217,6 +262,9 @@ public class DataStore implements DataStoreInterface {
 	    System.out.println("New config file written.");
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStoreInterface#storeContacts()
+	 */
 	@Override
     public void storeContacts() throws IOException {
 	    // clear directory
@@ -235,6 +283,9 @@ public class DataStore implements DataStoreInterface {
 		System.out.println("Successfully serialized contacts.");
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStoreInterface#storeDrafts()
+	 */
 	@Override
 	public void storeDrafts() throws IOException {
 	    // clear directory
@@ -253,14 +304,23 @@ public class DataStore implements DataStoreInterface {
 		System.out.println("Successfully serialized drafts.");
 	}
 
+	/**
+	 * @return A reference to the global configuration object
+	 */
 	public Configuration getConf() {
 		return conf;
 	}
 	
+	/**
+	 * @return A reference to the global contacts list
+	 */
 	public ArrayList<Contact> getContacts() {
 		return contacts;
 	}
 	
+	/**
+	 * @return A reference to the global drafts list
+	 */
 	public ArrayList<Draft> getDrafts() {
 		return drafts;
 	}

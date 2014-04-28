@@ -9,6 +9,13 @@ import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.AuthenticationInfo;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Configuration;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStore;
 
+/**
+ * Mediator for ConfigurationDlg
+ * 
+ * @author klinge2
+ * @since 04-28-2014
+ */
+
 public class ConfigMediator implements ConfigMediatorInterface {
 	private ConfigurationDlg confDlg = null;
 	@SuppressWarnings("unused")
@@ -21,6 +28,9 @@ public class ConfigMediator implements ConfigMediatorInterface {
 					txtSmtpUser, txtSmtpPass, txtSmtpPort, txtEmail,
 					txtSmtpServer, txtPopServer, txtName;
 	
+	/**
+	 * @param confDlg Dialog to mediate
+	 */
 	public ConfigMediator(ConfigurationDlg confDlg) {
 		this.confDlg = confDlg;
 	}

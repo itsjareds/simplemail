@@ -8,5 +8,8 @@ package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg;
  */
 
 public interface Checkable {
+	/**
+	 * @param selected enum representing whether the checkbox is checked
+	 */
 	public void triggerEvent(int selected);
 }
