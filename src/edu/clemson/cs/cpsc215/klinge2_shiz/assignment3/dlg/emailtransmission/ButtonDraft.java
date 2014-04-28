@@ -1,12 +1,12 @@
-package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.draft;
+package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.emailtransmission;
 
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.AbstractButton;
 
 @SuppressWarnings("serial")
 public class ButtonDraft extends AbstractButton {
-    private DraftMediator med = null;
+    private EmailTransmissionMediator med = null;
 
-    public ButtonDraft(DraftMediator med) {
+    public ButtonDraft(EmailTransmissionMediator med) {
         super("Save as draft");
         this.med = med;
         this.med.registerDraftButton(this);

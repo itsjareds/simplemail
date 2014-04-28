@@ -1,9 +1,9 @@
-package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.draft;
+package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.emailtransmission;
 
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public interface DraftMediatorInterface {
+public interface EmailTransmissionMediatorInterface {
     public void send();
     public void draft();
     public void cancel();

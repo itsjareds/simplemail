@@ -1,12 +1,12 @@
-package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.draft;
+package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.emailtransmission;
 
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.AbstractButton;
 
 @SuppressWarnings("serial")
 public class ButtonCancel extends AbstractButton {
-    private DraftMediator med = null;
+    private EmailTransmissionMediator med = null;
 
-    public ButtonCancel(DraftMediator med) {
+    public ButtonCancel(EmailTransmissionMediator med) {
         super("Cancel");
         this.med = med;
         this.med.registerCancelButton(this);

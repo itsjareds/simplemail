@@ -1,4 +1,4 @@
-package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.draft;
+package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.emailtransmission;
 
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -6,22 +6,20 @@ import javax.swing.JTextField;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Email;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.EmailHandler;
 
-public class DraftMediator implements DraftMediatorInterface {
+public class EmailTransmissionMediator implements EmailTransmissionMediatorInterface {
     ButtonSend buttonSend = null;
     ButtonDraft buttonDraft = null;
     ButtonCancel buttonCancel = null;
-    DraftDlg draftDlg = null;
+    EmailTransmissionDlg draftDlg = null;
     JTextField toField, ccField, bccField, subjectField;
     JTextArea bodyField;
 
-    public DraftMediator(DraftDlg draftDlg) {
+    public EmailTransmissionMediator(EmailTransmissionDlg draftDlg) {
         this.draftDlg = draftDlg;
     }
     
     @Override
     public void send() {
-        System.out.println("Send button action unimplemented");
-        
         String to, cc, bcc, sub, body;
         
         to = toField.getText();

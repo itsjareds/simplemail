@@ -1,4 +1,4 @@
-package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.draft;
+package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.emailtransmission;
 
 import java.awt.BorderLayout;
 import java.awt.Frame;
@@ -18,15 +18,15 @@ import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Email;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.AbstractDlg;
 
 @SuppressWarnings("serial")
-public class DraftDlg extends AbstractDlg {
+public class EmailTransmissionDlg extends AbstractDlg {
     private Email draft = new Email();
 
-    public DraftDlg(Frame owner) {
+    public EmailTransmissionDlg(Frame owner) {
         super(owner, "Compose a message");
         addComponents();
     }
     
-    public DraftDlg(Frame owner, Email draft) {
+    public EmailTransmissionDlg(Frame owner, Email draft) {
         super(owner, "Compose a message");
         this.draft = draft;
         addComponents();
@@ -43,7 +43,7 @@ public class DraftDlg extends AbstractDlg {
         
         GridBagConstraints c;
         
-        DraftMediator med = new DraftMediator(this);
+        EmailTransmissionMediator med = new EmailTransmissionMediator(this);
         
         JLabel label;
         JTextField txt;

@@ -8,7 +8,7 @@ import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Email;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.SystemInformationDlg;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.AbstractDlg;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.config.ConfigurationDlg;
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.draft.DraftDlg;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.emailtransmission.EmailTransmissionDlg;
 
 public class MainFrameMediator implements MainFrameMediatorInterface {
     private Frame frame = null;
@@ -57,7 +57,7 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
                 Email email = new Email();
                 email.setToField(Email.parseAddressList(c.getEmail()));
                 
-                AbstractDlg dialog = new DraftDlg(frame, email);
+                AbstractDlg dialog = new EmailTransmissionDlg(frame, email);
                 dialog.setModal(true);
                 dialog.setVisible(true);
             }
