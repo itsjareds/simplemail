@@ -28,18 +28,14 @@ public class ConfigMediator implements ConfigMediatorInterface {
 	@Override
 	public void authSmtp(int selected) {
 		if (selected == ItemEvent.SELECTED) {
-			if (txtSmtpUser != null && txtSmtpPass != null
-					&& txtSmtpPort != null) {
+			if (txtSmtpUser != null && txtSmtpPass != null) {
 				txtSmtpUser.setEnabled(true);
 				txtSmtpPass.setEnabled(true);
-				txtSmtpPort.setEnabled(true);
 			}
 		} else if (selected == ItemEvent.DESELECTED) {
-			if (txtSmtpUser != null && txtSmtpPass != null
-					&& txtSmtpPort != null) {
+			if (txtSmtpUser != null && txtSmtpPass != null) {
 				txtSmtpUser.setEnabled(false);
 				txtSmtpPass.setEnabled(false);
-				txtSmtpPort.setEnabled(false);
 			}
 		}
 	}
@@ -47,18 +43,14 @@ public class ConfigMediator implements ConfigMediatorInterface {
 	@Override
 	public void authPop3(int selected) {
 		if (selected == ItemEvent.SELECTED) {
-			if (txtPop3User != null && txtPop3Pass != null
-					&& txtPop3Port != null) {
+			if (txtPop3User != null && txtPop3Pass != null) {
 				txtPop3User.setEnabled(true);
 				txtPop3Pass.setEnabled(true);
-				txtPop3Port.setEnabled(true);
 			}
 		} else if (selected == ItemEvent.DESELECTED) {
-			if (txtPop3User != null && txtPop3Pass != null
-					&& txtPop3Port != null) {
+			if (txtPop3User != null && txtPop3Pass != null) {
 				txtPop3User.setEnabled(false);
 				txtPop3Pass.setEnabled(false);
-				txtPop3Port.setEnabled(false);
 			}
 		}
 	}
@@ -79,8 +71,14 @@ public class ConfigMediator implements ConfigMediatorInterface {
 		if (txtSmtpServer != null)
 			conf.setSmtpServer(txtSmtpServer.getText());
 		
+		if (txtSmtpPort != null)
+	          conf.setSmtpPort(txtSmtpPort.getText());
+		
 		if (txtPopServer != null)
 			conf.setPopServer(txtPopServer.getText());
+		
+		if (txtPop3Port != null)
+	          conf.setPopPort(txtPop3Port.getText());
 		
 		if (txtName != null)
 			conf.setName(txtName.getText());
@@ -90,7 +88,7 @@ public class ConfigMediator implements ConfigMediatorInterface {
 				txtPop3Pass.getText() != null &&
 				txtPop3Port.getText() != null) {
 			conf.setAuthPop3(new AuthenticationInfo(txtPop3User.getText(),
-					txtPop3Pass.getText(), txtPop3Port.getText()));
+					txtPop3Pass.getText()));
 		}
 		
 		conf.setSslUsedSmtp(checkBoxAuthSmtp.isSelected());
@@ -98,7 +96,7 @@ public class ConfigMediator implements ConfigMediatorInterface {
 				txtSmtpPass.getText() != null &&
 				txtSmtpPort.getText() != null) {
 			conf.setAuthSmtp(new AuthenticationInfo(txtSmtpUser.getText(),
-					txtSmtpPass.getText(), txtSmtpPort.getText()));
+					txtSmtpPass.getText()));
 		}
 		
 		confDlg.setVisible(false);

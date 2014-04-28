@@ -24,7 +24,7 @@ import javax.mail.search.FlagTerm;
  * Class which handles the details in regards to sending and receiving mail.
  * 
  * @author Jared Klingenberger
- * @since 04-24-2014
+ * @since 04-28-2014
  */
 public class EmailHandler {
 	/**
@@ -60,13 +60,14 @@ public class EmailHandler {
 			props.put("mail.transport.protocol", "smtp");
 			props.put("mail.smtp.sendpartial", true);
 			props.put("mail.smtp.host", conf.getSmtpServer().getHostAddress());
+			props.put("mail.smtp.port", conf.getSmtpPort());
 			
 			if (conf.getEmail() != null)
 				props.put("mail.from", conf.getEmail());
 
 			final AuthenticationInfo auth = conf.getAuthSmtp();
 			if (conf.isSslUsedSmtp() && auth != null) {
-				props.put("mail.smtp.socketFactory.port", auth.getAuthport());
+				props.put("mail.smtp.socketFactory.port", conf.getSmtpPort());
 				props.put("mail.smtp.socketFactory.class",
 						"javax.net.ssl.SSLSocketFactory");
 				props.put("mail.smtp.auth", "true");
@@ -131,11 +132,11 @@ public class EmailHandler {
 		            "javax.net.ssl.SSLSocketFactory");
 		    props.put("mail.pop3.socketFactory.fallback", "false");
 		    props.put("mail.pop3.socketFactory.port",
-		            auth.getAuthport().toString());
+		            conf.getPopPort());
 		    props.put("mail.store.protocol", "pop3");
 		    props.put("mail.pop3.host", conf.getPopServer().getHostName());
 		    props.put("mail.pop3.auth", "true");
-		    props.put("mail.pop3.port", auth.getAuthport().toString());
+		    props.put("mail.pop3.port", conf.getPopPort());
 		    
 		    Session session = Session.getDefaultInstance(props, null);
 		    try {

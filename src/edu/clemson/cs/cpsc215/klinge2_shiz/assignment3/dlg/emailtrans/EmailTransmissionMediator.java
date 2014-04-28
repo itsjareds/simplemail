@@ -49,6 +49,7 @@ public class EmailTransmissionMediator implements EmailTransmissionMediatorInter
     	DraftTableModel model = (DraftTableModel)draftDlg.table.getModel();
     	model.fireTableRowsInserted(model.getRowCount() - 1,
     			model.getRowCount());
+    	draftDlg.dispose();
     	System.out.println("Saved as draft.");
     }
 

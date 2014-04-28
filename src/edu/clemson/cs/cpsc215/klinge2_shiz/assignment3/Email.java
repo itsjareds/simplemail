@@ -81,19 +81,16 @@ public class Email implements Serializable {
 	 * @return Array of InternetAddresses represented by the parameter.
 	 */
 	public static InternetAddress[] parseAddressList(String list) {
-		String[] addrList = list.split("[\n\r\t ]*,[\n\r\t ]*");
-		ArrayList<InternetAddress> inetList = new ArrayList<InternetAddress>();
+	    InternetAddress[] addressList = null;
+	    
+	    try {
+	        addressList = InternetAddress.parse(list);
+	    } catch (AddressException e) {
+	        // invalid syntax for an address
+	        e.printStackTrace();
+	    }
 		
-		for (String address : addrList) {
-			try {
-				InternetAddress i = new InternetAddress(address);
-				inetList.add(i);
-			} catch (AddressException e) {
-				// invalid syntax for the address
-			}
-		}
-		
-		return inetList.toArray(new InternetAddress[inetList.size()]);
+		return addressList;
 	}
 	
 	/**

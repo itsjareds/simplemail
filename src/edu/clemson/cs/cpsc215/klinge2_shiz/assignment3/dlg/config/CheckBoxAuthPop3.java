@@ -7,7 +7,7 @@ public class CheckBoxAuthPop3 extends AbstractCheckBox {
 	private ConfigMediator med;
 	
 	public CheckBoxAuthPop3(ConfigMediator med) {
-		super("Authenticate for POP3");
+		super("Authenticate for POP");
 		this.med = med;
 		this.med.registerAuthPop3Checkbox(this);
 	}
