@@ -5,8 +5,13 @@ import java.awt.Frame;
 public interface MainFrameMediatorInterface {
 	public void compose();
     public void exit();
+    
+    public void clearContacts();
+    public void clearDrafts();
     public void config();
+    
     public void about();
+    
     public void contactTableClicked();
     public void draftTableClicked();
     

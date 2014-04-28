@@ -6,6 +6,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStore;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Draft;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Email;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.EmailHandler;
 
@@ -45,12 +46,8 @@ public class EmailTransmissionMediator implements EmailTransmissionMediatorInter
 
     @Override
     public void draft() {
-        try {
-			DataStore.getInstance().storeDraft(generateEmail());
-		} catch (IOException e) {
-			System.out.println("I/O exception while saving draft.");
-			e.printStackTrace();
-		}
+    	DataStore.getInstance().getDrafts().add(new Draft(generateEmail()));
+    	System.out.println("Saved as draft.");
     }
 
     @Override

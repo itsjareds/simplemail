@@ -11,6 +11,6 @@ public interface DataStoreInterface {
     
     public void storeConf() throws IOException, CryptographyException;
     public void storeContacts() throws IOException;
-    public void storeDraft(Email draft) throws IOException;
+    public void storeDrafts() throws IOException;
 
 }

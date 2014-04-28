@@ -30,7 +30,7 @@ import javax.crypto.SecretKey;
 public class DataStore implements DataStoreInterface {
 	private static DataStore instance;
 	private ArrayList<Contact> contacts = new ArrayList<Contact>();
-	private ArrayList<Email> drafts = new ArrayList<Email>();
+	private ArrayList<Draft> drafts = new ArrayList<Draft>();
 	private Configuration conf = new Configuration();
 	private HashMap<String, SecretKey> keyring =
 			new HashMap<String, SecretKey>();
@@ -199,8 +199,8 @@ public class DataStore implements DataStoreInterface {
 		if (fileList != null) {
 			for (File f : fileList) {
 				Object o = readObjectFromFile(f.getPath());
-				if (o instanceof Email) {
-					Email draft = (Email) o;
+				if (o instanceof Draft) {
+					Draft draft = (Draft) o;
 					drafts.add(draft);
 					System.out.println("Restored draft.");
 				}
@@ -236,9 +236,21 @@ public class DataStore implements DataStoreInterface {
 	}
 	
 	@Override
-	public void storeDraft(Email draft) throws IOException {
-	    writeObjectToFile("data/drafts/" + draft.hashCode() + ".ser", draft);
-	    System.out.println("Saved draft.");
+	public void storeDrafts() throws IOException {
+	    // clear directory
+	    File dir = new File("data/drafts");
+	    if (dir.exists() && dir.isDirectory()) {
+	        File[] files = dir.listFiles();
+	        for (File f : files) {
+	            if (f.isFile())
+	                f.delete();
+	        }
+	    }
+	    
+		for (Draft d : drafts) {
+		    writeObjectToFile("data/drafts/" + d.hashCode() + ".ser", d);
+		}
+		System.out.println("Successfully serialized drafts.");
 	}
 
 	public Configuration getConf() {
@@ -249,7 +261,7 @@ public class DataStore implements DataStoreInterface {
 		return contacts;
 	}
 	
-	public ArrayList<Email> getDrafts() {
+	public ArrayList<Draft> getDrafts() {
 		return drafts;
 	}
 }

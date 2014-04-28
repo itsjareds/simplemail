@@ -7,7 +7,7 @@ public class MenuItemCompose extends AbstractMenuItem {
     MainFrameMediator med = null;
     
     public MenuItemCompose(MainFrameMediator med) {
-        super("Compose");
+        super("Message");
         this.med = med;
     }
     

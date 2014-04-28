@@ -16,6 +16,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JViewport;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
@@ -47,6 +48,12 @@ public class MainFrame extends JFrame  {
 					storage.storeContacts();
 				} catch (Exception ex) {
 					System.out.println("Error saving contacts.");
+					System.out.println(ex.getMessage());
+				}
+				try {
+					storage.storeDrafts();
+				} catch (Exception ex) {
+					System.out.println("Error saving drafts.");
 					System.out.println(ex.getMessage());
 				}
 	        }
@@ -107,37 +114,42 @@ public class MainFrame extends JFrame  {
 	    //menuBar.setBackground(color);
 
 	    JMenu fileMenu = new JMenu("File");
+	    JMenu fileNewMenu = new JMenu("New");
 	    JMenuItem compose = new MenuItemCompose(med);
 	    JMenuItem exit = new MenuItemExit(med);
-	    fileMenu.add(compose);
+	    fileNewMenu.add(compose);
+	    fileMenu.add(fileNewMenu);
 	    fileMenu.add(exit);
 
-	    JMenu configMenu = new JMenu("Configuration");
+	    JMenu editMenu = new JMenu("Edit");
+	    JMenu editClearMenu = new JMenu("Clear");
+	    JMenuItem clearContacts = new MenuItemClearContacts(med);
+	    JMenuItem clearDrafts = new MenuItemClearDrafts(med);
 	    JMenuItem config = new MenuItemConfig(med);
-	    configMenu.add(config);
+	    editClearMenu.add(clearContacts);
+	    editClearMenu.add(clearDrafts);
+	    editMenu.add(editClearMenu);
+	    editMenu.add(config);
 
 	    JMenu helpMenu = new JMenu("Help");
 	    JMenuItem about = new MenuItemAbout(med);
 	    helpMenu.add(about);
 
 	    menuBar.add(fileMenu);
-	    menuBar.add(configMenu);
+	    menuBar.add(editMenu);
 	    menuBar.add(helpMenu);
 
 	    JTabbedPane tabPane = new JTabbedPane();
 	    
         ContactTable contactTable = new ContactTable(new ContactTableModel(), med);
-	    this.getContentPane().add(new JScrollPane(contactTable, 
+	    tabPane.add("Contacts", new JScrollPane(contactTable, 
 	            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 	            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
 	    
 	    DraftTable draftTable = new DraftTable(new DraftTableModel(), med);
-	    this.getContentPane().add(new JScrollPane(draftTable, 
+	    tabPane.add("Drafts", new JScrollPane(draftTable, 
 	            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 	            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
-	    
-	    tabPane.add(contactTable);
-	    tabPane.add(draftTable);
 	    
 	    this.add(tabPane);
 

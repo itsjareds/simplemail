@@ -30,6 +30,22 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     }
     
     @Override
+    public void clearContacts() {
+    	if (contactTable != null) {
+    		DataStore.getInstance().getContacts().clear();
+    		((ContactTableModel)contactTable.getModel()).fireTableDataChanged();
+    	}
+    }
+    
+    @Override
+    public void clearDrafts() {
+    	if (draftTable != null) {
+    		DataStore.getInstance().getDrafts().clear();
+    		((DraftTableModel)draftTable.getModel()).fireTableDataChanged();
+    	}
+    }
+    
+    @Override
     public void config() {
         if (frame != null) {
             AbstractDlg dialog = new ConfigurationDlg(frame);
