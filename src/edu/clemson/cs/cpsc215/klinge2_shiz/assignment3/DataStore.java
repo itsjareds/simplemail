@@ -30,6 +30,7 @@ import javax.crypto.SecretKey;
 public class DataStore implements DataStoreInterface {
 	private static DataStore instance;
 	private ArrayList<Contact> contacts = new ArrayList<Contact>();
+	private ArrayList<Email> drafts = new ArrayList<Email>();
 	private Configuration conf = new Configuration();
 	private HashMap<String, SecretKey> keyring =
 			new HashMap<String, SecretKey>();
@@ -48,6 +49,12 @@ public class DataStore implements DataStoreInterface {
             System.out.println("Could not load contacts.");
             e.printStackTrace();
         }
+	    try {
+	    	instance.loadDrafts();
+	    } catch (Exception e) {
+	    	System.out.println("Could not load drafts.");
+	    	e.printStackTrace();
+	    }
 	}
 	
 	private DataStore() {
@@ -185,6 +192,22 @@ public class DataStore implements DataStoreInterface {
 		}
 	}
 	
+	@Override
+	public void loadDrafts() throws ClassNotFoundException, IOException {
+		File[] fileList = new File("data/drafts/").listFiles();
+		
+		if (fileList != null) {
+			for (File f : fileList) {
+				Object o = readObjectFromFile(f.getPath());
+				if (o instanceof Email) {
+					Email draft = (Email) o;
+					drafts.add(draft);
+					System.out.println("Restored draft.");
+				}
+			}
+		}
+	}
+	
 	// encrypted because config contains sensitive data (passwords)
 	@Override
     public void storeConf() throws IOException, CryptographyException {
@@ -205,23 +228,28 @@ public class DataStore implements DataStoreInterface {
 	        }
 	    }
 	    
-		int count = 0;
 		for (Contact c : contacts) {
 		    String email = c.getEmail().replace("@", ".at.");
 		    writeObjectToFile("data/contacts/" + email + ".ser", c);
-		    count++;
 		}
-		if (contacts.size() > 0) {
-			System.out.println("Successfully serialized " + count + "/"
-					+ contacts.size() + " contacts");
-		}
+		System.out.println("Successfully serialized contacts.");
 	}
-
-	public ArrayList<Contact> getContacts() {
-		return contacts;
+	
+	@Override
+	public void storeDraft(Email draft) throws IOException {
+	    writeObjectToFile("data/drafts/" + draft.hashCode() + ".ser", draft);
+	    System.out.println("Saved draft.");
 	}
 
 	public Configuration getConf() {
 		return conf;
+	}
+	
+	public ArrayList<Contact> getContacts() {
+		return contacts;
+	}
+	
+	public ArrayList<Email> getDrafts() {
+		return drafts;
 	}
 }

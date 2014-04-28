@@ -15,6 +15,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
@@ -106,7 +107,9 @@ public class MainFrame extends JFrame  {
 	    //menuBar.setBackground(color);
 
 	    JMenu fileMenu = new JMenu("File");
+	    JMenuItem compose = new MenuItemCompose(med);
 	    JMenuItem exit = new MenuItemExit(med);
+	    fileMenu.add(compose);
 	    fileMenu.add(exit);
 
 	    JMenu configMenu = new JMenu("Configuration");
@@ -121,10 +124,22 @@ public class MainFrame extends JFrame  {
 	    menuBar.add(configMenu);
 	    menuBar.add(helpMenu);
 
-        ContactTable table = new ContactTable(new TableModel(), med);
-	    this.getContentPane().add(new JScrollPane(table, 
+	    JTabbedPane tabPane = new JTabbedPane();
+	    
+        ContactTable contactTable = new ContactTable(new ContactTableModel(), med);
+	    this.getContentPane().add(new JScrollPane(contactTable, 
 	            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 	            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
+	    
+	    DraftTable draftTable = new DraftTable(new DraftTableModel(), med);
+	    this.getContentPane().add(new JScrollPane(draftTable, 
+	            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+	            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
+	    
+	    tabPane.add(contactTable);
+	    tabPane.add(draftTable);
+	    
+	    this.add(tabPane);
 
 	    this.setJMenuBar(menuBar);
 	    this.pack();

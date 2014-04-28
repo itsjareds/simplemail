@@ -7,7 +7,10 @@ public interface DataStoreInterface {
     public void loadConf() throws ClassNotFoundException, IOException,
         CryptographyException;
     public void loadContacts() throws ClassNotFoundException, IOException;
+    public void loadDrafts() throws ClassNotFoundException, IOException;
+    
     public void storeConf() throws IOException, CryptographyException;
     public void storeContacts() throws IOException;
+    public void storeDraft(Email draft) throws IOException;
 
 }

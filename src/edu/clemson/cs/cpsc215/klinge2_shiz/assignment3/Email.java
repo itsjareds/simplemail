@@ -1,5 +1,6 @@
 package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -12,7 +13,8 @@ import javax.mail.internet.InternetAddress;
  * @author Jared Klingenberger
  * @since 04-24-2014
  */
-public class Email {
+public class Email implements Serializable {
+	private static final long serialVersionUID = 1419929913755803694L;
 	private InternetAddress[] toField = {};
 	private InternetAddress[] ccField = {};
 	private InternetAddress[] bccField = {};

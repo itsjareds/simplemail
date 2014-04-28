@@ -8,7 +8,7 @@ import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Contact;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStore;
 
 @SuppressWarnings("serial")
-public class TableModel extends AbstractTableModel {
+public class ContactTableModel extends AbstractTableModel {
 	
 	private String[] columnNames = {"Name",
 							"Email",

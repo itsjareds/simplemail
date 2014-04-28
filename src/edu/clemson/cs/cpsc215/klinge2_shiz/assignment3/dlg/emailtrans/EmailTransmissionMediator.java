@@ -1,8 +1,11 @@
 package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.emailtrans;
 
+import java.io.IOException;
+
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStore;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Email;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.EmailHandler;
 
@@ -18,8 +21,7 @@ public class EmailTransmissionMediator implements EmailTransmissionMediatorInter
         this.draftDlg = draftDlg;
     }
     
-    @Override
-    public void send() {
+    private Email generateEmail() {
         String to, cc, bcc, sub, body;
         
         to = toField.getText();
@@ -28,7 +30,13 @@ public class EmailTransmissionMediator implements EmailTransmissionMediatorInter
         sub = subjectField.getText();
         body = bodyField.getText();
         
-        Email draft = new Email(to, cc, bcc, sub, body);
+        return new Email(to, cc, bcc, sub, body);
+    }
+    
+    @Override
+    public void send() {
+    	Email draft = generateEmail();
+    	
         EmailHandler handler = new EmailHandler();
         handler.sendMail(draft);
         
@@ -37,7 +45,12 @@ public class EmailTransmissionMediator implements EmailTransmissionMediatorInter
 
     @Override
     public void draft() {
-        System.out.println("Draft button action unimplemented");
+        try {
+			DataStore.getInstance().storeDraft(generateEmail());
+		} catch (IOException e) {
+			System.out.println("I/O exception while saving draft.");
+			e.printStackTrace();
+		}
     }
 
     @Override

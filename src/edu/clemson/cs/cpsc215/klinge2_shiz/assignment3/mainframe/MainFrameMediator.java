@@ -12,13 +12,23 @@ import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.sysinf.SystemInformat
 
 public class MainFrameMediator implements MainFrameMediatorInterface {
     private Frame frame = null;
-    private ContactTable table = null;
+    private ContactTable contactTable = null;
+    private DraftTable draftTable = null;
+    
+    @Override
+    public void compose() {
+    	if (frame != null) {
+    		AbstractDlg dialog = new EmailTransmissionDlg(frame);
+    		dialog.setModal(true);
+    		dialog.setVisible(true);
+    	}
+    }
     
     @Override
     public void exit() {
         System.exit(0);
     }
-
+    
     @Override
     public void config() {
         if (frame != null) {
@@ -38,9 +48,10 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     }
     
     @Override
-    public void tableClicks(int row) {
-        if (frame != null && table != null) {
-            Contact c = ((TableModel)table.getModel()).getRow(row);
+    public void contactTableClicked() {
+    	int row = contactTable.getSelectedRow();
+        if (frame != null && contactTable != null) {
+            Contact c = ((ContactTableModel)contactTable.getModel()).getRow(row);
             if (c != null) {
                 Email email = new Email();
                 email.setToField(Email.parseAddressList(c.getEmail()));
@@ -53,13 +64,31 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     }
     
     @Override
+    public void draftTableClicked() {
+    	int row = draftTable.getSelectedRow();
+        if (frame != null && draftTable != null) {
+            Email d = ((DraftTableModel)draftTable.getModel()).getRow(row);
+            if (d != null) {
+                AbstractDlg dialog = new EmailTransmissionDlg(frame, d);
+                dialog.setModal(true);
+                dialog.setVisible(true);
+            }
+        }
+    }
+    
+    @Override
     public void registerFrame(Frame frame) {
         this.frame = frame;
     }
 
     @Override
-    public void registerTable(ContactTable table) {
-        this.table = table;
+    public void registerContactTable(ContactTable table) {
+        this.contactTable = table;
     }
 
+    @Override
+    public void registerDraftTable(DraftTable table) {
+    	this.draftTable = table;
+    }
+    
 }

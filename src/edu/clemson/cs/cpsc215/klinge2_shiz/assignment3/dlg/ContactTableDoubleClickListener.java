@@ -8,11 +8,11 @@ import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.mainframe.ContactTable;
 public class ContactTableDoubleClickListener extends MouseAdapter {
 
     public void mousePressed(MouseEvent e) {
-        ContactTable table = (ContactTable)e.getSource();
-        int row = table.getSelectedRow();
-        if (e.getClickCount() == 2) {
-            table.triggerEvent(row);
-        }
+    	if (e.getSource() instanceof DoubleClickable) {
+    		DoubleClickable table = (DoubleClickable)e.getSource();
+	        if (e.getClickCount() == 2)
+	            table.triggerEvent();
+    	}
     }
     
 }
