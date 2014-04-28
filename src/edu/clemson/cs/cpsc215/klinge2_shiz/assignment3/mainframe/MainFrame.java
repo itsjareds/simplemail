@@ -125,16 +125,18 @@ public class MainFrame extends JFrame  {
 	    menuBar.add(helpMenu);
 
 	    JTabbedPane tabPane = new JTabbedPane();
-	    
+
         ContactTable contactTable = new ContactTable(new ContactTableModel(), med);
-	    this.getContentPane().add(new JScrollPane(contactTable, 
-	            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-	            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
+        JScrollPane contactScrollPane = new JScrollPane(contactTable, 
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+	    this.getContentPane().add(contactScrollPane);
 	    
 	    DraftTable draftTable = new DraftTable(new DraftTableModel(), med);
-	    this.getContentPane().add(new JScrollPane(draftTable, 
-	            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-	            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
+        JScrollPane draftScrollPane = new JScrollPane(draftTable, 
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+	    this.getContentPane().add(draftScrollPane);
 	    
 	    tabPane.add(contactTable);
 	    tabPane.add(draftTable);
