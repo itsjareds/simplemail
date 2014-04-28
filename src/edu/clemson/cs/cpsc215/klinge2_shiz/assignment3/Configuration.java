@@ -132,8 +132,10 @@ public class Configuration implements Serializable {
 		s += "[";
 		s += "{name:" + name + "},";
 		s += "{email:" + email + "},";
-		s += "{popServer:" + popHost + "},";
 		s += "{smtpServer:" + smtpHost + "},";
+		s += "{smtpPort:" + smtpPort + "},";
+		s += "{popServer:" + popHost + "},";
+		s += "{popPort:" + popPort + "},";
 		s += "{sslUsedSmtp:" + sslUsedSmtp + "},";
 		s += "{sslUsedPop3:" + sslUsedPop3 + "}";
 		s += "]";
