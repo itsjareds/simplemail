@@ -62,14 +62,14 @@ public class MainFrame extends JFrame  {
 	    }, "Shutdown-thread"));
 		
 		try {
-			UIManager.setLookAndFeel(
-					UIManager.getSystemLookAndFeelClassName());
-//			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-//				if ("Nimbus".equals(info.getName())) {
-//					UIManager.setLookAndFeel(info.getClassName());
-//					break;
-//				}
-//			}
+//			UIManager.setLookAndFeel(
+//					UIManager.getSystemLookAndFeelClassName());
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
 		} catch (Exception e) {
 			System.out.println("Unable to modify look and feel.");
 		}
@@ -164,7 +164,6 @@ public class MainFrame extends JFrame  {
 	            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS), BorderLayout.NORTH);
 
 	    JPanel buttonPane = new JPanel();
-	    buttonPane.setBackground(Color.GRAY);
 	    buttonPane.setLayout(new GridBagLayout());
 	    GridBagConstraints c;
 	    
