@@ -2,11 +2,11 @@ package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.mainframe;
 
 import javax.swing.JTable;
 
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.ContactTableDoubleClickListener;
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.DoubleClickable;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.ContactTableMultiClickListener;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.MultiClickable;
 
 @SuppressWarnings("serial")
-public class ContactTable extends JTable implements DoubleClickable {
+public class ContactTable extends JTable implements MultiClickable {
     private MainFrameMediator med = null;
     
     public ContactTable(ContactTableModel model, MainFrameMediator med) {
@@ -15,13 +15,13 @@ public class ContactTable extends JTable implements DoubleClickable {
         this.med.registerContactTable(this);
         
         this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        this.addMouseListener(new ContactTableDoubleClickListener());
+        this.addMouseListener(new ContactTableMultiClickListener());
     }
     
     @Override
-    public void triggerEvent() {
+    public void triggerEvent(int num) {
         if (med != null)
-            med.contactTableClicked();
+            med.contactTableClicked(num);
     }
     
     @Override

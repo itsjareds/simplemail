@@ -1,7 +1,5 @@
 package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.emailtrans;
 
-import java.io.IOException;
-
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 

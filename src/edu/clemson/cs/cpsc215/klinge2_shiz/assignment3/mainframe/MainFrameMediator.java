@@ -7,6 +7,8 @@ import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStore;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Email;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.AbstractDlg;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.config.ConfigurationDlg;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.delete.DeleteDlg;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.editing.ContactEditingDlg;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.emailtrans.EmailTransmissionDlg;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.sysinf.SystemInformationDlg;
 
@@ -63,33 +65,73 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
         }
     }
     
+    public void add() {
+    	if (frame != null && contactTable != null) {
+    		AbstractDlg dialog = new ContactEditingDlg(frame, contactTable);
+    		dialog.setModal(true);
+    		dialog.setVisible(true);
+    	}
+    	((ContactTableModel)contactTable.getModel()).fireTableRowsInserted(
+    			contactTable.getModel().getRowCount() - 1, 
+    			contactTable.getModel().getRowCount());
+    }
+
     @Override
-    public void contactTableClicked() {
+    public void edit() {
+    	if (frame != null && contactTable != null) {
+    		AbstractDlg dialog = new ContactEditingDlg(frame, contactTable);
+    		dialog.setModal(true);
+    		dialog.setVisible(true);
+    	}
+    	((ContactTableModel)contactTable.getModel()).fireTableDataChanged();
+    }
+
+    @Override
+    public void delete() {
     	int row = contactTable.getSelectedRow();
-        if (frame != null && contactTable != null) {
-            Contact c = ((ContactTableModel)contactTable.getModel()).getRow(row);
-            if (c != null) {
-                Email email = new Email();
-                email.setToField(Email.parseAddressList(c.getEmail()));
-                
-                AbstractDlg dialog = new EmailTransmissionDlg(frame, email);
-                dialog.setModal(true);
-                dialog.setVisible(true);
-            }
-        }
+
+    	if (frame != null && contactTable != null) {
+    		Contact c = ((ContactTableModel)contactTable.getModel()).getRow(row);
+    		if (c != null) {
+    			AbstractDlg dialog = new DeleteDlg(frame, c, contactTable);
+    			dialog.setModal(true);
+    			dialog.setVisible(true);
+    		}
+    	}
+    	((ContactTableModel)contactTable.getModel()).fireTableDataChanged();
     }
     
     @Override
-    public void draftTableClicked() {
-    	int row = draftTable.getSelectedRow();
-        if (frame != null && draftTable != null) {
-            Email d = ((DraftTableModel)draftTable.getModel()).getRow(row);
-            if (d != null) {
-                AbstractDlg dialog = new EmailTransmissionDlg(frame, d);
-                dialog.setModal(true);
-                dialog.setVisible(true);
-            }
-        }
+    public void contactTableClicked(int num) {
+    	if (num == 2) {
+	    	int row = contactTable.getSelectedRow();
+	        if (frame != null && contactTable != null) {
+	            Contact c = ((ContactTableModel)contactTable.getModel()).getRow(row);
+	            if (c != null) {
+	                Email email = new Email();
+	                email.setToField(Email.parseAddressList(c.getEmail()));
+	                
+	                AbstractDlg dialog = new EmailTransmissionDlg(frame, email);
+	                dialog.setModal(true);
+	                dialog.setVisible(true);
+	            }
+	        }
+    	}
+    }
+    
+    @Override
+    public void draftTableClicked(int num) {
+    	if (num == 2) {
+	    	int row = draftTable.getSelectedRow();
+	        if (frame != null && draftTable != null) {
+	            Email d = ((DraftTableModel)draftTable.getModel()).getRow(row);
+	            if (d != null) {
+	                AbstractDlg dialog = new EmailTransmissionDlg(frame, d);
+	                dialog.setModal(true);
+	                dialog.setVisible(true);
+	            }
+	        }
+    	}
     }
     
     @Override

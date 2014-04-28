@@ -229,8 +229,7 @@ public class DataStore implements DataStoreInterface {
 	    }
 	    
 		for (Contact c : contacts) {
-		    String email = c.getEmail().replace("@", ".at.");
-		    writeObjectToFile("data/contacts/" + email + ".ser", c);
+		    writeObjectToFile("data/contacts/" + c.hashCode() + ".ser", c);
 		}
 		System.out.println("Successfully serialized contacts.");
 	}

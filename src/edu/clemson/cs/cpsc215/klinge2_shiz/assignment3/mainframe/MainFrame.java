@@ -2,26 +2,27 @@ package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.mainframe;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JViewport;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Contact;
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.CryptographyException;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStore;
 
 /**
@@ -87,16 +88,23 @@ public class MainFrame extends JFrame  {
 	}
 	
 	public void addComponents() {
-	    Color color = Color.gray;
-
-	    //grab icon image from file
-	    File sourceimage = new File("res/email.png");
+	    //grab icon images from file
+	    File sourceImage = new File("res/email.png");
 	    Image image = null;
+	    File aboutImage = new File("res/about.png");
+	    Image aboutIcon = null;
+	    File configImage = new File("res/setting.png");
+	    Image configIcon = null;
+	    File exitImage = new File("res/exit.png");
+	    Image exitIcon = null;
 	    try {
-	        image = ImageIO.read(sourceimage);
-	    } catch (IOException e) {
-	        System.out.println("Invalid image");
-	        e.printStackTrace();
+	        image = ImageIO.read(sourceImage);
+	    	aboutIcon = ImageIO.read(aboutImage);
+	    	configIcon = ImageIO.read(configImage);
+	    	exitIcon = ImageIO.read(exitImage);
+	    } catch (IOException e){
+	    	System.out.println("Invalid image");
+	    	e.printStackTrace();
 	    }
 	    
 	    this.setTitle("SimpleMail");
@@ -117,6 +125,7 @@ public class MainFrame extends JFrame  {
 	    JMenu fileNewMenu = new JMenu("New");
 	    JMenuItem compose = new MenuItemCompose(med);
 	    JMenuItem exit = new MenuItemExit(med);
+	    exit.setIcon(new ImageIcon(exitIcon));
 	    fileNewMenu.add(compose);
 	    fileMenu.add(fileNewMenu);
 	    fileMenu.add(exit);
@@ -126,6 +135,7 @@ public class MainFrame extends JFrame  {
 	    JMenuItem clearContacts = new MenuItemClearContacts(med);
 	    JMenuItem clearDrafts = new MenuItemClearDrafts(med);
 	    JMenuItem config = new MenuItemConfig(med);
+	    config.setIcon(new ImageIcon(configIcon));
 	    editClearMenu.add(clearContacts);
 	    editClearMenu.add(clearDrafts);
 	    editMenu.add(editClearMenu);
@@ -133,6 +143,7 @@ public class MainFrame extends JFrame  {
 
 	    JMenu helpMenu = new JMenu("Help");
 	    JMenuItem about = new MenuItemAbout(med);
+	    about.setIcon(new ImageIcon(aboutIcon));
 	    helpMenu.add(about);
 
 	    menuBar.add(fileMenu);
@@ -141,10 +152,43 @@ public class MainFrame extends JFrame  {
 
 	    JTabbedPane tabPane = new JTabbedPane();
 
+	    JPanel contactsPanel = new JPanel();
+	    
         ContactTable contactTable = new ContactTable(new ContactTableModel(), med);
-	    tabPane.add("Contacts", new JScrollPane(contactTable, 
+	    contactsPanel.add(new JScrollPane(contactTable, 
 	            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 	            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
+
+	    JPanel buttonPane = new JPanel();
+	    buttonPane.setLayout(new GridBagLayout());
+	    GridBagConstraints c;
+	    
+	    JButton button;
+	    
+	    //button
+	    button = new ButtonAdd(med);
+	    c = new GridBagConstraints();
+	    c.gridwidth = 1;
+	    c.anchor = GridBagConstraints.WEST;
+	    buttonPane.add(button,c);
+	    
+	    button = new ButtonEdit(med);
+	    c = new GridBagConstraints();
+	    c.gridwidth = 1;
+	    c.anchor = GridBagConstraints.CENTER;
+	    button.setEnabled(false);
+	    buttonPane.add(button, c);
+	    
+	    button = new ButtonDelete(med);
+	    c = new GridBagConstraints();
+	    c.gridwidth = 1;
+	    c.anchor = GridBagConstraints.EAST;
+	    button.setEnabled(false);
+	    buttonPane.add(button, c);
+	    
+	    contactsPanel.add(buttonPane, BorderLayout.PAGE_END);
+	    
+	    tabPane.add("Contacts", contactsPanel);
 	    
 	    DraftTable draftTable = new DraftTable(new DraftTableModel(), med);
 	    tabPane.add("Drafts", new JScrollPane(draftTable, 
@@ -152,7 +196,7 @@ public class MainFrame extends JFrame  {
 	            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
 	    
 	    this.add(tabPane);
-
+	    
 	    this.setJMenuBar(menuBar);
 	    this.pack();
 	    this.setLocationByPlatform(true);
