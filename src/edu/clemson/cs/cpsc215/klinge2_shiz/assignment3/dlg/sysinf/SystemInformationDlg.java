@@ -1,4 +1,4 @@
-package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3;
+package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.sysinf;
 
 import java.awt.BorderLayout;
 import java.awt.Frame;

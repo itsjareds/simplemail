@@ -1,4 +1,4 @@
-package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.emailtransmission;
+package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.emailtrans;
 
 import javax.swing.JTextArea;
 import javax.swing.JTextField;

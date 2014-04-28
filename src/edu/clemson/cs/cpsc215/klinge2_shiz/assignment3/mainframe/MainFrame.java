@@ -3,6 +3,8 @@ package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.mainframe;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -17,6 +19,7 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Contact;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.CryptographyException;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStore;
 
 /**
@@ -27,9 +30,27 @@ import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStore;
  * @since 4/25/14
  */
 @SuppressWarnings("serial")
-public class MainFrame extends JFrame {
-
+public class MainFrame extends JFrame  {
+	
 	public static void main(String [] args) {
+	    Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+	        public void run() {
+				DataStore storage = DataStore.getInstance();
+				try {
+					storage.storeConf();
+				} catch (Exception ex) {
+					System.out.println("Error aving config file.");
+					System.out.println(ex.getMessage());
+				}
+				try {
+					storage.storeContacts();
+				} catch (Exception ex) {
+					System.out.println("Error saving contacts.");
+					System.out.println(ex.getMessage());
+				}
+	        }
+	    }, "Shutdown-thread"));
+		
 		try {
 			UIManager.setLookAndFeel(
 					UIManager.getSystemLookAndFeelClassName());
@@ -106,7 +127,6 @@ public class MainFrame extends JFrame {
 	            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
 
 	    this.setJMenuBar(menuBar);
-	    menuBar.validate();
 	    this.pack();
 	    this.setLocationByPlatform(true);
 	}

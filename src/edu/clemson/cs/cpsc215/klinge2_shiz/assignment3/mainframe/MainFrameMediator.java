@@ -5,10 +5,10 @@ import java.awt.Frame;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Contact;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStore;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Email;
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.SystemInformationDlg;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.AbstractDlg;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.config.ConfigurationDlg;
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.emailtransmission.EmailTransmissionDlg;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.emailtrans.EmailTransmissionDlg;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.sysinf.SystemInformationDlg;
 
 public class MainFrameMediator implements MainFrameMediatorInterface {
     private Frame frame = null;
@@ -16,18 +16,6 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     
     @Override
     public void exit() {
-        try {
-            DataStore.getInstance().storeConf();
-        } catch (Exception e) {
-            System.out.println("Error while saving config file.");
-            e.printStackTrace();
-        }
-        try {
-            DataStore.getInstance().storeContacts();
-        } catch (Exception e) {
-            System.out.println("Error while saving contacts.");
-            e.printStackTrace();
-        }
         System.exit(0);
     }
 
