@@ -13,7 +13,7 @@ public class MenuItemNewContact extends AbstractMenuItem {
     
     @Override
     public void triggerEvent() {
-        med.add();
+        med.addContact();
     }
 
 }

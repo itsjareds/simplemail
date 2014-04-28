@@ -1,13 +1,11 @@
 package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.mainframe;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -19,11 +17,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Contact;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStore;
 
 /**
@@ -34,7 +30,7 @@ import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStore;
  * @since 4/25/14
  */
 @SuppressWarnings("serial")
-public class MainFrame extends JFrame  {
+public class MainFrame extends JFrame {
 	
 	public static void main(String [] args) {
 	    Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
@@ -43,7 +39,7 @@ public class MainFrame extends JFrame  {
 				try {
 					storage.storeConf();
 				} catch (Exception ex) {
-					System.out.println("Error aving config file.");
+					System.out.println("Error saving config file.");
 					System.out.println(ex.getMessage());
 				}
 				try {
@@ -72,14 +68,6 @@ public class MainFrame extends JFrame  {
 			}
 		} catch (Exception e) {
 			System.out.println("Unable to modify look and feel.");
-		}
-		
-		List<Contact> contacts = DataStore.getInstance().getContacts();
-		if (contacts.size() == 0) {
-		    contacts.add(new Contact("Adam Klingenberger", "106 Saddlehorn Ct.",
-		            "919-414-3589", "klinge3@g.clemson.edu"));
-		    contacts.add(new Contact("Donald Medlin", "123 Pine St.",
-		            "911-455-3483", "dmedlin@g.clemson.edu"));
 		}
 		
 		//set up frame
@@ -119,8 +107,6 @@ public class MainFrame extends JFrame  {
 	    med.registerFrame(this);
 
 	    JMenuBar menuBar = new JMenuBar();
-	    //menuBar.setOpaque(true);
-	    //menuBar.setBackground(color);
 
 	    JMenu fileMenu = new JMenu("File");
 	    JMenu fileNewMenu = new JMenu("New");
@@ -155,6 +141,8 @@ public class MainFrame extends JFrame  {
 
 	    JTabbedPane tabPane = new JTabbedPane();
 
+	    // Contacts panel
+	    
 	    JPanel contactsPanel = new JPanel();
 	    contactsPanel.setLayout(new BorderLayout());
 	    
@@ -162,7 +150,7 @@ public class MainFrame extends JFrame  {
 	    contactsPanel.add(new JScrollPane(contactTable, 
 	            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 	            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS), BorderLayout.NORTH);
-
+	    
 	    JPanel buttonPane = new JPanel();
 	    buttonPane.setLayout(new GridBagLayout());
 	    GridBagConstraints c;
@@ -173,7 +161,7 @@ public class MainFrame extends JFrame  {
 	    
 	    // Buttons
 	    
-	    button = new ButtonAdd(med);
+	    button = new ButtonContactAdd(med);
 	    c = new GridBagConstraints();
 	    c.gridx = x++;
 	    c.gridwidth = 1;
@@ -182,7 +170,7 @@ public class MainFrame extends JFrame  {
 	    c.fill = GridBagConstraints.HORIZONTAL;
 	    buttonPane.add(button,c);
 	    
-	    button = new ButtonEdit(med);
+	    button = new ButtonContactEdit(med);
 	    c = new GridBagConstraints();
 	    c.gridx = x++;
 	    c.gridwidth = 1;
@@ -194,7 +182,7 @@ public class MainFrame extends JFrame  {
 	    		new SelectionChangedListener(button));
 	    buttonPane.add(button, c);
 	    
-	    button = new ButtonDelete(med);
+	    button = new ButtonContactDelete(med);
 	    c = new GridBagConstraints();
 	    c.gridx = x++;
 	    c.gridwidth = 1;
@@ -208,12 +196,51 @@ public class MainFrame extends JFrame  {
 	    
 	    contactsPanel.add(buttonPane, BorderLayout.SOUTH);
 	    
-	    tabPane.add("Contacts", contactsPanel);
+	    // Drafts panel
+	    
+	    JPanel draftsPanel = new JPanel();
+	    draftsPanel.setLayout(new BorderLayout());
 	    
 	    DraftTable draftTable = new DraftTable(new DraftTableModel(), med);
-	    tabPane.add("Drafts", new JScrollPane(draftTable, 
+	    draftsPanel.add(new JScrollPane(draftTable, 
 	            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 	            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
+	    
+	    buttonPane = new JPanel();
+	    buttonPane.setLayout(new GridBagLayout());
+	    
+	    x = 0;
+	    
+	    // Buttons
+	    
+	    button = new ButtonDraftEdit(med);
+	    c = new GridBagConstraints();
+	    c.gridx = x++;
+	    c.gridwidth = 1;
+	    c.weightx = 2;
+	    c.anchor = GridBagConstraints.CENTER;
+	    c.fill = GridBagConstraints.HORIZONTAL;
+	    button.setEnabled(false);
+	    draftTable.getSelectionModel().addListSelectionListener(
+	    		new SelectionChangedListener(button));
+	    buttonPane.add(button, c);
+	    
+	    button = new ButtonDraftDelete(med);
+	    c = new GridBagConstraints();
+	    c.gridx = x++;
+	    c.gridwidth = 1;
+	    c.weightx = 2;
+	    c.anchor = GridBagConstraints.EAST;
+	    c.fill = GridBagConstraints.HORIZONTAL;
+	    button.setEnabled(false);
+	    draftTable.getSelectionModel().addListSelectionListener(
+	    		new SelectionChangedListener(button));
+	    buttonPane.add(button, c);
+	    
+	    draftsPanel.add(buttonPane, BorderLayout.SOUTH);
+	    
+	    tabPane.add("Contacts", contactsPanel);
+	    tabPane.add("Drafts", draftsPanel);
 	    
 	    this.add(tabPane);
 	    

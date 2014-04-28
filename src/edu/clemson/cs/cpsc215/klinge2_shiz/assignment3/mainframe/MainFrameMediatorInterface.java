@@ -16,9 +16,12 @@ public interface MainFrameMediatorInterface {
     
     // Button actions
     
-    public void add();
-    public void edit();
-    public void delete();
+    public void addContact();
+    public void editContact();
+    public void deleteContact();
+    
+    public void editDraft();
+    public void deleteDraft();
     
     public void contactTableClicked(int num);
     public void draftTableClicked(int num);

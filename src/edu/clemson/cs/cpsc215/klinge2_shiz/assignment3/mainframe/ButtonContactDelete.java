@@ -3,16 +3,16 @@ package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.mainframe;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.AbstractButton;
 
 @SuppressWarnings("serial")
-public class ButtonEdit extends AbstractButton{
+public class ButtonContactDelete extends AbstractButton{
 	private MainFrameMediator med = null;
-			
-	public ButtonEdit(MainFrameMediator med){
-		super("Edit");
+		
+	public ButtonContactDelete(MainFrameMediator med){
+		super("Delete");
 		this.med = med;
 	}
-			
+		
 	public void triggerEvent(){
-		med.edit();
+		med.deleteContact();
 	}
 }
-			
+		

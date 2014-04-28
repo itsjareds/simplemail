@@ -2,8 +2,11 @@ package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.mainframe;
 
 import java.awt.Frame;
 
+import javax.swing.JOptionPane;
+
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Contact;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStore;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Draft;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Email;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.AbstractDlg;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.config.ConfigurationDlg;
@@ -65,7 +68,7 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
         }
     }
     
-    public void add() {
+    public void addContact() {
     	if (frame != null && contactTable != null) {
     		AbstractDlg dialog = new ContactEditingDlg(frame, contactTable, false);
     		dialog.setModal(true);
@@ -77,7 +80,7 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     }
 
     @Override
-    public void edit() {
+    public void editContact() {
     	if (frame != null && contactTable != null) {
     		AbstractDlg dialog = new ContactEditingDlg(frame, contactTable, true);
     		dialog.setModal(true);
@@ -87,10 +90,10 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     }
 
     @Override
-    public void delete() {
-    	int row = contactTable.getSelectedRow();
-
+    public void deleteContact() {
     	if (frame != null && contactTable != null) {
+    		int row = contactTable.getSelectedRow();
+    		
     		Contact c = ((ContactTableModel)contactTable.getModel())
     				.getRow(row);
     		if (c != null) {
@@ -98,8 +101,43 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     			dialog.setModal(true);
     			dialog.setVisible(true);
     		}
+    		
+    		((ContactTableModel)contactTable.getModel())
+    			.fireTableRowsInserted(row, row);
     	}
-    	((ContactTableModel)contactTable.getModel()).fireTableDataChanged();
+    }
+    
+    @Override
+    public void editDraft() {
+    	if (frame != null && draftTable != null) {
+    		int row = draftTable.getSelectedRow();
+    		Draft draft = ((DraftTableModel)draftTable.getModel())
+            		.getRow(row);
+            
+            AbstractDlg dialog = new EmailTransmissionDlg(frame,
+            		draftTable, (Email)draft);
+    		dialog.setModal(true);
+    		dialog.setVisible(true);
+    	}
+    }
+
+    @Override
+    public void deleteDraft() {
+    	if (frame != null && draftTable != null) {
+    		int row = draftTable.getSelectedRow();
+    		
+    		int result = JOptionPane.showConfirmDialog(null,
+    				"Are you sure you want to delete this draft?",
+    				"Confirm delete",
+    				JOptionPane.YES_NO_OPTION);
+    		
+    		if (result == JOptionPane.YES_OPTION) {
+    			DataStore.getInstance().getDrafts().remove(row);
+    			((DraftTableModel)draftTable.getModel())
+    				.fireTableRowsDeleted(row, row);
+    		}
+    	}
+    	
     }
     
     @Override
