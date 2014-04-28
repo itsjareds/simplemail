@@ -8,12 +8,36 @@ public interface EmailTransmissionMediatorInterface {
     public void draft();
     public void cancel();
     
+    /**
+     * @param send
+     */
     public void registerSendButton(ButtonSend send);
+    /**
+     * @param draft
+     */
     public void registerDraftButton(ButtonDraft draft);
+    /**
+     * @param cancel
+     */
     public void registerCancelButton(ButtonCancel cancel);
+    /**
+     * @param toField
+     */
     public void registerToField(JTextField toField);
+    /**
+     * @param ccField
+     */
     public void registerCcField(JTextField ccField);
+    /**
+     * @param bccField
+     */
     public void registerBccField(JTextField bccField);
+    /**
+     * @param subjectField
+     */
     public void registerSubjectField(JTextField subjectField);
+    /**
+     * @param bodyField
+     */
     public void registerBodyField(JTextArea bodyField);
 }

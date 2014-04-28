@@ -23,12 +23,21 @@ public class EmailTransmissionDlg extends AbstractDlg {
     private Email draft = new Email();
     protected DraftTable table = null;
 
+    /**
+     * @param owner Owner of the modal dialog
+     * @param table Reference to the drafts table
+     */
     public EmailTransmissionDlg(Frame owner, DraftTable table) {
         super(owner, "Compose a message");
         this.table = table;
         addComponents();
     }
     
+    /**
+     * @param owner Owner of the modal dialog
+     * @param table Reference to the drafts table
+     * @param draft Email to load into the dialog components
+     */
     public EmailTransmissionDlg(Frame owner, DraftTable table, Email draft) {
         super(owner, "Compose a message");
         this.table = table;
