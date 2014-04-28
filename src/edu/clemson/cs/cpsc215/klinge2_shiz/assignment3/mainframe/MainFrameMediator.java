@@ -19,8 +19,8 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     
     @Override
     public void compose() {
-    	if (frame != null) {
-    		AbstractDlg dialog = new EmailTransmissionDlg(frame);
+    	if (frame != null && draftTable != null) {
+    		AbstractDlg dialog = new EmailTransmissionDlg(frame, draftTable);
     		dialog.setModal(true);
     		dialog.setVisible(true);
     	}
@@ -67,7 +67,7 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     
     public void add() {
     	if (frame != null && contactTable != null) {
-    		AbstractDlg dialog = new ContactEditingDlg(frame, contactTable);
+    		AbstractDlg dialog = new ContactEditingDlg(frame, contactTable, false);
     		dialog.setModal(true);
     		dialog.setVisible(true);
     	}
@@ -79,7 +79,7 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     @Override
     public void edit() {
     	if (frame != null && contactTable != null) {
-    		AbstractDlg dialog = new ContactEditingDlg(frame, contactTable);
+    		AbstractDlg dialog = new ContactEditingDlg(frame, contactTable, true);
     		dialog.setModal(true);
     		dialog.setVisible(true);
     	}
@@ -91,9 +91,10 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     	int row = contactTable.getSelectedRow();
 
     	if (frame != null && contactTable != null) {
-    		Contact c = ((ContactTableModel)contactTable.getModel()).getRow(row);
+    		Contact c = ((ContactTableModel)contactTable.getModel())
+    				.getRow(row);
     		if (c != null) {
-    			AbstractDlg dialog = new DeleteDlg(frame, c, contactTable);
+    			AbstractDlg dialog = new DeleteDlg(frame, contactTable);
     			dialog.setModal(true);
     			dialog.setVisible(true);
     		}
@@ -105,13 +106,15 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     public void contactTableClicked(int num) {
     	if (num == 2) {
 	    	int row = contactTable.getSelectedRow();
-	        if (frame != null && contactTable != null) {
-	            Contact c = ((ContactTableModel)contactTable.getModel()).getRow(row);
+	        if (frame != null && contactTable != null && draftTable != null) {
+	            Contact c = ((ContactTableModel)contactTable.getModel())
+	            		.getRow(row);
 	            if (c != null) {
 	                Email email = new Email();
 	                email.setToField(Email.parseAddressList(c.getEmail()));
 	                
-	                AbstractDlg dialog = new EmailTransmissionDlg(frame, email);
+	                AbstractDlg dialog = new EmailTransmissionDlg(frame,
+	                		draftTable, email);
 	                dialog.setModal(true);
 	                dialog.setVisible(true);
 	            }
@@ -126,7 +129,8 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
 	        if (frame != null && draftTable != null) {
 	            Email d = ((DraftTableModel)draftTable.getModel()).getRow(row);
 	            if (d != null) {
-	                AbstractDlg dialog = new EmailTransmissionDlg(frame, d);
+	                AbstractDlg dialog = new EmailTransmissionDlg(frame,
+	                		draftTable, d);
 	                dialog.setModal(true);
 	                dialog.setVisible(true);
 	            }

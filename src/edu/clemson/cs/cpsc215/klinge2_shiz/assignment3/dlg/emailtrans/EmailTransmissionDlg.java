@@ -16,18 +16,22 @@ import javax.swing.JTextField;
 
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Email;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.AbstractDlg;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.mainframe.DraftTable;
 
 @SuppressWarnings("serial")
 public class EmailTransmissionDlg extends AbstractDlg {
     private Email draft = new Email();
+    protected DraftTable table = null;
 
-    public EmailTransmissionDlg(Frame owner) {
+    public EmailTransmissionDlg(Frame owner, DraftTable table) {
         super(owner, "Compose a message");
+        this.table = table;
         addComponents();
     }
     
-    public EmailTransmissionDlg(Frame owner, Email draft) {
+    public EmailTransmissionDlg(Frame owner, DraftTable table, Email draft) {
         super(owner, "Compose a message");
+        this.table = table;
         this.draft = draft;
         addComponents();
     }

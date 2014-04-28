@@ -17,17 +17,20 @@ import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.AbstractDlg;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.mainframe.ContactTable;
 
 @SuppressWarnings("serial")
-public class ContactEditingDlg extends AbstractDlg{
+public class ContactEditingDlg extends AbstractDlg {
 	private Contact contact = new Contact("","","","");
-	private ContactTable table = null;
-	private int index = -1;
+	protected ContactTable table = null;
+	protected int index = -1;
+	protected boolean modify = false;
 
-	public ContactEditingDlg(Frame owner, ContactTable table){
+	public ContactEditingDlg(Frame owner, ContactTable table, boolean modify) {
 		super(owner, "Contact details");
+		this.modify = modify;
 		this.table = table;
-		if (table != null) {
+		if (table != null && modify) {
+			index = table.getSelectedRow();
 			if (index != -1)
-				this.contact = DataStore.getInstance().getContacts().get(index);
+				contact = DataStore.getInstance().getContacts().get(index);
 		}
 		addComponents();
 	}
@@ -92,13 +95,10 @@ public class ContactEditingDlg extends AbstractDlg{
         col++;
         row = 0;
         
-        //Textfields
+        // Textfields
         
         txt = new JTextField();
-        if(contact.getName() != null){
-        	String contents = contact.getName();
-        	txt.setText(contents);
-        }
+        txt.setText(contact.getName());
         txt.setColumns(40);
         c = new GridBagConstraints();
         c.gridx = col;
@@ -109,10 +109,7 @@ public class ContactEditingDlg extends AbstractDlg{
         innerPanel.add(txt, c);
         
         txt = new JTextField();
-        if(contact.getEmail() != null){
-        	String contents = contact.getEmail();
-        	txt.setText(contents);
-        }
+        txt.setText(contact.getEmail());
         txt.setColumns(40);
         c = new GridBagConstraints();
         c.gridx = col;
@@ -123,10 +120,7 @@ public class ContactEditingDlg extends AbstractDlg{
         innerPanel.add(txt, c);
         	
         txt = new JTextField();
-        if(contact.getPhone() != null){
-        	String contents = contact.getPhone();
-        	txt.setText(contents);
-        }
+        txt.setText(contact.getPhone());
         txt.setColumns(40);
         c = new GridBagConstraints();
         c.gridx = col;
@@ -137,10 +131,7 @@ public class ContactEditingDlg extends AbstractDlg{
         innerPanel.add(txt, c);
         
         txt = new JTextField();
-        if(contact.getAddress() != null){
-        	String contents = contact.getAddress();
-        	txt.setText(contents);
-        }
+        txt.setText(contact.getAddress());
         txt.setColumns(40);
         c = new GridBagConstraints();
         c.gridx = col;
@@ -152,40 +143,28 @@ public class ContactEditingDlg extends AbstractDlg{
         
         // Buttons
         
-        button = new ButtonSave(med);
+        button = new ButtonCancel(med);
         c = new GridBagConstraints();
         c.gridx = 0;
         c.gridy = row;
         c.gridwidth = 1;
         c.anchor = GridBagConstraints.SOUTHWEST;
-        med.registerSaveButton((ButtonSave)button);
+        med.registerCancelButton((ButtonCancel)button);
         innerPanel.add(button, c);
         
-        button = new ButtonCancel(med);
+        button = new ButtonSave(med);
         c = new GridBagConstraints();
         c.gridx = 2;
         c.gridy = row;
         c.gridwidth = 1;
         c.anchor = GridBagConstraints.SOUTHEAST;
-        med.registerCancelButton((ButtonCancel)button);
+        med.registerSaveButton((ButtonSave)button);
         innerPanel.add(button, c);
         
         containerPanel.add(innerPanel, BorderLayout.CENTER);
         this.getContentPane().add(containerPanel, BorderLayout.CENTER);
         this.pack();
         this.setLocationByPlatform(true);
-	}
-
-	public Contact getContact() {
-		return contact;
-	}
-
-	public ContactTable getTable() {
-		return table;
-	}
-
-	public int getIndex() {
-		return index;
 	}
 	
 }

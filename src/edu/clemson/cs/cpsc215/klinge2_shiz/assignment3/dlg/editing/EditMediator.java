@@ -40,7 +40,7 @@ public class EditMediator implements EditMediatorInterface {
 		ArrayList<Contact> contacts = DataStore.getInstance().getContacts();
 		Contact newContact = generateContact();
 		
-		int row = contactEditingDlg.getIndex();
+		int row = contactEditingDlg.index;
 		if (row == -1)
 			contacts.add(newContact);
 		else

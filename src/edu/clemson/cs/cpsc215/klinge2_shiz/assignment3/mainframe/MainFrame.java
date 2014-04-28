@@ -19,6 +19,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
@@ -124,9 +125,11 @@ public class MainFrame extends JFrame  {
 	    JMenu fileMenu = new JMenu("File");
 	    JMenu fileNewMenu = new JMenu("New");
 	    JMenuItem compose = new MenuItemCompose(med);
+	    JMenuItem newContact = new MenuItemNewContact(med);
 	    JMenuItem exit = new MenuItemExit(med);
 	    exit.setIcon(new ImageIcon(exitIcon));
 	    fileNewMenu.add(compose);
+	    fileNewMenu.add(newContact);
 	    fileMenu.add(fileNewMenu);
 	    fileMenu.add(exit);
 
@@ -153,40 +156,58 @@ public class MainFrame extends JFrame  {
 	    JTabbedPane tabPane = new JTabbedPane();
 
 	    JPanel contactsPanel = new JPanel();
+	    contactsPanel.setLayout(new BorderLayout());
 	    
         ContactTable contactTable = new ContactTable(new ContactTableModel(), med);
 	    contactsPanel.add(new JScrollPane(contactTable, 
 	            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-	            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
+	            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS), BorderLayout.NORTH);
 
 	    JPanel buttonPane = new JPanel();
+	    buttonPane.setBackground(Color.GRAY);
 	    buttonPane.setLayout(new GridBagLayout());
 	    GridBagConstraints c;
 	    
 	    JButton button;
 	    
-	    //button
+	    int x = 0;
+	    
+	    // Buttons
+	    
 	    button = new ButtonAdd(med);
 	    c = new GridBagConstraints();
+	    c.gridx = x++;
 	    c.gridwidth = 1;
+	    c.weightx = 2;
 	    c.anchor = GridBagConstraints.WEST;
+	    c.fill = GridBagConstraints.HORIZONTAL;
 	    buttonPane.add(button,c);
 	    
 	    button = new ButtonEdit(med);
 	    c = new GridBagConstraints();
+	    c.gridx = x++;
 	    c.gridwidth = 1;
+	    c.weightx = 2;
 	    c.anchor = GridBagConstraints.CENTER;
+	    c.fill = GridBagConstraints.HORIZONTAL;
 	    button.setEnabled(false);
+	    contactTable.getSelectionModel().addListSelectionListener(
+	    		new SelectionChangedListener(button));
 	    buttonPane.add(button, c);
 	    
 	    button = new ButtonDelete(med);
 	    c = new GridBagConstraints();
+	    c.gridx = x++;
 	    c.gridwidth = 1;
+	    c.weightx = 2;
 	    c.anchor = GridBagConstraints.EAST;
+	    c.fill = GridBagConstraints.HORIZONTAL;
 	    button.setEnabled(false);
+	    contactTable.getSelectionModel().addListSelectionListener(
+	    		new SelectionChangedListener(button));
 	    buttonPane.add(button, c);
 	    
-	    contactsPanel.add(buttonPane, BorderLayout.PAGE_END);
+	    contactsPanel.add(buttonPane, BorderLayout.SOUTH);
 	    
 	    tabPane.add("Contacts", contactsPanel);
 	    

@@ -7,6 +7,7 @@ import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStore;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Draft;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Email;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.EmailHandler;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.mainframe.DraftTableModel;
 
 public class EmailTransmissionMediator implements EmailTransmissionMediatorInterface {
     ButtonSend buttonSend = null;
@@ -45,6 +46,9 @@ public class EmailTransmissionMediator implements EmailTransmissionMediatorInter
     @Override
     public void draft() {
     	DataStore.getInstance().getDrafts().add(new Draft(generateEmail()));
+    	DraftTableModel model = (DraftTableModel)draftDlg.table.getModel();
+    	model.fireTableRowsInserted(model.getRowCount() - 1,
+    			model.getRowCount());
     	System.out.println("Saved as draft.");
     }
 

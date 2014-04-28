@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Contact;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStore;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.AbstractDlg;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.mainframe.ContactTable;
 
@@ -18,11 +19,16 @@ import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.mainframe.ContactTable;
 public class DeleteDlg extends AbstractDlg{
 	private Contact contact = new Contact("","","","");
 	protected ContactTable table = null;
-	
-	public DeleteDlg(Frame owner, Contact contact, ContactTable table) {
+	protected int index = -1;
+
+	public DeleteDlg(Frame owner, ContactTable table) {
 		super(owner, "Delete");
-		this.contact = contact;
 		this.table = table;
+		if (table != null) {
+			index = table.getSelectedRow();
+			if (index != -1)
+				contact = DataStore.getInstance().getContacts().get(index);
+		}
 		addComponents();
 	}
 	
@@ -49,7 +55,7 @@ public class DeleteDlg extends AbstractDlg{
 		containerPanel.add(label, BorderLayout.BEFORE_FIRST_LINE);
 		
 		//label
-		label = new JLabel("Name");
+		label = new JLabel("Name:");
         c = new GridBagConstraints();
         c.gridx = col;
         c.gridy = row++;
@@ -58,7 +64,7 @@ public class DeleteDlg extends AbstractDlg{
         c.anchor = GridBagConstraints.EAST;
         innerPanel.add(label, c);
         
-        label = new JLabel("Email");
+        label = new JLabel("Email:");
         c = new GridBagConstraints();
         c.gridx = col;
         c.gridy = row++;
@@ -67,7 +73,7 @@ public class DeleteDlg extends AbstractDlg{
         c.anchor = GridBagConstraints.EAST;
         innerPanel.add(label, c);
         
-        label = new JLabel("Phone");
+        label = new JLabel("Phone:");
         c = new GridBagConstraints();
         c.gridx = col;
         c.gridy = row++;
@@ -76,7 +82,7 @@ public class DeleteDlg extends AbstractDlg{
         c.anchor = GridBagConstraints.EAST;
         innerPanel.add(label, c);
         
-        label = new JLabel("Address");
+        label = new JLabel("Address:");
         c = new GridBagConstraints();
         c.gridx = col;
         c.gridy = row++;
@@ -90,10 +96,7 @@ public class DeleteDlg extends AbstractDlg{
         
         //Contact info
         label = new JLabel();
-        if(contact.getName() != null){
-        	String contents = contact.getName();
-        	label.setText(contents);	
-        }
+        label.setText(contact.getName());	
         c = new GridBagConstraints();
         c.gridx = col+2;
         c.gridy = row++;
@@ -103,10 +106,7 @@ public class DeleteDlg extends AbstractDlg{
         innerPanel.add(label, c);
         
         label = new JLabel();
-        if(contact.getEmail() != null){
-        	String contents = contact.getEmail();
-        	label.setText(contents);	
-        }
+        label.setText(contact.getEmail());	
         c = new GridBagConstraints();
         c.gridx = col+2;
         c.gridy = row++;
@@ -116,10 +116,7 @@ public class DeleteDlg extends AbstractDlg{
         innerPanel.add(label, c);
         
         label = new JLabel();
-        if(contact.getPhone() != null){
-        	String contents = contact.getPhone();
-        	label.setText(contents);	
-        }
+        label.setText(contact.getPhone());	
         c = new GridBagConstraints();
         c.gridx = col+2;
         c.gridy = row++;
@@ -129,10 +126,7 @@ public class DeleteDlg extends AbstractDlg{
         innerPanel.add(label, c);
         
         label = new JLabel();
-        if(contact.getAddress() != null){
-        	String contents = contact.getAddress();
-        	label.setText(contents);	
-        }
+        label.setText(contact.getAddress());	
         c = new GridBagConstraints();
         c.gridx = col+2;
         c.gridy = row++;
@@ -148,7 +142,6 @@ public class DeleteDlg extends AbstractDlg{
         c.gridy = row;
         c.gridwidth = 1;
         c.anchor = GridBagConstraints.SOUTHWEST;
-        med.registerYesButton((ButtonYes)button);
         innerPanel.add(button, c);
         
         button = new ButtonNo(med);
@@ -157,7 +150,6 @@ public class DeleteDlg extends AbstractDlg{
         c.gridy = row;
         c.gridwidth = 1;
         c.anchor = GridBagConstraints.SOUTHEAST;
-        med.registerNoButton((ButtonNo)button);
         innerPanel.add(button, c);
         
         containerPanel.add(innerPanel, BorderLayout.CENTER);

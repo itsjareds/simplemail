@@ -9,7 +9,6 @@ public class ButtonNo extends AbstractButton {
 	public ButtonNo(DeleteMediator med){
 		super("No");
 		this.med = med;
-		this.med.registerNoButton(this);
 	}
 	
 	public void triggerEvent(){

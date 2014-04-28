@@ -9,7 +9,6 @@ public class ButtonYes extends AbstractButton {
 	public ButtonYes(DeleteMediator med){
 		super("Yes");
 		this.med = med;
-		this.med.registerYesButton(this);
 	}
 	
 	public void triggerEvent(){

@@ -1,12 +1,11 @@
 package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.delete;
 
+import java.util.List;
 
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Contact;
+import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStore;
 
 public class DeleteMediator implements DeleteMediatorInterface{
-	
 	ButtonYes buttonYes = null;
 	ButtonNo buttonNo = null;
 	DeleteDlg deleteDlg = null;
@@ -15,31 +14,20 @@ public class DeleteMediator implements DeleteMediatorInterface{
 		this.deleteDlg = deleteDlg;
 	}
 
-
 	@Override
 	public void yes() {
-
+		List<Contact> contacts = DataStore.getInstance().getContacts();
+		
+		int row = deleteDlg.index;
+		if (row != -1)
+			contacts.remove(row);
+		
+		deleteDlg.setVisible(false);
 	}
 
 	@Override
 	public void no() {
 		deleteDlg.setVisible(false);
 		deleteDlg.dispose();
-		
 	}
-
-	@Override
-	public void registerYesButton(ButtonYes yes) {
-		this.buttonYes = yes;
-		
-	}
-
-	@Override
-	public void registerNoButton(ButtonNo no) {
-		this.buttonNo = no;
-		
-	}
-	
-	
-
 }
