@@ -37,8 +37,15 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     @Override
     public void clearContacts() {
     	if (contactTable != null) {
-    		DataStore.getInstance().getContacts().clear();
-    		((ContactTableModel)contactTable.getModel()).fireTableDataChanged();
+    		int result = JOptionPane.showConfirmDialog(null,
+    				"Are you sure you want to delete ALL drafts?",
+    				"Confirm delete",
+    				JOptionPane.YES_NO_OPTION);
+    		
+    		if (result == JOptionPane.YES_OPTION) {
+    			DataStore.getInstance().getContacts().clear();
+    			((ContactTableModel)contactTable.getModel()).fireTableDataChanged();
+    		}
     	}
     }
     
@@ -73,10 +80,10 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     		AbstractDlg dialog = new ContactEditingDlg(frame, contactTable, false);
     		dialog.setModal(true);
     		dialog.setVisible(true);
+        	((ContactTableModel)contactTable.getModel()).fireTableRowsInserted(
+        			contactTable.getModel().getRowCount() - 1, 
+        			contactTable.getModel().getRowCount() - 1);
     	}
-    	((ContactTableModel)contactTable.getModel()).fireTableRowsInserted(
-    			contactTable.getModel().getRowCount() - 1, 
-    			contactTable.getModel().getRowCount());
     }
 
     @Override
@@ -85,8 +92,8 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     		AbstractDlg dialog = new ContactEditingDlg(frame, contactTable, true);
     		dialog.setModal(true);
     		dialog.setVisible(true);
+    		((ContactTableModel)contactTable.getModel()).fireTableDataChanged();
     	}
-    	((ContactTableModel)contactTable.getModel()).fireTableDataChanged();
     }
 
     @Override
