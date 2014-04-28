@@ -2,6 +2,13 @@ package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3;
 
 import java.io.IOException;
 
+/**
+ * Interface for DataStore
+ * 
+ * @author klinge2
+ * @since 04-28-2014
+ */
+
 public interface DataStoreInterface {
 
     public void loadConf() throws ClassNotFoundException, IOException,

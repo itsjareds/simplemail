@@ -4,6 +4,15 @@ import java.awt.Frame;
 
 import javax.swing.JDialog;
 
+/**
+ * Abstract class from which all Dialogs derive. Forces all dialogs to 
+ * separate the constructor and the component adding methods, and provides a
+ * default window title if none is provided.
+ * 
+ * @author klinge2
+ * @since 04-28-2014
+ */
+
 public abstract class AbstractDlg extends JDialog {
     /**
      * 

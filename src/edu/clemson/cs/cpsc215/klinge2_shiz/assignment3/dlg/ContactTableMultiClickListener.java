@@ -3,6 +3,14 @@ package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * A custom multi-click listener for all MultiClickable interface users. 
+ * Passes the number of clicks to triggerEvent().
+ * 
+ * @author klinge2
+ * @since 04-28-2014
+ */
+
 public class ContactTableMultiClickListener extends MouseAdapter {
 
     public void mousePressed(MouseEvent e) {

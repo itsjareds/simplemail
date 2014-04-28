@@ -24,9 +24,10 @@ import javax.crypto.SecretKey;
  * Data storage class which provides functionality to store and load
  * runtime configuration to and from the hard disk.
  * 
- * @author Jared Klingenberger
- * @since 04-24-2014
+ * @author klinge2
+ * @since 04-28-2014
  */
+
 public class DataStore implements DataStoreInterface {
 	private static DataStore instance;
 	private ArrayList<Contact> contacts = new ArrayList<Contact>();

@@ -23,9 +23,10 @@ import javax.mail.search.FlagTerm;
 /**
  * Class which handles the details in regards to sending and receiving mail.
  * 
- * @author Jared Klingenberger
+ * @author klinge2
  * @since 04-28-2014
  */
+
 public class EmailHandler {
 	/**
 	 * sendMail(Email email) handles the nuts and bolts of sending an email

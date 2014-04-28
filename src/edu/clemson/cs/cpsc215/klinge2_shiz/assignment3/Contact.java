@@ -1,13 +1,14 @@
 package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3;
 
 import java.io.Serializable;
+
 /**
  * Contact class maintains information about a single email contact.
  * 
  * @author shiz
- * @since 4/24/14
- *
+ * @since 04-28-14
  */
+
 public class Contact implements Serializable {
 	private static final long serialVersionUID = 261744957588450320L;
 	private String name;

@@ -10,8 +10,8 @@ import javax.mail.internet.InternetAddress;
 /**
  * Email class which aggregates information about an email draft.
  * 
- * @author Jared Klingenberger
- * @since 04-24-2014
+ * @author klinge2
+ * @since 04-28-2014
  */
 public class Email implements Serializable {
 	private static final long serialVersionUID = 1419929913755803694L;

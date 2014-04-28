@@ -2,6 +2,13 @@ package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3;
 
 import java.util.Date;
 
+/**
+ * Draft class which decorates Email with time information
+ * 
+ * @author klinge2
+ * @since 04-28-2014
+ */
+
 // Decorator of Email
 public class Draft extends Email {
 	private static final long serialVersionUID = -1574493737779239049L;

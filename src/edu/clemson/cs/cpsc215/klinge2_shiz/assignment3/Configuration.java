@@ -10,7 +10,7 @@ import javax.mail.internet.InternetAddress;
 /**
  * Configuration class which contains system information about the user.
  * 
- * @author Jared Klingenberger
+ * @author klinge2
  * @since 04-28-2014
  */
 

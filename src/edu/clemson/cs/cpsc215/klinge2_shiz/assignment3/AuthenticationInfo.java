@@ -2,6 +2,13 @@ package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3;
 
 import java.io.Serializable;
 
+/**
+ * Class which stores authentication information.
+ * 
+ * @author klinge2
+ * @since 04-28-2014
+ */
+
 public class AuthenticationInfo implements Serializable {
 	/**
      * Automatically generated serialVersionUID
