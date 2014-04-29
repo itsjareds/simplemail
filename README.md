@@ -60,6 +60,7 @@ If more time were allowed, we would have made it possible to sort the Contacts t
 * About dialog
 * `Contact` class implementation
 * `SelectionChangedListener`
+* Unit tests
 
 ### Jared Klingenberger
 
@@ -71,6 +72,7 @@ If more time were allowed, we would have made it possible to sort the Contacts t
   * Encryption ability for serialized objects
 * `Email`, `Draft`, and `EmailHandler` classes
 * `AuthenticationInfo` class for storing a username and password
+* Unit tests
 
 ## Issues encountered
 
@@ -100,4 +102,4 @@ The descriptions for these features can be found in the [Functionality](#functio
 
 ## Additional thoughts
 
-Overall, this assignment proved interesting to complete. Particularly remarkable was how useful the Mediator pattern came to be in handling Swing events. Additionally, other design patterns were useful -- we found a use for the Singleton pattern, Decorator pattern, Factory pattern, and Template method pattern, if not more. We found the Configuration class to be nice to use since it allowed for any class or dialog to have access to a common dataset.
+Overall, this assignment proved interesting to complete. Particularly remarkable was how useful the Mediator pattern came to be in handling Swing events. Additionally, other design patterns were useful -- we found a use for the Singleton pattern, Decorator pattern, Factory pattern, and Template method pattern, if not more. We found the `Configuration` class to be nice to use since it allowed for any class or dialog to have access to a common dataset.

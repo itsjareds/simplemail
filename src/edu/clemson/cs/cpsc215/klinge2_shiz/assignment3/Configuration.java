@@ -39,10 +39,14 @@ public class Configuration implements Serializable {
 	 * @param s String interpreted as an InternetAddress.
 	 */
 	public void setEmail(String s) {
-		try {
-			this.email = new InternetAddress(s);
-		} catch (AddressException e) {
-			// invalid Internet address
+		if (s != null) {
+			try {
+				InternetAddress[] list = InternetAddress.parse(s);
+				if (list.length > 0)
+					this.email = list[0];
+			} catch (AddressException e) {
+				// invalid Internet address
+			}
 		}
 	}
 	/**

@@ -201,9 +201,6 @@ public class DataStore implements DataStoreInterface {
 		return sealedObject;
 	}
 	
-	/* (non-Javadoc)
-	 * @see edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStoreInterface#loadConf()
-	 */
 	@Override
     public void loadConf() throws ClassNotFoundException, IOException,
             CryptographyException {
@@ -214,14 +211,12 @@ public class DataStore implements DataStoreInterface {
 		}
 	}
 	
-	/* (non-Javadoc)
-	 * @see edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStoreInterface#loadContacts()
-	 */
 	@Override
     public void loadContacts() throws ClassNotFoundException, IOException {
 		File[] fileList = new File("data/contacts/").listFiles();
 		
 		if (fileList != null) {
+			contacts.clear();
 			for (File f : fileList) {
 				Object o = readObjectFromFile(f.getPath());
 				if (o instanceof Contact) {
@@ -233,14 +228,12 @@ public class DataStore implements DataStoreInterface {
 		}
 	}
 	
-	/* (non-Javadoc)
-	 * @see edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStoreInterface#loadDrafts()
-	 */
 	@Override
 	public void loadDrafts() throws ClassNotFoundException, IOException {
 		File[] fileList = new File("data/drafts/").listFiles();
 		
 		if (fileList != null) {
+			contacts.clear();
 			for (File f : fileList) {
 				Object o = readObjectFromFile(f.getPath());
 				if (o instanceof Draft) {
@@ -262,9 +255,6 @@ public class DataStore implements DataStoreInterface {
 	    System.out.println("New config file written.");
 	}
 	
-	/* (non-Javadoc)
-	 * @see edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStoreInterface#storeContacts()
-	 */
 	@Override
     public void storeContacts() throws IOException {
 	    // clear directory
@@ -283,9 +273,6 @@ public class DataStore implements DataStoreInterface {
 		System.out.println("Successfully serialized contacts.");
 	}
 	
-	/* (non-Javadoc)
-	 * @see edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStoreInterface#storeDrafts()
-	 */
 	@Override
 	public void storeDrafts() throws IOException {
 	    // clear directory
