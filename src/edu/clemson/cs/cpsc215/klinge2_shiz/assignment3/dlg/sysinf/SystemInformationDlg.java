@@ -19,23 +19,31 @@ import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.AbstractDlg;
 
 /**
  * System information dialog. Display program information.
- * 
+ * extends AbstractDlg
+ * implements ActionListener
  * @author shiz
  * @since 4/24/14
  */
 @SuppressWarnings("serial")
 public class SystemInformationDlg extends AbstractDlg implements ActionListener {
 
+	/**
+	 * set up dialog
+	 * @param owner
+	 */
 	public SystemInformationDlg(Frame owner) {
 	    super(owner, "About");
 	    addComponents();
 	}
 
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//action for OK button. close and dispose the dialog
 		setVisible(false);
 		dispose();
 	}
+
 
     @Override
     protected void addComponents() {
@@ -49,6 +57,7 @@ public class SystemInformationDlg extends AbstractDlg implements ActionListener 
             e.printStackTrace();
         }
         
+        //assign values to string with separate line
         String line  = "<HTML>";
         while (fileStream.hasNextLine()) {
             line += fileStream.nextLine();

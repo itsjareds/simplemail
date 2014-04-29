@@ -16,6 +16,14 @@ import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStore;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.AbstractDlg;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.mainframe.ContactTable;
 
+/**
+ * Contact editing dialog. Interface for add and edit
+ * extends AbstractDlg
+ * @author shiz
+ * @author klinge2
+ * @since 4-28-14
+ *
+ */
 @SuppressWarnings("serial")
 public class ContactEditingDlg extends AbstractDlg {
 	private Contact contact = new Contact("","","","");
@@ -23,6 +31,11 @@ public class ContactEditingDlg extends AbstractDlg {
 	protected int index = -1;
 	protected boolean modify = false;
 
+	/**
+	 * @param owner
+	 * @param table
+	 * @param modify
+	 */
 	public ContactEditingDlg(Frame owner, ContactTable table, boolean modify) {
 		super(owner, "Contact details");
 		this.modify = modify;
@@ -37,6 +50,7 @@ public class ContactEditingDlg extends AbstractDlg {
 	
 	@Override
 	protected void addComponents() {
+		//declare panels and layout manager
 		JPanel containerPanel = new JPanel();
         containerPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         containerPanel.setLayout(new BorderLayout());

@@ -15,13 +15,22 @@ import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.editing.ContactEditin
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.emailtrans.EmailTransmissionDlg;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.sysinf.SystemInformationDlg;
 
+/**
+ * Mediator pattern for main frame.
+ * implements MainFrameMediatorInterface
+ * @author shiz
+ * @author klinge2
+ * @since 4-28-14
+ *
+ */
 public class MainFrameMediator implements MainFrameMediatorInterface {
     private Frame frame = null;
     private ContactTable contactTable = null;
     private DraftTable draftTable = null;
-    
+
     @Override
     public void compose() {
+    	//bring up email transmission dialog
     	if (frame != null && draftTable != null) {
     		AbstractDlg dialog = new EmailTransmissionDlg(frame, draftTable);
     		dialog.setModal(true);
@@ -29,13 +38,16 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     	}
     }
     
+
     @Override
     public void exit() {
         System.exit(0);
     }
     
+
     @Override
     public void clearContacts() {
+    	//confirm then clear contact table and contacts in Datastore, update table
     	if (contactTable != null) {
     		int result = JOptionPane.showConfirmDialog(null,
     				"Are you sure you want to delete ALL drafts?",
@@ -49,16 +61,20 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     	}
     }
     
+
     @Override
     public void clearDrafts() {
+    	//clear draft, update table
     	if (draftTable != null) {
     		DataStore.getInstance().getDrafts().clear();
     		((DraftTableModel)draftTable.getModel()).fireTableDataChanged();
     	}
     }
     
+
     @Override
     public void config() {
+    	//bring up configuration dialog
         if (frame != null) {
             AbstractDlg dialog = new ConfigurationDlg(frame);
             dialog.setModal(true);
@@ -66,8 +82,10 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
         }
     }
 
+
     @Override
     public void about() {
+    	//bring up system information dialog
         if (frame != null) {
             AbstractDlg dialog = new SystemInformationDlg(frame);
             dialog.setModal(true);
@@ -75,7 +93,9 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
         }
     }
     
+  
     public void addContact() {
+    	//bring up contact editing dialog for adding, update table when done
     	if (frame != null && contactTable != null) {
     		AbstractDlg dialog = new ContactEditingDlg(frame, contactTable, false);
     		dialog.setModal(true);
@@ -86,8 +106,10 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     	}
     }
 
+  
     @Override
     public void editContact() {
+    	//bring up contact editing dialog for editing, update table when done
     	if (frame != null && contactTable != null) {
     		AbstractDlg dialog = new ContactEditingDlg(frame, contactTable, true);
     		dialog.setModal(true);
@@ -96,8 +118,10 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     	}
     }
 
+
     @Override
     public void deleteContact() {
+    	//delete selected row. bring up delete dialog to confirm, update table when done
     	if (frame != null && contactTable != null) {
     		int row = contactTable.getSelectedRow();
     		
@@ -114,8 +138,10 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     	}
     }
     
+ 
     @Override
     public void editDraft() {
+    	//bring up email transmission dialog
     	if (frame != null && draftTable != null) {
     		int row = draftTable.getSelectedRow();
     		Draft draft = ((DraftTableModel)draftTable.getModel())
@@ -128,8 +154,10 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     	}
     }
 
+ 
     @Override
     public void deleteDraft() {
+    	//confirm then delete draft, update table when done
     	if (frame != null && draftTable != null) {
     		int row = draftTable.getSelectedRow();
     		
@@ -147,8 +175,10 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     	
     }
     
+
     @Override
     public void contactTableClicked(int num) {
+    	//if double click in contact table, bring up email transmission dialog
     	if (num == 2) {
 	    	int row = contactTable.getSelectedRow();
 	        if (frame != null && contactTable != null && draftTable != null) {
@@ -167,8 +197,10 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     	}
     }
     
+
     @Override
     public void draftTableClicked(int num) {
+    	//if double click in drafttable, bring up email transmission dialog
     	if (num == 2) {
 	    	int row = draftTable.getSelectedRow();
 	        if (frame != null && draftTable != null) {
@@ -182,7 +214,7 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
 	        }
     	}
     }
-    
+
     @Override
     public void registerFrame(Frame frame) {
         this.frame = frame;
@@ -192,6 +224,7 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     public void registerContactTable(ContactTable table) {
         this.contactTable = table;
     }
+
 
     @Override
     public void registerDraftTable(DraftTable table) {

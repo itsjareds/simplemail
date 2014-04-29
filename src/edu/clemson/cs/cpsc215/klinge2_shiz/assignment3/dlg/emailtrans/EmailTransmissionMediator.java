@@ -9,6 +9,13 @@ import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Email;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.EmailHandler;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.mainframe.DraftTableModel;
 
+/**
+ * Mediator pattern for email transmission dialog
+ * implements EmailTransmissionMediatorInterface
+ * @author klinge2
+ * @since 4-28-14
+ *
+ */
 public class EmailTransmissionMediator implements EmailTransmissionMediatorInterface {
     ButtonSend buttonSend = null;
     ButtonDraft buttonDraft = null;
@@ -17,10 +24,16 @@ public class EmailTransmissionMediator implements EmailTransmissionMediatorInter
     JTextField toField, ccField, bccField, subjectField;
     JTextArea bodyField;
 
+    /**
+     * @param draftDlg
+     */
     public EmailTransmissionMediator(EmailTransmissionDlg draftDlg) {
         this.draftDlg = draftDlg;
     }
     
+    /**
+     * @return new email
+     */
     private Email generateEmail() {
         String to, cc, bcc, sub, body;
         

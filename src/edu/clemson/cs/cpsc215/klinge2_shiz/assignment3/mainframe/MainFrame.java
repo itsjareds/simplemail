@@ -33,6 +33,8 @@ import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStore;
 public class MainFrame extends JFrame {
 	
 	public static void main(String [] args) {
+		
+		//save information at system exit
 	    Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 	        public void run() {
 				DataStore storage = DataStore.getInstance();
@@ -56,10 +58,10 @@ public class MainFrame extends JFrame {
 				}
 	        }
 	    }, "Shutdown-thread"));
-		
+	    
+	    
+		// UIManager for Nimbus look
 		try {
-//			UIManager.setLookAndFeel(
-//					UIManager.getSystemLookAndFeelClassName());
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) {
 					UIManager.setLookAndFeel(info.getClassName());
@@ -76,6 +78,9 @@ public class MainFrame extends JFrame {
 		frame.setVisible(true);
 	}
 	
+	/**
+	 * 
+	 */
 	public void addComponents() {
 	    //grab icon images from file
 	    File sourceImage = new File("res/email.png");
@@ -96,6 +101,8 @@ public class MainFrame extends JFrame {
 	    	e.printStackTrace();
 	    }
 	    
+	    
+	    //set up window
 	    this.setTitle("SimpleMail");
 	    this.setIconImage(image);
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -106,8 +113,10 @@ public class MainFrame extends JFrame {
 	    MainFrameMediator med = new MainFrameMediator();
 	    med.registerFrame(this);
 
+	    //set up menu bar
 	    JMenuBar menuBar = new JMenuBar();
 
+	    //set up menu for File with New and Exit menu items
 	    JMenu fileMenu = new JMenu("File");
 	    JMenu fileNewMenu = new JMenu("New");
 	    JMenuItem compose = new MenuItemCompose(med);
@@ -119,6 +128,7 @@ public class MainFrame extends JFrame {
 	    fileMenu.add(fileNewMenu);
 	    fileMenu.add(exit);
 
+	    //set up menu for Edit with Clear and Configure menu items
 	    JMenu editMenu = new JMenu("Edit");
 	    JMenu editClearMenu = new JMenu("Clear");
 	    JMenuItem clearContacts = new MenuItemClearContacts(med);
@@ -130,11 +140,13 @@ public class MainFrame extends JFrame {
 	    editMenu.add(editClearMenu);
 	    editMenu.add(config);
 
+	    //set up menu for Help with About menu item
 	    JMenu helpMenu = new JMenu("Help");
 	    JMenuItem about = new MenuItemAbout(med);
 	    about.setIcon(new ImageIcon(aboutIcon));
 	    helpMenu.add(about);
 
+	    //finalize menu bar
 	    menuBar.add(fileMenu);
 	    menuBar.add(editMenu);
 	    menuBar.add(helpMenu);
@@ -149,7 +161,7 @@ public class MainFrame extends JFrame {
         ContactTable contactTable = new ContactTable(new ContactTableModel(), med);
 	    contactsPanel.add(new JScrollPane(contactTable, 
 	            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-	            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS), BorderLayout.NORTH);
+	            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
 	    
 	    JPanel buttonPane = new JPanel();
 	    buttonPane.setLayout(new GridBagLayout());
@@ -159,7 +171,7 @@ public class MainFrame extends JFrame {
 	    
 	    int x = 0;
 	    
-	    // Buttons
+	    // Buttons contact table
 	    
 	    button = new ButtonContactAdd(med);
 	    c = new GridBagConstraints();
@@ -211,7 +223,7 @@ public class MainFrame extends JFrame {
 	    
 	    x = 0;
 	    
-	    // Buttons
+	    // Buttons for draft table
 	    
 	    button = new ButtonDraftEdit(med);
 	    c = new GridBagConstraints();

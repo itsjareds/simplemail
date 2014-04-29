@@ -3,6 +3,12 @@ package edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.emailtrans;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+/**
+ * Email transmission mediator interface
+ * @author klinge2
+ * @since 4-28-14
+ *
+ */
 public interface EmailTransmissionMediatorInterface {
     public void send();
     public void draft();

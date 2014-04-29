@@ -8,17 +8,32 @@ import javax.swing.JTextField;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.Contact;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStore;
 
+/**
+ * Mediator pattern for Contact editing dialog
+ * implements EditMediatorInterface
+ * @author shiz
+ * @author klinge2
+ * @since 4-28-14
+ *
+ */
 public class EditMediator implements EditMediatorInterface {
 	ButtonSave buttonSave = null;
 	ButtonCancel buttonCancel = null;
 	ContactEditingDlg contactEditingDlg = null;
 	JTextField nameField, emailField, phoneField, addressField;
 	
+	/**
+	 * @param contactEditingDlg
+	 */
 	public EditMediator(ContactEditingDlg contactEditingDlg) {
 		this.contactEditingDlg = contactEditingDlg;
 	}
 	
+	/**
+	 * @return new contact
+	 */
 	private Contact generateContact() {
+		//assign contact attributes
 		Contact newContact = new Contact("","","","");
 		if(nameField != null)
 			newContact.setName(nameField.getText());
@@ -35,8 +50,10 @@ public class EditMediator implements EditMediatorInterface {
 		return newContact;
 	}
 	
+
 	@Override
 	public void save() {
+		//add or edit depend on index
 		ArrayList<Contact> contacts = DataStore.getInstance().getContacts();
 		Contact newContact = generateContact();
 		
@@ -51,6 +68,7 @@ public class EditMediator implements EditMediatorInterface {
 
 	@Override
 	public void cancel() {
+		//dispose and disappear
 		contactEditingDlg.setVisible(false);
 		contactEditingDlg.dispose();
 	}

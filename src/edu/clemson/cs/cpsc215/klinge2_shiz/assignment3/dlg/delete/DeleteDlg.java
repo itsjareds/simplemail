@@ -15,12 +15,24 @@ import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.DataStore;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.dlg.AbstractDlg;
 import edu.clemson.cs.cpsc215.klinge2_shiz.assignment3.mainframe.ContactTable;
 
+/**
+ * Delete dialog. Confirmation dialog to delete
+ * extends AbstractDlg
+ * @author shiz
+ * @author klinge2
+ * @since 4-27-14
+ *
+ */
 @SuppressWarnings("serial")
 public class DeleteDlg extends AbstractDlg{
 	private Contact contact = new Contact("","","","");
 	protected ContactTable table = null;
 	protected int index = -1;
 
+	/**
+	 * @param owner
+	 * @param table
+	 */
 	public DeleteDlg(Frame owner, ContactTable table) {
 		super(owner, "Delete");
 		this.table = table;
@@ -34,7 +46,7 @@ public class DeleteDlg extends AbstractDlg{
 	
 	@Override
 	protected void addComponents() {
-		
+		//declare panels and layout manager
 		JPanel containerPanel = new JPanel();
         containerPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         containerPanel.setLayout(new BorderLayout());
@@ -50,11 +62,13 @@ public class DeleteDlg extends AbstractDlg{
 		JLabel label;
 		
 		int row = 0, col = 0;
+		
+		//label
 		label = new JLabel("Are you sure you want to delete the following" +
 				" contact?");
 		containerPanel.add(label, BorderLayout.BEFORE_FIRST_LINE);
 		
-		//label
+		
 		label = new JLabel("Name:");
         c = new GridBagConstraints();
         c.gridx = col;
@@ -152,6 +166,7 @@ public class DeleteDlg extends AbstractDlg{
         c.anchor = GridBagConstraints.SOUTHEAST;
         innerPanel.add(button, c);
         
+        //put everything to display
         containerPanel.add(innerPanel, BorderLayout.CENTER);
         this.getContentPane().add(containerPanel, BorderLayout.CENTER);
         this.pack();
