@@ -50,7 +50,7 @@ public class MainFrameMediator implements MainFrameMediatorInterface {
     	//confirm then clear contact table and contacts in Datastore, update table
     	if (contactTable != null) {
     		int result = JOptionPane.showConfirmDialog(null,
-    				"Are you sure you want to delete ALL drafts?",
+    				"Are you sure you want to delete ALL contacts?",
     				"Confirm delete",
     				JOptionPane.YES_NO_OPTION);
     		
