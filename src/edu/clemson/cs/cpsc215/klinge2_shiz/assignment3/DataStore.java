@@ -233,7 +233,7 @@ public class DataStore implements DataStoreInterface {
 		File[] fileList = new File("data/drafts/").listFiles();
 		
 		if (fileList != null) {
-			contacts.clear();
+			drafts.clear();
 			for (File f : fileList) {
 				Object o = readObjectFromFile(f.getPath());
 				if (o instanceof Draft) {
